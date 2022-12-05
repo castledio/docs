@@ -1,0 +1,29 @@
+---
+title: "iOS Authentication Key Setup"
+---
+
+### 1. Sign-in to [apple developer center](https://idmsa.apple.com/IDMSWebAuth/signin?appIdKey=891bd3417a7776362562d2197f89480a8547b108fd934911bcbea0110d07f757&path=%2Faccount%2F&rv=1).
+
+### 2. Select the **Keys** option in Certificates, Identifiers & Profiles tab
+
+![Key Config](/images/ios-auth-2.png)
+
+### 3. Click on **Create**.
+
+![Key Create](/images/ios-auth-3.png)
+
+### 4. Give a name for the key. Also, enable Apple Push Notifications service (APNs)
+
+![Key New](/images/ios-auth-4.png)
+
+### 5. Click **Register**.
+
+### 6. Download the key. Note down the **Key ID** which will be later used when configuring APNS in Castled.
+
+![](/images/ios-auth-6.png)
+
+### 7. `Team ID` can be obtained by going to the **Membership details** tab after logging into the apple developer account.
+
+![](/images/ios-auth-7.png)
+
+### 8. `Bundle ID` can be obtained from Xcode by navigating to **Signing & Capabilities** tab.

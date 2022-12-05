@@ -1,0 +1,117 @@
+{
+  "name": "Castled",
+  "logo": {
+    "light": "/logo/light.svg",
+    "dark": "/logo/dark.svg"
+  },
+  "favicon": "/favicon.png",
+  "colors": {
+    "primary": "#7000FF",
+    "light": "#9E83FF",
+    "dark": "#5B00CF",
+    "ultraLight": "#EEE9FF",
+    "ultraDark": "#3B0087",
+    "anchors": {
+      "from": "#05f",
+      "to": "#7000FF"
+    },
+    "background": {
+      "dark": "#151515"
+    }
+  },
+  "topbarCtaButton": {
+    "name": "Start for Free",
+    "url": "https://app.castled.io/auth/signup"
+  },
+  "topbarLinks": [
+    {
+      "name": "Sign In",
+      "url": "https://app.castled.io/auth/login"
+    }
+  ],
+  "anchors": [
+    {
+      "name": "Get a Demo",
+      "icon": "circle-play",
+      "url": "https://calendly.com/arun-castled/castled-demo?month=2022-11"
+    },
+    {
+      "name": "Contact Us",
+      "icon": "envelope",
+      "url": "mailto:hello@castled.io"
+    }
+  ],
+  "navigation": [
+    {
+      "group": "Welcome",
+      "pages": ["introduction"]
+    },
+    {
+      "group": "Getting Started",
+      "pages": [
+        "getting-started/overview",
+        "getting-started/castled-setup",
+        "getting-started/build-segment",
+        "getting-started/run-campaign",
+        "getting-started/create-workflow",
+        {
+          "group": "Data Warehouses",
+          "pages": [
+            "getting-started/data-warehouses/setup",
+            "getting-started/data-warehouses/amazon-redshift",
+            "getting-started/data-warehouses/google-bigquery",
+            "getting-started/data-warehouses/postgres",
+            "getting-started/data-warehouses/hydra",
+            "getting-started/data-warehouses/snowflake"
+          ]
+        },
+        {
+          "group": "Channels",
+          "pages": [
+            "getting-started/channels/email",
+            "getting-started/channels/push-notification",
+            "getting-started/channels/in-app-notification",
+            "getting-started/channels/sms",
+            "getting-started/channels/web-push"
+          ]
+        },
+        {
+          "group": "Schema",
+          "pages": [
+            "getting-started/schema/user",
+            "getting-started/schema/event"
+          ]
+        },
+        {
+          "group": "Channel Setup",
+          "pages": [
+            "getting-started/channel-setup/sendgrid",
+            "getting-started/channel-setup/ios-auth",
+            "getting-started/channel-setup/twilio"
+          ]
+        },
+        {
+          "group": "Appendix",
+          "pages": ["getting-started/appendix/connecting"]
+        }
+      ]
+    },
+    {
+      "group": "Security",
+      "pages": ["security/privacy-policy"]
+    },
+    {
+      "group": "Developer Resources",
+      "pages": [
+        "developer-resources/android-guide",
+        "developer-resources/ios-guide"
+      ]
+    }
+  ],
+  "footerSocials": {
+    "twitter": "https://twitter.com/CastledHQ",
+    "linkedin": "https://www.linkedin.com/company/castled-data/",
+    "youtube": "https://www.youtube.com/channel/UCpsIoohRnxIH87g5QGFg6vw",
+    "Medium": "https://medium.com/castled"
+  }
+}

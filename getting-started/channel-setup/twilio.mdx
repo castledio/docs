@@ -1,0 +1,72 @@
+---
+title: "Twilio"
+---
+
+## Twilio Setup
+
+Signup for a twilio account and configure the sender. The sender can be one of
+the following
+
+- Long Code
+- Short Code
+- Messaging Service
+- Alphanumeric ID
+
+### Long Code
+
+Long codes are normal individual ten-digit phone numbers from where you can send
+sms messages to your customers. You can buy a new phone number directly from the
+twilio console.
+
+![](/images/twilio-1.png)
+
+### Short Code
+
+Short code are shorter six-digit phone numbers, designed for high throughput
+two-way messaging. Sending more than a few hundred messages from a long code
+risk running into spam. Short codes are not filtered out by carriers and hence
+ideal for sending time-sensitive, high throughput messages.
+[You can buy a short code from twilio](https://www.twilio.com/login?g=%2Fshortcode%3F&t=34bc7c526f20ccf9a10ef4d72dda63b6f2c3ad11bba5acbda99ff70c92e6bb48)
+or
+[migrate an existing one onto twilio](https://support.twilio.com/hc/en-us/articles/223182268-US-Short-Code-Migration-Process-and-FAQ).
+
+### Messaging Service
+
+Messaging Service is a bundle of messaging functionality around a common set of
+senders, features, and configuration. It helps you organize your messaging to
+fit a specific category of usecases for better tracking and monitoring. Once the
+messaging service is created, add one or more long codes/short codes to the
+service using the twilio console. Twilio will choose one of the configured
+numbers for messaging.
+
+![](/images/twilio-2.png)
+
+### Alpha Numeric ID
+
+Alpha numeric sender ids in twilio allow you to send messages using an
+alphanumeric ID (for example, CASTLED) instead of a standard E.164 formatted
+Twilio Phone number. This is mostly used by businesses for higher message
+deliverablity, increased open rates and improved brand recognition. Alpha
+numeric sender ids are supported only in a few countries.
+
+## Configure Twilio in Castled
+
+1. Go to Settings -> Channels -> SMS and select Twilio
+
+![](/images/twilio-3.png)
+
+2. Enter the following fields on the config screen
+
+- **Twilio SMS Name**:An unique name to identity your sms sender.
+- **Account SID**: Copy the account sid from twilio console
+
+![](/images/twilio-4.png)
+
+- **Auth Token**: Copy the auth token from the twilio console
+
+![](/images/twilio-5.png)
+
+- **Sender**: Select one of Short Code, Long Code, Messaging Service or Alpha
+  Numeric ID
+- **Sender ID**: Copy sender ID from Twilio dependening on the sender selected
+  above.

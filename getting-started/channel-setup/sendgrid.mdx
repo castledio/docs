@@ -1,0 +1,59 @@
+---
+title: "Sendgrid"
+---
+
+## 1. Sender Authentication
+
+The type of Sender Identity you use to send email can impact your deliverability
+and what your recipients see in their inbox.Send grid provide the option of
+**Domain Authentication** and **Single Sender Verification**.
+
+![](/images/sendgrid-1.png)
+
+Follow the Sendgrid documentation to setup the Sender Identity for your domain.
+Castled will call the sengrid API to fetch only the verified senders and expose
+that list to the users. Make sure you configure atleast one verified sender.
+
+![](/images/sendgrid-2.png)
+
+## 2. Create API Key
+
+Create an API Key with all the required permission to be used by Castled.
+
+![](/images/sendgrid-3.png)
+
+![](/images/sendgrid-4.png)
+
+![](/images/sendgrid-5.png)
+
+<Note>
+  Make sure the API Key is generated only after the Verified senders are added
+  as part of Sender Authentication
+</Note>
+
+![](/images/sendgrid-6.png)
+
+## 3. Configure Event Webhook
+
+For enabling Castled to recieve the email event callbacks webhook needs to be
+configured. The URL mentioned below needs to be configured so that the events
+callbacks can be listened and processed by Castled.
+
+```
+https://castled.io/backend/v1/email-webhook/sendgrid
+```
+
+![](/images/sendgrid-7.png)
+
+## 4. Configure the API Key generated in Castled Settings
+
+If Sendgrid is used as email provider, Select Sendgrid as the provider and
+capture the API Key generated in step 2.
+
+- Select Sendgrid as the email provider
+
+![](/images/sendgrid-8.png)
+
+- Configure the API Key copied from Step 2 above
+
+![](/images/sendgrid-9.png)
