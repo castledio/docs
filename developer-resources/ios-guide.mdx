@@ -79,7 +79,7 @@ func application(_ application: UIApplication, didFinishLaunchingWithOptions lau
 To let Castled know the user associated with this app instance, use the method `Castled.sharedInstance?.registerUser`. This is typically invoked immediately after user completes the sign-in flow in your app. The user-id passed to Castled is the one that you use internally within your organisation to identify a user.
 
 ```swift
-Castled.sharedInstance?.registerUser(userId: userId, completion: { (_ response: CastledResponse<[String : String]>) in
+Castled.registerUser(userId: userId, completion: { (_ response: CastledResponse<[String : String]>) in
   if response.success {
       print(response.result as Any)
   }
