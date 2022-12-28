@@ -45,9 +45,9 @@
     {
       "group": "Getting Started",
       "pages": [
-        "getting-started/important-concepts",
         "getting-started/overview",
-        "getting-started/castled-setup"
+        "getting-started/castled-setup",
+        "getting-started/important-terms"
       ]
     },
     {
