@@ -43,56 +43,125 @@
   ],
   "navigation": [
     {
-      "group": "Welcome",
-      "pages": ["introduction"]
-    },
-    {
       "group": "Getting Started",
       "pages": [
+        "getting-started/important-concepts",
         "getting-started/overview",
-        "getting-started/castled-setup",
-        "getting-started/build-segment",
-        "getting-started/run-campaign",
-        "getting-started/create-workflow",
+        "getting-started/castled-setup"
+      ]
+    },
+    {
+      "group": "Account Management",
+      "pages": [
+        "account-management/user-signup",
+        "account-management/team-management"
+      ]
+    },
+    {
+      "group": "Object/Schema",
+      "pages": [
+        "schema/schema-overview",
+        "schema/user",
+        "schema/event",
+        "schema/custom"
+      ]
+    },
+    {
+      "group": "Engagement",
+      "pages": [
+        {
+          "group": "Segmentation",
+          "pages": [
+            "engagement/segmentation/create-segment",
+            "engagement/segmentation/segment-filter",
+            "engagement/segmentation/visual-builder",
+            "engagement/segmentation/sql-builder"
+          ]
+        },
+        {
+          "group": "Campaign",
+          "pages": [
+            "engagement/campaign/campaign-overview",
+            "engagement/campaign/supported-channels",
+            "engagement/campaign/trigger-type",
+            "engagement/campaign/create-campaign",
+            "engagement/campaign/manage-campaign",
+            "engagement/campaign/campaign-summary"
+          ]
+        },
+        {
+          "group": "Workflow",
+          "pages": [
+            "engagement/workflow/workflow-overview",
+            "engagement/workflow/create-workflow",
+            "engagement/workflow/manage-workflow",
+            "engagement/workflow/workflow-summary"
+          ]
+        },
+        {
+          "group": "Message Template",
+          "pages": [
+            {
+              "group": "Email",
+              "pages": [
+                "engagement/message-template/email/create-template",
+                "engagement/message-template/email/manage-template"
+              ]
+            }
+          ]
+        },
+        {
+          "group": "Personalisation",
+          "pages": [
+            "engagement/personalisation/personalisation"
+          ]
+        }
+      ]
+    },
+    {
+      "group": "Analytics/Reports",
+      "pages": [
+        "analytics/campaigns/campaign-report",
+        "analytics/workflows/workflow-report"
+      ]
+    },
+    {
+      "group": "Settings/Configs",
+      "pages": [
         {
           "group": "Data Warehouses",
           "pages": [
-            "getting-started/data-warehouses/setup",
-            "getting-started/data-warehouses/amazon-redshift",
-            "getting-started/data-warehouses/google-bigquery",
-            "getting-started/data-warehouses/postgres",
-            "getting-started/data-warehouses/hydra",
-            "getting-started/data-warehouses/snowflake"
+            "settings/data-warehouses/setup",
+            "settings/data-warehouses/amazon-redshift",
+            "settings/data-warehouses/google-bigquery",
+            "settings/data-warehouses/postgres",
+            "settings/data-warehouses/hydra",
+            "settings/data-warehouses/snowflake"
           ]
         },
         {
-          "group": "Channels",
+          "group": "Channel Configs",
           "pages": [
-            "getting-started/channels/email",
-            "getting-started/channels/push-notification",
-            "getting-started/channels/in-app-notification",
-            "getting-started/channels/sms",
-            "getting-started/channels/web-push"
+            {
+              "group": "Email Providers",
+              "pages": [
+                "settings/channel-configs/email-provider/sendgrid"
+              ]
+            },
+            {
+              "group": "SMS Providers",
+              "pages": [
+                "settings/channel-configs/sms-provider/twilio"
+              ]
+            }
           ]
         },
         {
-          "group": "Schema",
+          "group": "Physical Address",
           "pages": [
-            "getting-started/schema/user",
-            "getting-started/schema/event"
+            "settings/physical-address/create-address",
+            "settings/physical-address/manage-address"
           ]
-        },
-        {
-          "group": "Channel Setup",
-          "pages": [
-            "getting-started/channel-setup/sendgrid",
-            "getting-started/channel-setup/ios-auth",
-            "getting-started/channel-setup/twilio"
-          ]
-        },
-        {
-          "group": "Appendix",
-          "pages": ["getting-started/appendix/connecting"]
         }
       ]
     },
@@ -106,6 +175,13 @@
         "developer-resources/android-guide",
         "developer-resources/ios-guide"
       ]
+    },
+    {
+      "group": "Appendix",
+        "pages": [
+          "appendix/connecting",
+          "appendix/ios-auth"
+        ]
     }
   ],
   "footerSocials": {
