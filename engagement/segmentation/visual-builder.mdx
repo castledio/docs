@@ -68,21 +68,53 @@ Have a relation option is used for adding filter conditions based on the related
 
 ## Performed an event 
 
+Performed an event option is used for filtering users based on the actions they performed in the app. User actions which needs to be used in segmentation needs to be identified and captured as Event objects by the data team based on the business requirements. Once the events are captured, the marketer will be able to use the events for filtering. 
+
+### 1. Select the event performed by the user.  
+
+Select the Performed an event option. This will list all the events which are associated with the User object selected for segmentation.
+
 ![](/images/performed-event-1.png)
+
+### 2. Enter the conditions associated with the performed event.  
+
+Conditions available are :
+1. At least X times
+2. At most X times 
+3. Equals X times.
+where X is the number of times the action or event was repeated by the user.
 
 ![](/images/performed-event-2.png)
 
 ![](/images/performed-event-3.png)
 
+### 3. Select the event which was not peformed subsequently if required.  
+
+Castled provides an option to select another event which was not performed with in a stipulated time after the event selected in the step above was performed. The time gap can be captured in minutes, hours or days.
+
 ![](/images/performed-event-4.png)
+
+### 4. Adding more filter conditions to the performed event.  
+
+Castled provides option to add more filters using the properties of the event which was performed. The event properties to be exposed to the marketers are to be captured by the data team while creating the Event objects.  
 
 ![](/images/performed-event-5.png)
 
 ## Part of a segment 
 
+Part of a segment option is used for excluding or including users part of another segment while creating a new segment.
+
+### 1. Select the Part of a segment option.
+
 ![](/images/segment-part-1.png)
 
+### 2. Include or Exclude an exisitng User segment.
+
+Select the include/exclude option based on whether another segment of User is to be included or excluded from this segment being created.
+
 ![](/images/segment-part-2.png)
+
+### 3. Select the segment to be included or excluded.
 
 ![](/images/segment-part-3.png)
 
