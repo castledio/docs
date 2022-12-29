@@ -73,9 +73,9 @@
           "group": "Segmentation",
           "pages": [
             "engagement/segmentation/create-segment",
-            "engagement/segmentation/segment-filter",
             "engagement/segmentation/visual-builder",
-            "engagement/segmentation/sql-builder"
+            "engagement/segmentation/sql-builder",
+            "engagement/segmentation/segment-filter"
           ]
         },
         {
