@@ -81,15 +81,30 @@
         {
           "group": "Campaign by Channels",
           "pages": [
-            "engagement/campaign/campaign-overview",
-            "engagement/campaign/trigger-type",
-            "engagement/campaign/create-campaign",
-            "engagement/campaign/create-email-campaign",
-            "engagement/campaign/create-sms-campaign",
-            "engagement/campaign/create-mobilepush-campaign",
-            "engagement/campaign/create-whatsapp-campaign",
-            "engagement/campaign/manage-campaign",
-            "engagement/campaign/campaign-summary"
+            {
+              "group": "Email",
+              "pages": [
+                "engagement/campaign/email/create-email-campaign"
+              ]
+            },
+            {
+              "group": "Mobile Push",
+              "pages": [
+                "engagement/campaign/mobile-push/create-mobilepush-campaign"
+              ]
+            },
+            {
+              "group": "SMS",
+              "pages": [
+                "engagement/campaign/sms/create-sms-campaign"
+              ]
+            },
+            {
+              "group": "Whatsapp",
+              "pages": [
+                "engagement/campaign/whatsapp/create-whatsapp-campaign"
+              ]
+            }
           ]
         },
         {
