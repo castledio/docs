@@ -83,16 +83,11 @@
           "pages": [
             "engagement/campaign/campaign-overview",
             "engagement/campaign/trigger-type",
-            {
-              "group": "Create Campaign",
-              "pages": [
-                "engagement/campaign/create-campaign",
-                "engagement/campaign/create-email-campaign",
-                "engagement/campaign/create-sms-campaign",
-                "engagement/campaign/create-mobilepush-campaign",
-                "engagement/campaign/create-whatsapp-campaign"
-              ]
-            },
+            "engagement/campaign/create-campaign",
+            "engagement/campaign/create-email-campaign",
+            "engagement/campaign/create-sms-campaign",
+            "engagement/campaign/create-mobilepush-campaign",
+            "engagement/campaign/create-whatsapp-campaign",
             "engagement/campaign/manage-campaign",
             "engagement/campaign/campaign-summary"
           ]
