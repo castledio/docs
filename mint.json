@@ -79,12 +79,15 @@
           ]
         },
         {
-          "group": "Campaign",
+          "group": "Campaign by Channels",
           "pages": [
             "engagement/campaign/campaign-overview",
-            "engagement/campaign/supported-channels",
             "engagement/campaign/trigger-type",
             "engagement/campaign/create-campaign",
+            "engagement/campaign/create-email-campaign",
+            "engagement/campaign/create-sms-campaign",
+            "engagement/campaign/create-mobilepush-campaign",
+            "engagement/campaign/create-whatsapp-campaign",
             "engagement/campaign/manage-campaign",
             "engagement/campaign/campaign-summary"
           ]
