@@ -84,7 +84,8 @@
             {
               "group": "Email",
               "pages": [
-                "engagement/campaign/email/create-email-campaign"
+                "engagement/campaign/email/create-email-campaign",
+                "engagement/campaign/email/email-campaign-stats"
               ]
             },
             {
