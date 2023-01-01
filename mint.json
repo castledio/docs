@@ -164,12 +164,14 @@
             {
               "group": "Email Providers",
               "pages": [
+                "settings/channel-configs/email-provider/email-overview",
                 "settings/channel-configs/email-provider/sendgrid"
               ]
             },
             {
               "group": "SMS Providers",
               "pages": [
+                "settings/channel-configs/sms-provider/sms-overview",
                 "settings/channel-configs/sms-provider/twilio"
               ]
             }
