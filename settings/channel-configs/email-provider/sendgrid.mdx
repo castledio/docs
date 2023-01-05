@@ -11,9 +11,9 @@ and what your recipients see in their inbox.Send grid provide the option of
 ![](/images/sendgrid-1.png)
 
 Follow the Sendgrid documentation to setup the Sender Identity for your domain.
-<Note>
-  Castled displays only the verified senders returned by the sengrid API.Make sure you configure atleast one verified sender.
-</Note>
+<Info>
+  Configure atleast one verified sender as Castled displays only the verified senders returned by the sengrid API.
+</Info>
 
 ![](/images/sendgrid-2.png)
 
@@ -27,10 +27,10 @@ Create an API Key with all the required permission to be used by Castled.
 
 ![](/images/sendgrid-5.png)
 
-<Note>
+<Info>
   Make sure the API Key is generated only after the Verified senders are added
   as part of Sender Authentication
-</Note>
+</Info>
 
 ![](/images/sendgrid-6.png)
 
@@ -45,6 +45,11 @@ https://castled.io/backend/v1/email-webhook/sendgrid
 ```
 
 ![](/images/sendgrid-7.png)
+
+<Info>
+  Make sure the webhook is configured to receive and handle the event callbacks.
+</Info>
+
 
 ## 4. Configure the API Key generated in Castled Settings
 
