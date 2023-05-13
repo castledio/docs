@@ -97,15 +97,11 @@
             },
             {
               "group": "SMS",
-              "pages": [
-                "engagement/campaign/sms/create-sms-campaign"
-              ]
+              "pages": ["engagement/campaign/sms/create-sms-campaign"]
             },
             {
               "group": "Whatsapp",
-              "pages": [
-                "engagement/campaign/whatsapp/create-whatsapp-campaign"
-              ]
+              "pages": ["engagement/campaign/whatsapp/create-whatsapp-campaign"]
             }
           ]
         },
@@ -132,9 +128,7 @@
         },
         {
           "group": "Personalisation",
-          "pages": [
-            "engagement/personalisation/personalisation"
-          ]
+          "pages": ["engagement/personalisation/personalisation"]
         }
       ]
     },
@@ -194,16 +188,36 @@
     {
       "group": "Developer Resources",
       "pages": [
+        {
+          "group": "SDK Integration",
+          "pages": [
+            "developer-resources/sdk-integration/overview",
+            {
+              "group": "Android",
+              "pages": [
+                "developer-resources/sdk-integration/android/getting-started",
+                "developer-resources/sdk-integration/android/push-notifications",
+                "developer-resources/sdk-integration/android/push-booster",
+                "developer-resources/sdk-integration/android/in-app-messages"
+              ]
+            },
+            {
+              "group": "iOS",
+              "pages": [
+                "developer-resources/sdk-integration/ios/getting-started",
+                "developer-resources/sdk-integration/ios/push-notifications",
+                "developer-resources/sdk-integration/ios/in-app-messages"
+              ]
+            }
+          ]
+        },
         "developer-resources/android-guide",
         "developer-resources/ios-guide"
       ]
     },
     {
       "group": "Appendix",
-        "pages": [
-          "appendix/connecting",
-          "appendix/ios-auth"
-        ]
+      "pages": ["appendix/connecting", "appendix/ios-auth"]
     }
   ],
   "footerSocials": {

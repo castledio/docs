@@ -1,0 +1,112 @@
+---
+title: "Getting Started with Android SDK"
+sidebarTitle: "Getting Started"
+---
+
+<Info>
+
+**Prerequisites**
+
+- [Castled CEP account is already setup](/account-management/user-signup)
+
+</Info>
+
+The Castled Android SDK enables mobile applications running on Android devices to receive push and in-app notifications originating from the Castled Customer Engagement Platform.
+The steps outlined below will assist your Android app developers in integrating the SDK with your mobile application
+
+## SDK installation
+
+### Gradle
+
+Applicable if your project uses **Gradle** for managing dependency. Add Castled module as a dependency in the `build.gradle` file of your Android
+application module
+
+```groovy build.gradle
+...
+dependencies {
+    ...
+    implementation 'io.castled.android:castled-notifications:<sdk-latest-version>'
+}
+```
+
+Replace `latest-version` with the latest version number of the SDK found here.
+
+### Maven
+
+Applicable if your project uses **Maven** for managing dependency. Add the following snippet in your module `pom.xml` file as a child of `dependencies`
+
+```xml pom.xml
+<dependency>
+  <groupId>io.castled.android</groupId>
+  <artifactId>castled-notifications</artifactId>
+  <version>sdk-latest-version</version>
+</dependency>
+```
+
+Replace `sdk-latest-version` with the latest version of the sdk.
+
+## SDK initialization
+
+The next step is to initialize the SDK. Initialization is typically done in the `onCreate` method of your
+`Application` class as follows.
+
+```kotlin MyApplicationClass.kt
+class MyApplicationClass : MultiDexApplication() {
+    override fun onCreate() {
+        super.onCreate()
+
+        // SDK initialization
+        CastledNotifications.initialize(
+            this, CastledConfigs.Builder()
+                .apiKey("<api-key>")
+                .location(<location>)
+                .build()
+        )
+        ...
+    }
+    ...
+}
+
+```
+
+`api-key` is the unique id associated with your Castled account.
+
+`location` is the region where you have your Castled account. Currently we offer services in 4 regions
+
+```kotlin CastledConfigs.kt
+    enum class CastledLocation {
+        US,   // United States
+        EU,   // Europe
+        IN,   // India
+        AP    // Asia Pacific
+    }
+```
+
+### User Identification
+
+To let Castled know the user associated with this app instance, use the
+following method. This is typically invoked immediately after user completes the
+sign-in flow of your app. The `user-id` passed to Castled is the one that you
+use internally within your organisation to identify a user.
+
+```kotlin
+// User identification
+CastledNotifications.setUserId(this, "frank@castled.io", this::onSuccess, this::onError)
+```
+
+`onSuccess` and `onError` are optional callbacks you can get implement to get notified of the status of the identify process. Sample implementation below.
+
+```kotlin
+private fun onSuccess() {
+    Log.d("MyApp","Castled user identify completed successfully")
+}
+
+private fun onError(e: Exception) {
+    Log.e("MyApp", "Castled user identify failed!", e)
+}
+```
+
+`user-id` can optionally be an encrypted one which is generated from your
+app server using the Castled secret. This is the recommended approach to avoid any risks of user
+impersonation. If using encrypted user-id, set `enableUserIdEncryption` to `true` in configs during SDK initialization.
+Default value of this config is set to `false`.
