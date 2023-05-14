@@ -1,0 +1,46 @@
+---
+title: "Firebase Cloud Messaging Setup"
+sidebarTitle: "FCM Setup"
+---
+
+<Info>
+
+**Prerequisites**
+
+- Make sure you have added Firebase to your Android project. Follow
+  [Firebase doc](https://firebase.google.com/docs/android/setup) for more
+  details. Within the doc the recommended approach is to follow the steps in
+  [option 1](https://firebase.google.com/docs/android/setup#console)
+
+</Info>
+
+## Setting up FCM configs in Castled
+
+We need to get the **FCM Sender ID** and **FCM Server Key** from Firebase
+console which will be required for configuring the Android app in Castled.
+
+1. After logging into Firebase console, navigate to project settings page for
+   your project and select cloud messaging tab. Add a new server key if not
+   already done.
+
+   ![Firebase Sender Id and Server Key](/images/android-1.png)
+
+2. Also make sure that the Cloud messaging API is enabled. If not click on the
+   **Manage API in Google Cloud Console** button to enable it.
+
+   ![Firebase Cloud Mesaging API](/images/android-2.png)
+
+3. Once the above step is complete navigate to **settings > channels > mobile
+   push** in Castled webapp. Select Android tab. Specify an **App Name** and **Package Name** to
+   identify your app configuration and enter the **FCM Sender ID** and **FCM
+   Server Key** you got from Firebase console in the previous step.
+
+   ![Push Config](/images/android-3.png)
+
+4. Once you enter the configs click on **SAVE**
+
+<Note>
+  **Xiaomi App Secret** is optional. Recommended to set this config if your app
+  has users on Xiaomi mobile devices. More details on this config can be found
+  [here](/developer-resources/sdk-integration/android/mipush-setup)
+</Note>

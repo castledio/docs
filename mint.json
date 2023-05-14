@@ -198,7 +198,9 @@
                 "developer-resources/sdk-integration/android/getting-started",
                 "developer-resources/sdk-integration/android/push-notifications",
                 "developer-resources/sdk-integration/android/push-booster",
-                "developer-resources/sdk-integration/android/in-app-messages"
+                "developer-resources/sdk-integration/android/in-app-messages",
+                "developer-resources/sdk-integration/android/fcm-setup",
+                "developer-resources/sdk-integration/android/mipush-setup"
               ]
             },
             {

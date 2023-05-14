@@ -16,34 +16,41 @@ The steps outlined below will assist your Android app developers in integrating 
 
 ## SDK installation
 
-### Gradle
+<Tabs>
+  <Tab title="Gradle">
+    Applicable if your project uses **Gradle** for managing dependency. Add `castled-notifications` as a dependency in the `build.gradle` file of your Android application module.
 
-Applicable if your project uses **Gradle** for managing dependency. Add Castled module as a dependency in the `build.gradle` file of your Android
-application module
+    ```groovy build.gradle
 
-```groovy build.gradle
-...
-dependencies {
-    ...
-    implementation 'io.castled.android:castled-notifications:<sdk-latest-version>'
-}
-```
+        ...
+        dependencies {
+            ...
+            implementation 'io.castled.android:castled-notifications:<sdk-latest-version>'
+        }
 
-Replace `latest-version` with the latest version number of the SDK found here.
+    ````
 
-### Maven
+    Replace `latest-version` with the latest version number of the SDK found here. Sync the gradle file to pull the dependencies just added.
 
-Applicable if your project uses **Maven** for managing dependency. Add the following snippet in your module `pom.xml` file as a child of `dependencies`
+</Tab>
 
-```xml pom.xml
-<dependency>
-  <groupId>io.castled.android</groupId>
-  <artifactId>castled-notifications</artifactId>
-  <version>sdk-latest-version</version>
-</dependency>
-```
+<Tab title="Maven">
 
-Replace `sdk-latest-version` with the latest version of the sdk.
+    Applicable if your project uses **Maven** for managing dependency. Add the following snippet in your module `pom.xml` file as a child of `dependencies`
+
+    ```xml pom.xml
+        <dependency>
+            <groupId>io.castled.android</groupId>
+            <artifactId>castled-notifications</artifactId>
+            <version>sdk-latest-version</version>
+        </dependency>
+    ```
+
+    Replace `sdk-latest-version` with the latest version of the sdk.
+
+</Tab>
+
+</Tabs>
 
 ## SDK initialization
 
@@ -69,9 +76,8 @@ class MyApplicationClass : MultiDexApplication() {
 
 ```
 
-`api-key` is the unique id associated with your Castled account.
-
-`location` is the region where you have your Castled account. Currently we offer services in 4 regions
+`api-key` is a unique key associated with your Castled account. It can be found in the Castled dashboard at **Settings\/Api Keys**. `location` is the region where you have your Castled account.
+Currently we offer services in 4 regions
 
 ```kotlin CastledConfigs.kt
     enum class CastledLocation {
@@ -84,14 +90,12 @@ class MyApplicationClass : MultiDexApplication() {
 
 ### User Identification
 
-To let Castled know the user associated with this app instance, use the
-following method. This is typically invoked immediately after user completes the
-sign-in flow of your app. The `user-id` passed to Castled is the one that you
-use internally within your organisation to identify a user.
+To identify the user associated with this app instance, use the following method. This is typically invoked immediately after user completes the
+sign-in flow of your app. `user-id` is the id that you use internally within your organisation to identify a user.
 
 ```kotlin
 // User identification
-CastledNotifications.setUserId(this, "frank@castled.io", this::onSuccess, this::onError)
+CastledNotifications.setUserId(this, "<user-id>", this::onSuccess, this::onError)
 ```
 
 `onSuccess` and `onError` are optional callbacks you can get implement to get notified of the status of the identify process. Sample implementation below.
@@ -106,7 +110,11 @@ private fun onError(e: Exception) {
 }
 ```
 
-`user-id` can optionally be an encrypted one which is generated from your
-app server using the Castled secret. This is the recommended approach to avoid any risks of user
-impersonation. If using encrypted user-id, set `enableUserIdEncryption` to `true` in configs during SDK initialization.
-Default value of this config is set to `false`.
+<Note>
+  The `user-id` field can, optionally, be an encrypted value created using the
+  Castled `app-secret`. It is recommended to perform this encryption in trusted
+  environments, such as your app server, to mitigate risks of user
+  impersonation. When implementing an encrypted `user-id`, make sure to set the
+  `enableUserIdEncryption` configuration to `true` during SDK initialization. By
+  default, this configuration is set to `false`.
+</Note>
