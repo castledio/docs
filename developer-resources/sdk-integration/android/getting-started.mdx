@@ -21,13 +21,11 @@ The steps outlined below will assist your Android app developers in integrating 
     Applicable if your project uses **Gradle** for managing dependency. Add `castled-notifications` as a dependency in the `build.gradle` file of your Android application module.
 
     ```groovy build.gradle
-
         ...
         dependencies {
             ...
             implementation 'io.castled.android:castled-notifications:<sdk-latest-version>'
         }
-
     ````
 
     Replace `latest-version` with the latest version number of the SDK found here. Sync the gradle file to pull the dependencies just added.
@@ -73,10 +71,9 @@ class MyApplicationClass : MultiDexApplication() {
     }
     ...
 }
-
 ```
 
-`api-key` is a unique key associated with your Castled account. It can be found in the Castled dashboard at **Settings\/Api Keys**. `location` is the region where you have your Castled account.
+`api-key` is a unique key associated with your Castled account. It can be found in the Castled dashboard at **Settings > Api Keys**. `location` is the region where you have your Castled account.
 Currently we offer services in 4 regions
 
 ```kotlin CastledConfigs.kt
@@ -94,6 +91,7 @@ To identify the user associated with this app instance, use the following method
 sign-in flow of your app. `user-id` is the id that you use internally within your organisation to identify a user.
 
 ```kotlin
+
 // User identification
 CastledNotifications.setUserId(this, "<user-id>", this::onSuccess, this::onError)
 ```
@@ -101,6 +99,7 @@ CastledNotifications.setUserId(this, "<user-id>", this::onSuccess, this::onError
 `onSuccess` and `onError` are optional callbacks you can get implement to get notified of the status of the identify process. Sample implementation below.
 
 ```kotlin
+
 private fun onSuccess() {
     Log.d("MyApp","Castled user identify completed successfully")
 }
@@ -118,3 +117,15 @@ private fun onError(e: Exception) {
   `enableUserIdEncryption` configuration to `true` during SDK initialization. By
   default, this configuration is set to `false`.
 </Note>
+
+## SDK Permissions
+
+By default `AndroidManifest.xml` of the SDK includes the following permission requests. No developer action is required here.
+
+```
+
+<!-- Castled SDK needs this permission to sync user token and campaign events  -->
+<uses-permission android:name="android.permission.INTERNET"/>
+<!-- Castled SDK will use this permission to decide when to make network calls -->
+<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+```

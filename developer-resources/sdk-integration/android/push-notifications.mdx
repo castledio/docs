@@ -6,11 +6,137 @@ title: "Push Notification"
 
 **Prerequisites**
 
-- [Firebase is already added to your app](/developer-resources/sdk-integration/android/fcm-setup)
+- [Firebase account already setup and is added to your app](/developer-resources/sdk-integration/android/fcm-setup)
 
 </Info>
 
-Castled uses [Google Firebase Cloud Messaging(FCM)](https://firebase.google.com/docs/cloud-messaging)
-to send push notifications to your Android mobile application. The
-following steps will walk you through the process of setting up your application
+Castled uses [Google Firebase Cloud Messaging(FCM)](https://firebase.google.com/docs/cloud-messaging) to send push notifications to Android devices. The following steps will walk you through the process of setting up your application
 to receive push notification from Castled.
+
+## Enabling Push Notification in SDK
+
+Set the flag `enablePush` to `true` when initializing the SDK
+
+```kotlin
+// SDK initialization
+CastledNotifications.initialize(
+    this, CastledConfigs.Builder()
+        .apiKey("<api-key>")
+        .location(<location>)
+        .enablePush(true)
+        .build()
+)
+```
+
+## Permissions
+
+Starting from Android 13 (API level 33), a new runtime permission, `POST_NOTIFICATIONS`, has been introduced for apps to send non-exempt notifications, including those from Foreground Services (FGS).
+You need to declare following permissions in the App's manifest file.
+
+```xml AndroidManifest.xml
+<manifest ...>
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+    <application ...>
+        ...
+    </application>
+</manifest>
+```
+
+Once the manifest file is updated, app should request the user for the permission at runtime.
+[Here](https://developer.android.com/training/permissions/requesting) are some guidelines on requesting runtime permissions.
+
+## Firebase push messaging handling service
+
+By default SDK takes care of FCM push token fetch and notification handling once app gets the permission to post notification. In case the app has registered its own Firebase message service class for handling FCM token,
+SDK needs to be notified of the new token and any push notification received from Castled platform. This can be done as follows:
+
+Your app manifest would have a service class similar to `MyAppMessagingService` to handle Firebase messaging events.
+
+```xml AndroidManifest.xml
+<manifest ...>
+    ...
+    <application ...>
+
+        <service
+            android:name="io.castled.android.notifications.push.MyAppMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+        ...
+    </application>
+
+</manifest>
+```
+
+Add the following code snippets in the overrided `onNewToken` and `onMessageReceived` methods of your FCM service class.
+
+```kotlin MyAppMessagingService.kt
+class MyAppMessagingService : FirebaseMessagingService() {
+    ...
+
+    override fun onNewToken(token: String) {
+        super.onNewToken(token)
+        // Notify SDK of new token
+        CastledNotifications.onTokenFetch(token, PushTokenType.FCM)
+
+        // Your custom token handling code goes here...
+        ...
+    }
+
+    override fun onMessageReceived(remoteMessage: RemoteMessage) {
+        if (CastledNotifications.isCastledPushMessage(remoteMessage)) {
+            // Notification initiated from Castled platform. Handle message payload
+            CastledNotifications.handlePushNotification(this, remoteMessage.toCastledPushMessage())
+        } else {
+            // Your custom push notification handling code goes here...
+            ...
+        }
+    }
+}
+```
+
+## Notification default configs
+
+SDK provides option to specify default values for some of the push notification
+payload fields. You need to create a `castled.xml` file in the `res/values`
+folder of your app project. Default values takes effect only if push payload doesn't
+have any values specified for these fields.
+
+### Notification channels
+
+Add the following values to `castled.xml` if you want to specify a default
+channel for notifications from Castled. More details on android notifications
+channels can be found here.
+
+```xml castled.xml
+<resources>
+    ...
+
+    <string name="io_castled_push_default_channel_id">YOUR_NOTIFICATION_CHANNEL_ID</string>
+    <string name="io_castled_push_default_channel_name">YOUR_NOTIFICATION_CHANNEL_NAME</string>
+    <string name="io_castled_push_default_channel_desc">YOUR_NOTIFICATION_CHANNEL_DESC</string>
+    <integer name="io_castled_push_default_channel_importance">YOUR_NOTIFICATION_CHANNEL_IMPORTANCE_VALUE</integer>
+
+    ...
+</resources>
+```
+
+`YOUR_NOTIFICATION_CHANNEL_IMPORTANCE_VALUE` can be any integer in the range `[1,5]`, `1` being lowest importance and `5` being max.
+
+### Small and large default icons
+
+You can also specify default small and large icons in `castled.xml`.
+
+```xml castled.xml
+<resources>
+    ...
+
+    <!-- Castled default small and large icons -->
+    <drawable name="io_castled_push_notification_small_icon">@drawable/demoapp_notif_icon</drawable>
+    <drawable name="io_castled_push_notification_large_icon">@drawable/demoapp_notif_large_icon</drawable>
+
+    ...
+</resources>
+```
