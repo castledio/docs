@@ -1,0 +1,68 @@
+---
+title: "Configuring & Downloading .p12 certificate"
+---
+
+### Introduction
+This documentation will guide you through the process of creating and downloading a .p12 certificate, which is required for sending push notifications to your iOS application. The .p12 certificate establishes a secure connection with Apple's Push Notification service (APNs) and enables your server to send push notifications.
+
+<Note>
+Prerequisites:
+Before proceeding with the steps below, ensure that you have access to the Apple Developer Program, as you'll need an active Apple Developer account to perform these actions.
+</Note>
+
+### Step 1: Accessing the Apple Developer Portal
+
+1. Open your web browser and navigate to the Apple Developer Portal (https://developer.apple.com).
+
+2. Sign in to your Apple Developer account using your credentials.
+
+### Step 2: Creating an App ID and Enabling Push Notifications
+
+1. In the Developer Portal, select "Certificates, Identifiers & Profiles" from the main menu.
+
+2. Choose "Identifiers" under the "iOS, iPadOS, tvOS" section.
+
+3. Click the "+" button to create a new App ID.
+
+4. Provide a unique name for your App ID and select your app's Bundle ID.
+
+5. Scroll down to the "Capabilities" section and enable "Push Notifications" by toggling the switch to the ON position.
+6. Save the changes to create the App ID.
+
+### Step 3: Creating a Push Notification Certificate
+
+1. In the Developer Portal, select "Certificates, Identifiers & Profiles" from the main menu.
+
+2. Choose "Certificates" under the "Identifiers" section.
+
+3. Click the "+" button to create a new certificate.
+
+4. Select "Apple Push Notification service SSL (Sandbox & Production)" and click "Continue".
+
+5. Choose the App ID you created in Step 2 from the dropdown list and click "Continue".
+
+6. Follow the instructions to generate a certificate signing request (CSR) using Keychain Access on your Mac.
+
+7. Upload the CSR to the Developer Portal and click "Continue".
+
+8. Download the generated .cer file, which represents your push notification certificate.
+
+### Step 4: Exporting the Certificate as .p12
+
+1. Open Keychain Access on your Mac.
+
+2. Locate the push notification certificate in the "Certificates" category.
+
+3. Select both the certificate and its associated private key.
+
+4. Right-click and choose "Export 2 items".
+
+5. Choose a secure location to save the exported .p12 file and set a strong password.
+
+6. Click "Save" to export the .p12 certificate.
+
+<Note>
+Remember to securely store the .p12 certificate and its associated password, as they are essential for authenticating with APNs. Be cautious not to share this sensitive information with unauthorized individuals.
+</Note>
+
+If you encounter any issues during this process, refer to Apple's official documentation or seek assistance from the Apple Developer Support team.
