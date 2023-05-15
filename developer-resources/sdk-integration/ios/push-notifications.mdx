@@ -6,6 +6,18 @@ Castled provides a convenient way to send push notifications to your application
 
 ### 1. Configure Push Notifications
 
+To enable push notifications on your iOS application using the Castled dashboard, you are required to upload a key or certificate obtained from your Apple Developer account. There are two available methods to configure push notifications.
+
+### Using APNS Authentication Key
+
+![](/images/ios-1.png)
+This [doc](/developer-resources/sdk-integration/ios/configuring-p8) has more information on how to obtain **.p8 file**.
+
+### Using APNS Provider Certificate
+
+![](/images/ios-2.png)
+This [doc](/developer-resources/sdk-integration/ios/configuring-p12) has more information on how to obtain **.p12 certificate**.
+
 ### 2. Enable Push Notification in App Target
 
 ### General Tab 
@@ -29,7 +41,8 @@ In iOS 10 and above, to handle push notifications, you need to implement the fol
 
 ### UIApplicationDelegate Methods:
 
-func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool: This method is called when the app finishes launching. You can use this method to register for remote notifications and configure the notification settings.
+func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool: 
+This method is called when the app finishes launching. You can use this method to register for remote notifications and configure the notification settings.
 ```swift
 func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
     //1. Configure config
