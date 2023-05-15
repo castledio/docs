@@ -2,3 +2,91 @@
 title: "Getting Started with iOS SDK"
 ---
 
+## Setting up iOS configs
+
+You can either use a **APNS Provider Certificate** or **APNS Authentication Key** to configure iOS push notification in Castled.
+
+<Note>
+  **APNS Authentication Key** is the recommended method for sending push
+  notfication to your apps running on iOS devices. It use token based
+  authentication and is faster than the certificate based one. This doc has
+  instructions on how to generate an **Authentication Key**
+</Note>
+
+## Uing APNS Authentication Key
+
+![](/images/ios-1.png)
+
+This [doc](/getting-started/channel-setup/ios-auth) has more information on how to obtain **Auth key file**, **Key ID**, **Team ID** and **Bundle ID**.
+
+## Using APNS Provider Certificate
+
+![](/images/ios-2.png)
+
+To generate the certificate and the private key you can follow the instructions provided in the [apple docs](https://developer.apple.com/documentation/usernotifications/setting_up_a_remote_notification_server/establishing_a_certificate-based_connection_to_apns)
+
+Once you save the configs in Castled, you will get an `instance-id` which will be later used while integrating the SDK with your app.
+
+## SDK installation
+
+### Install from CocoaPods
+
+[CocoaPods](https://cocoapods.org/) is a dependency manager for Swift and Objective-C Cocoa projects. CocoaPods is built with Ruby and is installable with the default Ruby available on macOS.
+
+```bash
+sudo gem install cocoapods
+```
+
+List the dependencies in a text file named `Podfile` in your Xcode project directory. If you do not have a `Podfile` already create one using the following command.
+
+```
+pod init
+```
+
+To integrate Castled Notifications into your Xcode project using CocoaPods, specify it in your `Podfile`
+
+```bash Podfile
+pod 'Castled', '~> 1.0.2'
+```
+
+Now you can install the dependencies in your project.
+
+```
+pod install
+```
+
+When installation is complete open the .xcworkspace that was created.
+
+Now you can import your dependencies e.g.:
+
+```
+import Castled
+```
+
+## Registering for push notifications
+
+Initialize the SDK by registering the `instance-id` in the `didFinishLaunchingWithOptions` method of the `AppDelegate` class and calling Castled.configure
+
+```swift
+func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+    ...
+    Castled.configure(registerIn: application, launchOptions: launchOptions, instanceId: "instance-id", delegate: self)
+    ...
+    return true
+}
+```
+
+To let Castled know the user associated with this app instance, use the method `Castled.sharedInstance?.registerUser`. This is typically invoked immediately after user completes the sign-in flow in your app. The user-id passed to Castled is the one that you use internally within your organisation to identify a user.
+
+```swift
+Castled.registerUser(userId: userId, completion: { (_ response: CastledResponse<[String : String]>) in
+  if response.success {
+      print(response.result as Any)
+  }
+  else
+  {
+      print("Error is \(response.errorMessage)")
+  }
+})
+```
+
