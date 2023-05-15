@@ -1,3 +1,108 @@
 ---
 title: "Push Notification"
 ---
+
+Castled provides a convenient way to send push notifications to your applications directly from our dashboard. Follow these steps to send your first push notification to your application:
+
+### 1. Configure Push Notifications
+
+### 2. Enable Push Notification in App Target
+
+### General Tab 
+1. Add the Castled framework
+![](/images/add_castled_framework_1.png)
+![](/images/add_castled_framework_2.png)
+
+### Signing and Capabilities Tab
+
+1. Add Remote Notificaiton as a Background Mode 
+![](/images/add_background_mode.png)
+
+2. Configure Push Notification
+
+3. Add Push Notification cabaility by clicking on + Capability button
+![](/images/add_push_capability.png)
+
+### 3. Code changes for registering Push Notification 
+
+In iOS 10 and above, to handle push notifications, you need to implement the following methods from UIApplicationDelegate and UNUserNotificationCenterDelegate protocols:
+
+### UIApplicationDelegate Methods:
+
+func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool: This method is called when the app finishes launching. You can use this method to register for remote notifications and configure the notification settings.
+```swift
+func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+    //1. Configure config
+    let config = CastledConfigs.sharedInstance
+    config.enablePush  = true
+    config.location    = CastledLocation.US
+
+    //2. Set application delegate
+     application.delegate = self
+
+    //3. Set UNUserNotificationCenter delegate 
+    UNUserNotificationCenter.current().delegate = self
+
+    //4. Call Castled.configure method
+    Castled.configure(registerIn: application, launchOptions: launchOptions, instanceId: "mytestapikey", delegate: self)
+
+    //5. Register Push 
+    registerForPush()
+}
+
+func registerForPush() {
+    UNUserNotificationCenter.current().requestAuthorization(options: [.sound, .badge, .alert], completionHandler: {granted, error in
+        if granted {
+            DispatchQueue.main.async {
+                UIApplication.shared.registerForRemoteNotifications()
+            }
+        }
+    })
+}
+```
+
+Obtaining user authorization is a crucial requirement for sending push notifications to an iOS application. When your app requests authorization for the first time, the system presents a prompt to the user, giving them the choice to grant or deny the request. The user's response is then recorded by the system for future reference.
+
+![](/images/request_permission.jpg)
+
+func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data): This method is called when the app successfully registers for remote notifications with the Apple Push Notification service (APNs). You can use the deviceToken parameter to send push notifications to the device.
+```swift
+func castled_application(_ application: UIApplication,didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+    //Invoke the setDeviceToken method if swizzling is off
+    Castled.sharedInstance?.setDeviceToken(deviceToken: deviceToken)
+}
+```
+
+func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error): This method is called when the app fails to register for remote notifications. You can handle the error and take appropriate action.
+```swift
+func castled_application(_ application: UIApplication,didFailToRegisterForRemoteNotificationsWithError error: Error) {
+    //Invoke the logRegisterForRemoteNotifications to log the error if swizzling is off
+    Castled.sharedInstance!.logRegisterForRemoteNotifications("Failed to register: \(error)")
+}
+```
+
+### UNUserNotificationCenterDelegate Methods:
+
+func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void): This method is called when a notification is about to be presented to the user while the app is in the foreground. You can customize the presentation options for the notification, such as showing an alert, playing a sound, or updating the app badge.
+```swift
+func userNotificationCenter(_ center: UNUserNotificationCenter,
+                                             willPresent notification: UNNotification,
+                                             withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+    //Invoke the API to handle the notification in the foreground
+    Castled.sharedInstance!.handleNotificationInForeground(notification: notification)
+
+    completionHandler([.badge, .sound, .alert])
+}
+```
+
+func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void): This method is called when the user taps on or interacts with a notification. You can handle the user's response to the notification, such as opening a specific screen in the app or performing a specific action.
+```swift
+ func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+    //Invoke the handleNotificationAction to handle the user actions
+    Castled.sharedInstance?.handleNotificationAction(response : response)
+
+    completionHandler()
+}
+```
+
+Make sure to set the delegate of the UNUserNotificationCenter instance and the UIApplication instance to your AppDelegate class to receive and handle the push notifications.
