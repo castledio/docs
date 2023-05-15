@@ -21,16 +21,12 @@ This [doc](/developer-resources/sdk-integration/ios/configuring-p12) has more in
 ### 2. Enable Push Notification in App Target
 
 ### General Tab 
-1. Add the Castled framework
+1. Add the Castled framework in **General** tab
 ![](/images/add_castled_framework_1.png)
 ![](/images/add_castled_framework_2.png)
 
-### Signing and Capabilities Tab
-
-1. Add Remote Notificaiton as a Background Mode 
+2. Add Remote Notificaiton as a Background Mode in **Signing and Capabilities** tab
 ![](/images/add_background_mode.png)
-
-2. Configure Push Notification
 
 3. Add Push Notification cabaility by clicking on + Capability button
 ![](/images/add_push_capability.png)
@@ -78,7 +74,8 @@ Obtaining user authorization is a crucial requirement for sending push notificat
 
 ![](/images/request_permission.jpg)
 
-func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data): This method is called when the app successfully registers for remote notifications with the Apple Push Notification service (APNs). You can use the deviceToken parameter to send push notifications to the device.
+func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data): 
+This method is called when the app successfully registers for remote notifications with the Apple Push Notification service (APNs). You can use the deviceToken parameter to send push notifications to the device.
 ```swift
 func castled_application(_ application: UIApplication,didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
     //Invoke the setDeviceToken method if swizzling is off
@@ -86,7 +83,8 @@ func castled_application(_ application: UIApplication,didRegisterForRemoteNotifi
 }
 ```
 
-func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error): This method is called when the app fails to register for remote notifications. You can handle the error and take appropriate action.
+func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error): 
+This method is called when the app fails to register for remote notifications. You can handle the error and take appropriate action.
 ```swift
 func castled_application(_ application: UIApplication,didFailToRegisterForRemoteNotificationsWithError error: Error) {
     //Invoke the logRegisterForRemoteNotifications to log the error if swizzling is off
@@ -96,7 +94,8 @@ func castled_application(_ application: UIApplication,didFailToRegisterForRemote
 
 ### UNUserNotificationCenterDelegate Methods:
 
-func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void): This method is called when a notification is about to be presented to the user while the app is in the foreground. You can customize the presentation options for the notification, such as showing an alert, playing a sound, or updating the app badge.
+func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void):
+This method is called when a notification is about to be presented to the user while the app is in the foreground. You can customize the presentation options for the notification, such as showing an alert, playing a sound, or updating the app badge.
 ```swift
 func userNotificationCenter(_ center: UNUserNotificationCenter,
                                              willPresent notification: UNNotification,
@@ -108,7 +107,8 @@ func userNotificationCenter(_ center: UNUserNotificationCenter,
 }
 ```
 
-func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void): This method is called when the user taps on or interacts with a notification. You can handle the user's response to the notification, such as opening a specific screen in the app or performing a specific action.
+func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void):
+This method is called when the user taps on or interacts with a notification. You can handle the user's response to the notification, such as opening a specific screen in the app or performing a specific action.
 ```swift
  func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
     //Invoke the handleNotificationAction to handle the user actions
