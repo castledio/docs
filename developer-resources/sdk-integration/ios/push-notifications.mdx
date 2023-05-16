@@ -220,3 +220,50 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CastledNotificationDelega
 
 **Step 3: Configuring Custom Actions in the Castled Dashboard**
 In the Castled dashboard, configure your push notifications with custom actions. Specify the action type (deeplink, navigate to screen, or rich landing), and provide any additional data required for each action. Make sure the details passed match the implementation details in the methods you implemented in the CastledNotificationDelegate.
+
+### Configuring Notification Categories and Actions
+
+Apps are required to enable support for actionable notifications. During app launch, it is necessary to register one or more notification categories that define the types of notifications your app sends. Each category is associated with specific actions that users can take when receiving a notification of that type. While each category can have up to four actions, the actual number of displayed actions may vary depending on the notification display. For instance, banners typically show a maximum of two actions.
+
+**Registering the Notification Categories for Your App**
+
+During app launch, you can register all notification categories together using the **setNotificationCategories:** method of the shared **UNUserNotificationCenter object**. Prior to calling this method, you need to create one or more instances of the **UNNotificationCategory** class. Each category instance should include the category name and options that determine how notifications of that type should be displayed. Category names are internal to your app and remain invisible to the user. When scheduling notifications, you include the corresponding category name in the notification payload. The system then uses this category name to retrieve the associated options and properly display the notification.
+
+```swift
+@main
+class AppDelegate: UIResponder, UIApplicationDelegate , UNUserNotificationCenterDelegate {
+    var window: UIWindow?
+    
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+
+        // Register the Custom Notification categories & actions
+        let notificationCategories = getNotificationCategories();
+        UNUserNotificationCenter.current().setNotificationCategories(notificationCategories)
+
+        return true
+    }
+
+    func getNotificationCategories() -> Set<UNNotificationCategory>{
+        // Create the custom actions
+        let action1 = UNNotificationAction(identifier: "ACCEPT", title: "Accept", options: UNNotificationActionOptions.foreground)
+        let action2 = UNNotificationAction(identifier: "DECLINE", title: "Decline", options: [])
+        
+        // Create the category with the custom actions
+        let customCategory1 = UNNotificationCategory(identifier: "ACCEPT_DECLINE", actions: [action1, action2], intentIdentifiers: [], options: [])
+        
+        let action3 = UNNotificationAction(identifier: "YES", title: "Yes", options: [UNNotificationActionOptions.foreground])
+        let action4 = UNNotificationAction(identifier: "NO", title: "No", options: [])
+        
+        // Create the category with the custom actions
+        let customCategory2 = UNNotificationCategory(identifier: "YES_NO", actions: [action3, action4], intentIdentifiers: [], options: [])
+        
+        let categoriesSet = Set.init([customCategory1,customCategory2])
+        
+        return categoriesSet;
+    }
+}
+```
+<Note>
+The **UNNotificationActionOptions.foreground** option is used to specify the behavior of a notification action when it is clicked by the user. Make sure this option is included, so that the action should launch the application and bring it to the foreground.
+</Note>
+
