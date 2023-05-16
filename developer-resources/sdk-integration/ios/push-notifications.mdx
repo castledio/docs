@@ -123,8 +123,7 @@ Make sure to set the delegate of the UNUserNotificationCenter instance and the U
 
 The Castled SDK provides support for handling custom notification actions when the user interacts with push notifications in your application. By implementing the CastledNotificationDelegate protocol in your AppDelegate class, you can define the behavior for different notification actions such as deeplinking, navigating to a specific screen, or displaying a rich landing page.
 
-### CastledNotificationDelegate Methods:
-
+### CastledNotificationDelegate methods
 
 **handleDeepLink(url: URL?, useWebview: Bool, additionalData: [String: Any]?)**
 This method is called when the user selects a notification action with a deeplink type.
@@ -155,7 +154,6 @@ func handleNavigateToScreen(screenName: String?, useWebview: Bool, additionalDat
 
 **handleRichLanding(screenName: String?, useWebview: Bool, additionalData: [String: Any]?)**
 This method is called when the user selects a notification action to display a rich landing page.
-This method is called when the user selects a notification action to navigate to a specific screen.
     - screenName : he name or identifier of the rich landing screen.
     - useWebview : indicates whether the deeplink should be opened in a webview.
     - additionalData : any additional data associated with the action
@@ -166,6 +164,8 @@ func handleRichLanding(screenName: String?, useWebview: Bool, additionalData: [S
     // Display the rich landing page or perform custom logic
 }
 ```
+
+### App Integration to handle user actions
 
 To integrate the Castled SDK and handle custom notification actions, follow these steps:
 
