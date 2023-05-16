@@ -223,11 +223,15 @@ In the Castled dashboard, configure your push notifications with custom actions.
 
 ### Configuring Notification Categories and Actions
 
-Apps are required to enable support for actionable notifications. During app launch, it is necessary to register one or more notification categories that define the types of notifications your app sends. Each category is associated with specific actions that users can take when receiving a notification of that type. While each category can have up to four actions, the actual number of displayed actions may vary depending on the notification display. For instance, banners typically show a maximum of two actions.
+Apps are required to enable support for actionable notifications. During app launch, it is necessary to register one or more notification categories that define the types of notifications your app sends. Each category is associated with specific actions that users can take when receiving a notification of that type. 
+
+While each category can have up to four actions, the actual number of displayed actions may vary depending on the notification display. For instance, banners typically show a maximum of two actions.
 
 **Registering the Notification Categories for Your App**
 
-During app launch, you can register all notification categories together using the **setNotificationCategories:** method of the shared **UNUserNotificationCenter object**. Prior to calling this method, you need to create one or more instances of the **UNNotificationCategory** class. Each category instance should include the category name and options that determine how notifications of that type should be displayed. Category names are internal to your app and remain invisible to the user. When scheduling notifications, you include the corresponding category name in the notification payload. The system then uses this category name to retrieve the associated options and properly display the notification.
+During app launch, you can register all notification categories together using the **setNotificationCategories:** method of the shared **UNUserNotificationCenter object**. Prior to calling this method, you need to create one or more instances of the **UNNotificationCategory** class. Each category instance should include the category name and options that determine how notifications of that type should be displayed.
+
+Category names are internal to your app and remain invisible to the user. When scheduling notifications, you include the corresponding category name in the notification payload. The system then uses this category name to retrieve the associated options and properly display the notification.
 
 ```swift
 @main
