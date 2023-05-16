@@ -1,4 +1,61 @@
 ---
-title: "Xiaomi Setup"
+title: "Xiaomi(MiPush) Push Setup"
 sidebarTitle: "Xiaomi(MiPush) Setup"
 ---
+
+Xiaomi MiPush is a push notification service provided by Xiaomi for its smartphones and for developers who have apps on these devices. It is recommended to setup **MiPush** if your app is installed on Xiaomi devices.
+Castled will use **MiPush** as a fallback channel to Google FCM for sending push notifications thereby ensuring better delivery rates.
+
+## **Step 1:** Create Xiaomi Developer Account
+
+1. Visit the [Xiaomi Developer website](https://dev.mi.com/).
+2. Click on the **Sign Up** button usually located at the top right of the page.
+3. Enter your email address and create a password. Click the **Sign Up** button.
+4. You will receive a verification email from Xiaomi. Open this email and click on the verification link to verify your email address.
+5. After verifying your email, you can sign in to the Xiaomi Developer website with your new account.
+6. You may need to fill in additional information about yourself or your company, agree to Xiaomi's developer terms of service, and possibly pay a registration fee (if applicable).
+7. After this, your application will typically be reviewed by Xiaomi. Once your application is approved, you will have access to Xiaomi's developer resources, including the Mi Push service.
+
+## **Step 2:** Xiaomi App Setup
+
+1. Create a new app in [Xiaomi Push Operational Console](https://admin.xmpush.xiaomi.com/). You can log in using your credentials from step 1.
+2. Enable push notification for the app.
+   ![Push Enable](/images/xi-push-enable.png)
+3. Also note down `AppID`, `AppKey` and `AppSecret`.
+   ![Push Keys](/images/xi-push-keys.png)
+
+## **Step 3:** Xiaomi Secret Setup in Castled
+
+1. Update the `AppSecret` obtained in **Step 2** in the **Xiaomi App Secret** field in Castled Push Configs page.
+   ![Push Config Secret](/images/xi-push-castled-config.png)
+
+## **Step 4:** App SDK Setup
+
+<Note>
+  Following steps are in addition to the general [push notification
+  setup](/developer-resources/sdk-integration/android/push-notifications)
+</Note>
+
+1. First, copy the AAR package of the **MiPush** SDK, `MiPush_SDK_Client_5_1_1-G_3rd.aar`, to the project `/libs/` directory, and then to the `build.gradle` of the project app module dependency.
+   Also add Castled library for handling Xiaomi push.
+
+   ```groovy build.gradle
+   implementation "io.castled.android:castled-mipush:<latest-version>"  // Replace <latest-version> with latest available version of castled-mipush library
+   implementation files("libs/MiPush_SDK_Client_5_1_1-G_3rd.aar")
+   ```
+
+2. Initialize `xiaomiAppId` and `xiaomiAppKey` in SDK with `AppID` and `AppKey` obtained in **Step 2**.
+
+   ```kotlin
+
+   // SDK initialization
+   CastledNotifications.initialize(
+       this, CastledConfigs.Builder()
+           .apiKey("<castled-api-key>")
+           .location(<location>)
+           .xiaomiAppId("<xiaomi-app-id>")   // Xiaomi App ID
+           .xiaomiAppKey("<xiaomi-app-key>") // Xiaomi App Key
+           .enablePush(true)
+           .build()
+   )
+   ```

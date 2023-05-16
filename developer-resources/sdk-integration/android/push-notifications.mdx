@@ -7,6 +7,7 @@ title: "Push Notification"
 **Prerequisites**
 
 - [Firebase account already setup and is added to your app](/developer-resources/sdk-integration/android/fcm-setup)
+- [SDK integration completed](/developer-resources/sdk-integration/android/getting-started)
 
 </Info>
 
@@ -127,15 +128,19 @@ channels can be found here.
 
 ### Small and large default icons
 
-You can also specify default small and large icons in `castled.xml`.
+You can also optionally specify default small and large icons for push notifications in `castled.xml`.
+
+<Frame caption="1. small icon 2. large icon">
+  <img src="/images/push-1.png" />
+</Frame>
 
 ```xml castled.xml
 <resources>
     ...
 
     <!-- Castled default small and large icons -->
-    <drawable name="io_castled_push_notification_small_icon">@drawable/demoapp_notif_icon</drawable>
-    <drawable name="io_castled_push_notification_large_icon">@drawable/demoapp_notif_large_icon</drawable>
+    <drawable name="io_castled_push_notification_small_icon">YOUR_NOTIFICATION_SMALL_ICON</drawable>
+    <drawable name="io_castled_push_notification_large_icon">YOUR_NOTIFICATION_LARGE_ICON</drawable>
 
     ...
 </resources>
