@@ -231,7 +231,7 @@ While each category can have up to four actions, the actual number of displayed 
 
 During app launch, you can register all notification categories together using the **setNotificationCategories:** method of the shared **UNUserNotificationCenter object**. Prior to calling this method, you need to create one or more instances of the **UNNotificationCategory** class. Each category instance should include the category name and options that determine how notifications of that type should be displayed.
 
-Category names are internal to your app and remain invisible to the user. When scheduling notifications, you include the corresponding category name in the notification payload. The system then uses this category name to retrieve the associated options and properly display the notification.
+Category names are internal to your app and remain invisible to the user. **When scheduling notifications, you include the corresponding category name in the notification payload**. The system then uses this category name to retrieve the associated options and properly display the notification.
 
 ```swift
 @main
@@ -268,6 +268,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate , UNUserNotificationCenter
 }
 ```
 <Note>
-The **UNNotificationActionOptions.foreground** option is used to specify the behavior of a notification action when it is clicked by the user. Make sure this option is included, so that the action should launch the application and bring it to the foreground.
+The **UNNotificationActionOptions.foreground** option is used to specify the behavior of a notification action when it is clicked by the user. Make sure this option is included, so that the action launches the application and bring it to the foreground.
 </Note>
 
