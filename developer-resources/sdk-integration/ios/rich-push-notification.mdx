@@ -10,9 +10,9 @@ Rich push notifications offer a convenient way to provide users with quick inter
 
 Rich push notifications leverage the power of [Notification Service](https://developer.apple.com/documentation/usernotifications/unnotificationserviceextension) and [Notification Content](https://developer.apple.com/documentation/usernotificationsui/unnotificationcontentextension) extensions to enrich the user experience. These extensions are separate and unique components embedded within your app bundle.
 
-When a new push notification arrives, the system first invokes your notification service extension to customize the payload and include media attachments for display. The notification content extension comes into play by providing a custom interface to present your app's notifications in a visually appealing and interactive manner. Together, these extensions work seamlessly to deliver captivating and dynamic push notifications to your app's users.
-
 ## Enabling Rich Push Notification support
+
+When a new push notification arrives, the system first invokes your notification service extension to customize the payload and include media attachments for display. The notification content extension comes into play by providing a custom interface to present your app's notifications in a visually appealing and interactive manner. Together, these extensions work seamlessly to deliver captivating and dynamic push notifications to your app's users.
 
 ### Adding Notification Service Extension 
 
@@ -31,11 +31,15 @@ When a new push notification arrives, the system first invokes your notification
 
 1. Open the Info.plist file of your Notification Service Extension target.
 2. Add the following key-value pair:
-    Key: **NSExtensionPrincipalClass**
-    Value: **$(PRODUCT_MODULE_NAME).NotificationService** (Where NotificationService is the name of the class created)
 
-    Key : **NSExtensionPointIdentifier**
-    Value : **com.apple.usernotifications.service**
+| Key                          | Value                                            |
+| --------------------------   | ------------------------------------------------ |
+| NSExtensionPrincipalClass    | $(PRODUCT_MODULE_NAME).NotificationService       |
+| NSExtensionPointIdentifier   | com.apple.usernotifications.service              |
+
+<Info>
+Mention the name of the Notification Service class created in NSExtensionPrincipalClass
+</Info>
 
 ![](/images/NSE-6.png)
 
