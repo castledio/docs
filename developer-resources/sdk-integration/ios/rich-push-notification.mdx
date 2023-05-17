@@ -1,0 +1,92 @@
+---
+title: "Rich Push Notification"
+---
+
+## Overview
+
+With the introduction of iOS 10, rich push notifications have made their way into the iOS ecosystem. This exciting feature allows you to enhance your push notifications by incorporating engaging multimedia elements such as images, videos, audio, or GIFs.
+
+Rich push notifications offer a convenient way to provide users with quick interactions that don't require them to launch the entire app. This highlights the increasing significance of notifications in shaping an app's overall user experience.
+
+Rich push notifications leverage the power of [Notification Service](https://developer.apple.com/documentation/usernotifications/unnotificationserviceextension) and [Notification Content](https://developer.apple.com/documentation/usernotificationsui/unnotificationcontentextension) extensions to enrich the user experience. These extensions are separate and unique components embedded within your app bundle.
+
+When a new push notification arrives, the system first invokes your notification service extension to customize the payload and include media attachments for display. The notification content extension comes into play by providing a custom interface to present your app's notifications in a visually appealing and interactive manner. Together, these extensions work seamlessly to deliver captivating and dynamic push notifications to your app's users.
+
+## Enabling Rich Push Notification support
+
+### Adding Notification Service Extension 
+
+**Step 1: Adding the Notification Service Extension to your Xcode Project**
+
+1. Open your Xcode project.
+2. Go to File -> New -> Target.
+3. Select "Notification Service Extension" under the "iOS" category.
+![](/images/NSE-1.png)
+4. Click "Next" and provide a name for your extension (e.g., "MyNotificationServiceExtension").
+![](/images/NSE-2.png)
+5. Choose the appropriate settings for your extension and click "Finish".
+6. Xcode will generate the necessary files for the Notification Service Extension.
+
+**Step 2: Configuring the Info.plist File**
+
+1. Open the Info.plist file of your Notification Service Extension target.
+2. Add the following key-value pair:
+    Key: **NSExtensionPrincipalClass**
+    Value: **$(PRODUCT_MODULE_NAME).NotificationService** (Where NotificationService is the name of the class created)
+
+    Key : **NSExtensionPointIdentifier**
+    Value : **com.apple.usernotifications.service**
+
+![](/images/NSE-6.png)
+
+**Step 3: Importing the CastledNotificationService Framework**
+
+1. Add the CastledNotificationService.framework to your Xcode project.
+2. Go to your Notification Service Extension target's Build Phases.
+3. Expand the "Link Binary With Libraries" section.
+4. Click the "+" button and add the CastledNotificationService.framework.
+![](/images/NSE-4.png)
+5. Import the framework in your Notification Service Extension code file
+![](/images/NSE-5.png)
+
+```swift
+import CastledNotificationService
+```
+
+**Step 4: Implementing the Notification Service Extension**
+
+In your Notification Service Extension code file, inherit from the **CastledNotificationServiceExtension** class provided by the CastledNotificationService framework.
+
+Customize the notification handling logic in the overridden methods of MyNotificationServiceExtension class.
+
+Override the **didReceive(_:withContentHandler:)** method to modify the notification content if needed.
+
+Override the **serviceExtensionTimeWillExpire()** method to handle situations when the service extension time is about to expire.
+
+```swift
+import UserNotifications
+import CastledNotificationService
+
+class NotificationService: CastledNotificationServiceExtension {
+    
+    var contentHandler: ((UNNotificationContent) -> Void)?
+    var bestAttemptContent: UNMutableNotificationContent?
+
+    override func didReceive(_ request: UNNotificationRequest, withContentHandler contentHandler: @escaping (UNNotificationContent) -> Void) {
+
+        //calling super to make sure Castled implementation is called.
+        super.didReceive(request, withContentHandler: contentHandler)
+    }
+
+    override func serviceExtensionTimeWillExpire() {
+        // This method is called right before the extension is terminated by the system.
+        // Take this opportunity to provide your "best attempt" at modified content.
+        // If you don't make any changes, the original push payload will be used by default.
+        if let contentHandler = contentHandler, let bestAttemptContent =  bestAttemptContent {           
+            contentHandler(bestAttemptContent)         
+        }     
+    }   
+}
+```
+
+Please refer to the official Apple documentation for further details on working with [Notification Service Extensions](https://developer.apple.com/documentation/usernotifications/unnotificationserviceextension)
