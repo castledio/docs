@@ -111,23 +111,15 @@ Please refer to the official Apple documentation for further details on working 
 
 **Step 2: Configuring the Info.plist File**
 
-1. Open the Info.plist file of your Notification Service Extension target.
+1. Open the Info.plist file of your Notification Content Extension target.
 2. Add the following key-value pair:
 
-| Key                          | Value                                            |
-| --------------------------   | ------------------------------------------------ |
-| UNNotificationExtensionCategory    | <Array of configured notification categories>      |
-| UNNotificationExtensionInitialContentSizeRatio   | 1              |
-| UNNotificationExtensionDefaultContentHidden   | YES              |
-| NSExtensionMainStoryboard   | MainStoryBoard             |
-| NSExtensionPointIdentifier   | com.apple.usernotifications.content-extension              |
+![](/images/NCE-6.png)
 
 <Info>
 Configure the Notification Categories & actions and use the same for configuring UNNotificationExtensionCategory.
 The required categories can be added as an array.
 </Info>
-
-![](/images/NCE-6.png)
 
 **Step 3: Importing the CastledNotificationContent Framework**
 
@@ -149,7 +141,7 @@ In your NotificationViewController file, inherit from the **CastledNotificationV
 
 Customize the notification handling logic in the overridden methods of NotificationViewController class.
 
-Override the **viewDidLoad()** and **didReceive** methods to modify the notification content if needed.
+Override the **viewDidLoad()** and **didReceive()** methods to modify the notification content if needed.
 
 ```swift
 import UIKit
