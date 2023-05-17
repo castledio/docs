@@ -107,12 +107,16 @@
               "group": "SMS",
               "pages": [
                 "engagement/campaign/sms/create-sms-campaign",
-                "engagement/campaign/sms/sms-campaign-stats"]
+                "engagement/campaign/sms/sms-campaign-stats"
+              ]
               
             },
             {
               "group": "Whatsapp",
-              "pages": ["engagement/campaign/whatsapp/create-whatsapp-campaign"]
+              "pages": [
+                "engagement/campaign/whatsapp/create-whatsapp-campaign",
+                "engagement/campaign/whatsapp/whatsapp-campaign-stats"
+              ]
             }
           ]
         },
