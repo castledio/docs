@@ -114,6 +114,14 @@ Please refer to the official Apple documentation for further details on working 
 1. Open the Info.plist file of your Notification Content Extension target.
 2. Add the following key-value pair:
 
+| Key                                              | Value                                            |
+| ------------------------------------------------ | ------------------------------------------------ |
+| UNNotificationExtensionCategory                  | Array of configured notification categories      |
+| UNNotificationExtensionInitialContentSizeRatio   | 1                                                |
+| UNNotificationExtensionDefaultContentHidden      | YES                                              |
+| NSExtensionMainStoryboard                        | MainStoryBoard                                   |
+| NSExtensionPointIdentifier                       | com.apple.usernotifications.content-extension    |
+
 ![](/images/NCE-6.png)
 
 <Info>
