@@ -94,3 +94,80 @@ class NotificationService: CastledNotificationServiceExtension {
 ```
 
 Please refer to the official Apple documentation for further details on working with [Notification Service Extensions](https://developer.apple.com/documentation/usernotifications/unnotificationserviceextension)
+
+### Adding Notification Content Extension 
+
+**Step 1: Adding the Notification Content Extension to your Xcode Project**
+
+1. Open your Xcode project.
+2. Go to File -> New -> Target.
+3. Select "Notification Content Extension" under the "iOS" category.
+![](/images/NCE-1.png)
+4. Click "Next" and provide a name for your extension (e.g., "MyNotificationContent").
+![](/images/NCE-2.png)
+5. Choose the appropriate settings for your extension and click "Finish".
+6. Xcode will generate the necessary files for the Notification Service Extension.
+![](/images/NCE-3.png)
+
+**Step 2: Configuring the Info.plist File**
+
+1. Open the Info.plist file of your Notification Service Extension target.
+2. Add the following key-value pair:
+
+| Key                          | Value                                            |
+| --------------------------   | ------------------------------------------------ |
+| UNNotificationExtensionCategory    | <Array of configured notification categories>      |
+| UNNotificationExtensionInitialContentSizeRatio   | 1              |
+| UNNotificationExtensionDefaultContentHidden   | YES              |
+| NSExtensionMainStoryboard   | MainStoryBoard             |
+| NSExtensionPointIdentifier   | com.apple.usernotifications.content-extension              |
+
+<Info>
+Configure the Notification Categories & actions and use the same for configuring UNNotificationExtensionCategory.
+The required categories can be added as an array.
+</Info>
+
+![](/images/NCE-6.png)
+
+**Step 3: Importing the CastledNotificationContent Framework**
+
+1. Add the CastledNotificationContent.framework to your Xcode project.
+2. Go to your Notification Content Extension target's Build Phases.
+3. Expand the "Link Binary With Libraries" section.
+4. Click the "+" button and add the CastledNotificationContent.framework.
+![](/images/NCE-4.png)
+5. Import the framework in your Notification Content Extension code file
+![](/images/NCE-5.png)
+
+```swift
+import CastledNotificationContent
+```
+
+**Step 4: Implementing the Notification Content Extension**
+
+In your NotificationViewController file, inherit from the **CastledNotificationViewController** class provided by the CastledNotificationContent framework.
+
+Customize the notification handling logic in the overridden methods of NotificationViewController class.
+
+Override the **viewDidLoad()** and **didReceive** methods to modify the notification content if needed.
+
+```swift
+import UIKit
+import Castled
+import UserNotifications
+import UserNotificationsUI
+import CastledNotificationContent
+
+class NotificationViewController: CastledNotificationViewController {
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        // Do any required interface initialization here.
+    }
+    
+    override func didReceive(_ notification: UNNotification) {
+        super.didReceive(notification)
+    }
+    
+}
+```
