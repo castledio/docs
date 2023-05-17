@@ -208,6 +208,7 @@
               "pages": [
                 "developer-resources/sdk-integration/ios/getting-started",
                 "developer-resources/sdk-integration/ios/push-notifications",
+                "developer-resources/sdk-integration/ios/rich-push-notification",
                 "developer-resources/sdk-integration/ios/in-app-messages",
                 "developer-resources/sdk-integration/ios/configuring-p8",
                 "developer-resources/sdk-integration/ios/configuring-p12"
