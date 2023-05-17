@@ -90,9 +90,17 @@
               ]
             },
             {
-              "group": "Mobile Push",
+              "group": "Push",
               "pages": [
-                "engagement/campaign/mobile-push/create-mobilepush-campaign"
+                "engagement/campaign/push/getting-started",
+                "engagement/campaign/push/create-campaign"
+              ]
+            },
+            {
+              "group": "In-App",
+              "pages": [
+                "engagement/campaign/inapp/getting-started",
+                "engagement/campaign/inapp/create-campaign"
               ]
             },
             {
@@ -197,7 +205,6 @@
               "pages": [
                 "developer-resources/sdk-integration/android/getting-started",
                 "developer-resources/sdk-integration/android/push-notifications",
-                "developer-resources/sdk-integration/android/push-booster",
                 "developer-resources/sdk-integration/android/in-app-messages",
                 "developer-resources/sdk-integration/android/fcm-setup",
                 "developer-resources/sdk-integration/android/mipush-setup"
