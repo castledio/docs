@@ -105,7 +105,8 @@
             },
             {
               "group": "SMS",
-              "pages": ["engagement/campaign/sms/create-sms-campaign",
+              "pages": [
+                "engagement/campaign/sms/create-sms-campaign",
                 "engagement/campaign/sms/sms-campaign-stats"]
               
             },
