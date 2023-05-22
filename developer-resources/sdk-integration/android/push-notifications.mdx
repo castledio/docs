@@ -14,6 +14,27 @@ title: "Push Notification"
 Castled uses [Google Firebase Cloud Messaging(FCM)](https://firebase.google.com/docs/cloud-messaging) to send push notifications to Android devices. The following steps will walk you through the process of setting up your application
 to receive push notification from Castled.
 
+## Quick Demo
+
+<Frame>
+  <div style={{ paddingBottom: "64.98194945848375%" }}>
+    <iframe
+      src="https://www.loom.com/embed/1d11fbebfd58412c8be7fc3c603f80e3"
+      frameborder="0"
+      webkitallowfullscreen
+      mozallowfullscreen
+      allowfullscreen
+      style={{
+        position: "absolute",
+        top: 0,
+        left: 0,
+        width: "100%",
+        height: "100%",
+      }}
+    ></iframe>
+  </div>
+</Frame>
+
 ## Enabling Push Notification in SDK
 
 Set the flag `enablePush` to `true` when initializing the SDK
@@ -124,7 +145,7 @@ channels can be found here.
 </resources>
 ```
 
-`YOUR_NOTIFICATION_CHANNEL_IMPORTANCE_VALUE` can be any integer in the range `[1,5]`, `1` being lowest importance and `5` being max.
+`YOUR_NOTIFICATION_CHANNEL_IMPORTANCE_VALUE` can be any integer in the range `[1,4]`, `1` being lowest importance and `5` being highest.
 
 ### Small and large default icons
 

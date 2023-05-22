@@ -40,7 +40,8 @@ If you want to use a custom event as the trigger event, SDK provides a method to
 CastledNotification.logCustomAppEvent(context, "<event-name>", <event-params>)
 ```
 
-`<event-name>` is the name of the custom event. `<event-params>` is a flat map of key value pairs.
+`<event-name>` is the name of the custom event.
+`<event-params>` is a flat map of key value pairs. Keys are always of type string, but values can be string, number, date or boolean.
 
 For e.g. If your shopping app wants to display an in-app message when value of items in cart greater than a certain number, app would log
 a custom event as follows whenever user adds an item to cart.
