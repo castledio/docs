@@ -109,7 +109,6 @@
                 "engagement/campaign/sms/create-sms-campaign",
                 "engagement/campaign/sms/sms-campaign-stats"
               ]
-              
             },
             {
               "group": "Whatsapp",
@@ -153,6 +152,10 @@
         "analytics/campaigns/campaign-report",
         "analytics/workflows/workflow-report"
       ]
+    },
+    {
+      "group": "Apps",
+      "pages": ["apps/fb-audience", "apps/fb-conversion-api", "apps/google-ads"]
     },
     {
       "group": "Settings/Configs",

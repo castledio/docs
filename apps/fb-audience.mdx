@@ -1,0 +1,32 @@
+---
+title: "Facebook Audience"
+---
+
+A Custom Audience is an ad targeting option that lets you find your existing audiences among people who are on Facebook. Using this connector you can use an existing customer lists to create **Custom Audiences** of people who already know your business.
+
+## Creating an app connection
+
+![fb audience app](/images/apps/fb-audience/fb_audience_app.png)
+
+Select **Facebook Ads** as the app type and Castled will redirect you to Facebook login to complete the OAuth connection setup.
+
+## Creating a sync pipeline
+
+![fb app config form](/images/apps/fb-audience/fb_custom_audience_sync_config.png)
+
+- **Ads Account** - Select the ads account where you want to send the customer list to.
+- **Custom Audience Name** - You can specify an existing audience name or a new one. If the audience name doesn't exist we create a new one by the name you specified.
+- **Hashing Required** - Facebook requires all the personally identifiable user information to be hashed before syncing it. You can select **Yes** option if you want Castled to do the normalization and hashing. In case you already have the hashed information in your warehouse select **No**.
+
+More information about facebook user fields and hashing requirements can be found [here](https://developers.facebook.com/docs/marketing-api/audiences/guides/custom-audiences/#hash)
+
+### Customer list fields
+
+List of all the customer fields that facebook supports can be found [here](https://developers.facebook.com/docs/marketing-api/audiences/guides/custom-audiences/#hash).
+
+A few fields worth mentioning:
+
+1. `EXTERN_ID` - You can match people for an audience with your own identifiers, known as External Identifiers (EXTERN_ID). This can be any unique ID from the advertiser, such as loyalty membership IDs, user IDs, and external cookie IDs.
+2. `MADID` - Mobile advertiser ID. For e.g. An advertsing ID that Google provides as part of Google Play services (Android Advertising ID)
+
+The above fields doesn't need any hashing (If Castled is doing hashing for you, this is taken care of)
