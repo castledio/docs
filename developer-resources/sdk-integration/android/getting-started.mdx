@@ -142,7 +142,7 @@ Find sample server code snippets to generate **HMAC** for the `user-id`.
             // Compute the HMAC of the given data
             byte[] rawHmac = sha256Hmac.doFinal(userId.getBytes(StandardCharsets.UTF_8));
 
-            // Optionally, you can convert the HMAC bytes to a Base64 encoded string
+            // Convert the HMAC bytes to a Base64 encoded string
             return Base64.getEncoder().encodeToString(rawHmac);
         }
     ```
