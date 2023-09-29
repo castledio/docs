@@ -113,7 +113,7 @@ completes the login flow within your app.
 ```kotlin
 
 // Secure user identification
-CastledNotifications.setSecureUserId(this, "<user-id>", "<user-token>")
+CastledNotifications.setUserId(this, "<user-id>", "<user-token>")
 ```
 
 `user-token` is basically a Base64 encoded **Hash-based Message Authentication Code** (HMAC). Ensure the hash computation happens in your app server so that `api-key`
