@@ -217,7 +217,9 @@
                 "developer-resources/sdk-integration/android/push-notifications",
                 "developer-resources/sdk-integration/android/in-app-messages",
                 "developer-resources/sdk-integration/android/fcm-setup",
-                "developer-resources/sdk-integration/android/mipush-setup"
+                "developer-resources/sdk-integration/android/mipush-setup",
+                "developer-resources/sdk-integration/android/user-attributes",
+                "developer-resources/sdk-integration/android/user-events"
               ]
             },
             {

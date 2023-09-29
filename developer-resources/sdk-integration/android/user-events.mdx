@@ -1,0 +1,44 @@
+---
+title: "User Events"
+---
+
+<Note>
+  **Prerequisites** <br />
+  Tracking needs to be enabled during SDK initialization for this feature to work.
+  Set `CastledConfigs.isTrackingEnabled` to `true` to enable tracking.
+</Note>
+
+You can monitor any user actions occurring within your app utilizing the `CastledNotifications.logCustomEvent` method provided by the Castled SDK.
+
+Each event can be accompanied by relevant additional parameters. For instance, the `added_to_cart` event can include parameters
+like `number_of_items` and `value_of_items`, allowing you to capture more detailed information about the user’s interaction.
+
+### Logging User Events
+
+`CastledNotifications.logCustomEvent` can be used to log user events. Any params associated with the events is passed to the method as a flatmap.
+
+    <CodeGroup>
+
+        ```kotlin kotlin
+            // User event without params
+            CastledNotifications.logCustomAppEvent(
+                this,
+                "upgraded_to_pro"
+            );
+
+            // User event with params
+            CastledNotifications.logCustomAppEvent(
+                this,
+                "cart_checked_out",
+                mapOf(
+                    "value" to 1042.56,
+                    "isPrime" to true,
+                    "delivery_on" to "09-30-2023"
+                )
+            );
+        ```
+
+    </CodeGroup>
+
+All the user events logged will eventually land in the user events tables in your configured data warehouse, which can be used for any segmentation in future.
+Also these events can be used as the **trigger events** for your push, inapp and inbox campaigns or workflows.
