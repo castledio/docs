@@ -226,6 +226,8 @@
               "group": "iOS",
               "pages": [
                 "developer-resources/sdk-integration/ios/getting-started",
+                "developer-resources/sdk-integration/ios/installation",
+                "developer-resources/sdk-integration/ios/initialization",
                 "developer-resources/sdk-integration/ios/push-notifications",
                 "developer-resources/sdk-integration/ios/rich-push-notification",
                 "developer-resources/sdk-integration/ios/in-app-messages",

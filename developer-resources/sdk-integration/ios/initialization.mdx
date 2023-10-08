@@ -1,0 +1,62 @@
+---
+title: "SDK initialization"
+---
+
+## Completing the initialization
+
+### Import Castled SDK dependency
+
+<Tabs>
+  <Tab title="Swift">
+    ```
+    import Castled
+    ```
+  </Tab>
+  <Tab title="Objective C">
+    ```
+    #import <Castled/Castled-Swift.h>
+    ```
+  </Tab>
+</Tabs>
+
+### Initialize the SDK
+
+Initialize the SDK by setting the `app id` available in the Castled Settings page in the `didFinishLaunchingWithOptions` method of the `AppDelegate` class and call the initialize method.
+
+<Tabs>
+  <Tab title="Swift">
+
+    ```
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+      ...
+      let config = CastledConfigs.initialize(appId: "<App ID>")
+
+      Castled.initialize(withConfig: config, delegate: self, andNotificationCategories: nil)
+      ...
+      return true      
+    }
+    ```
+  </Tab>
+  <Tab title="Objective C">
+
+    ```
+    @interface AppDelegate ()<UIApplicationDelegate,UNUserNotificationCenterDelegate,CastledNotificationDelegate>
+    {
+
+    }
+    @end
+
+    @implementation AppDelegate
+
+    - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+
+        CastledConfigs *config = [CastledConfigs initializeWithInstanceId:@"<App Id>"];
+
+        [Castled initializeWithConfig:config delegate:(id)self andNotificationCategories:nil];
+
+        return YES;
+    }
+    ```
+  </Tab>
+</Tabs>
+
