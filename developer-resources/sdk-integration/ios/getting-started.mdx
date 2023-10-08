@@ -57,9 +57,9 @@ pod install
 
 When installation is complete open the .xcworkspace that was created.
 
-## Completing the initialisation
+## Completing the initialization
 
-###Import your dependencies
+### Import Castled SDK dependency
 
 <Tabs>
   <Tab title="Swift">
@@ -74,7 +74,9 @@ When installation is complete open the .xcworkspace that was created.
   </Tab>
 </Tabs>
 
-###Initialize the SDK by passing the `app id` in the `didFinishLaunchingWithOptions` method of the `AppDelegate` class
+### Initialize the SDK
+
+Initialize the SDK by setting the `app id` available in the Castled Settings page in the `didFinishLaunchingWithOptions` method of the `AppDelegate` class and call the initialize method.
 
 <Tabs>
   <Tab title="Swift">
