@@ -50,7 +50,7 @@ Initialize the SDK by setting the `app id` available in the Castled Settings pag
 
     - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
         ...
-        CastledConfigs *config = [CastledConfigs initializeWithInstanceId:@"<App Id>"];
+        CastledConfigs *config = [CastledConfigs initializeWithAppId:@"<App Id>"];
 
         [Castled initializeWithConfig:config delegate:(id)self andNotificationCategories:nil];
         ...
