@@ -1,0 +1,51 @@
+---
+title: "SDK Customization"
+---
+
+### Log Level
+
+Castled Swift SDK supports the following log levels
+
+| Swift     | Objective C          | Description                                     |
+| --------- | -------------------- | ----------------------------------------------- |
+| .error    | CastledLogLevelError | Logs errors                                     |
+| .debug    | CastledLogLevelDebug | Logs debugging informations & .error            |
+| .info     | CastledLogLevelInfo  | Logs everything including .info,.debug &.error  |
+| .none     | CastledLogLevelNone  | Disables logs. When set no logs will be printed |
+
+> The default log level is **error**
+
+<Tabs>
+  <Tab title="Swift">
+
+    ```
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+      ...
+      let config = CastledConfigs.initialize(appId: "<App ID>")
+
+      config.logLevel = CastledLogLevel.debug
+
+      Castled.initialize(withConfig: config, delegate: self, andNotificationCategories: nil)
+      ...
+      return true      
+    }
+    ```
+  </Tab>
+  <Tab title="Objective C">
+    ```
+    - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+        ...
+        CastledConfigs config = [CastledConfigs initializeWithInstanceId:@"<App Id>"];
+
+        config.logLevel = CastledLogLevelDebug;
+
+        [Castled initializeWithConfig:config delegate:(id)self andNotificationCategories:nil];
+        ...
+        return YES;
+    }
+    ```
+  </Tab>
+</Tabs>
+
+### Castled Config 
+
