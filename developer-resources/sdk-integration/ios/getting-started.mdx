@@ -57,36 +57,58 @@ pod install
 
 When installation is complete open the .xcworkspace that was created.
 
-Now you can import your dependencies e.g.:
+## Completing the initialisation
 
-```
-import Castled
-```
+Import your dependencies
 
-## Registering for push notifications
+<Tabs>
+  <Tab title="Swift">
+    ```
+    import Castled
+    ```
+  </Tab>
+  <Tab title="Objective C">
+    ```
+    #import <Castled/Castled-Swift.h>
+    ```
+  </Tab>
+</Tabs>
 
-Initialize the SDK by registering the `instance-id` in the `didFinishLaunchingWithOptions` method of the `AppDelegate` class and calling Castled.configure
+Initialize the SDK by passing the `app id` in the `didFinishLaunchingWithOptions` method of the `AppDelegate` class
 
-```swift
-func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-    ...
-    Castled.configure(registerIn: application, launchOptions: launchOptions, instanceId: "instance-id", delegate: self)
-    ...
-    return true
-}
-```
+<Tabs>
+  <Tab title="Swift">
 
-To let Castled know the user associated with this app instance, use the method `Castled.sharedInstance?.registerUser`. This is typically invoked immediately after user completes the sign-in flow in your app. The user-id passed to Castled is the one that you use internally within your organisation to identify a user.
+    ```
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+      ...
+      let config = CastledConfigs.initialize(apiKey: "<api key>")
 
-```swift
-Castled.registerUser(userId: userId, completion: { (_ response: CastledResponse<[String : String]>) in
-  if response.success {
-      print(response.result as Any)
-  }
-  else
-  {
-      print("Error is \(response.errorMessage)")
-  }
-})
-```
+      Castled.initialize(withConfig: config, delegate: self, andNotificationCategories: nil)
+      ...
+      return true      }
+    ```
+  </Tab>
+  <Tab title="Objective C">
+
+    ```
+    @interface AppDelegate ()<UIApplicationDelegate,UNUserNotificationCenterDelegate,CastledNotificationDelegate>
+    {
+
+    }
+    @end
+
+    @implementation AppDelegate
+
+    - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+
+        CastledConfigs *config = [CastledConfigs initializeWithInstanceId:@"<App Id>"];
+
+        [Castled initializeWithConfig:config delegate:(id)self andNotificationCategories:nil];
+
+        return YES;
+    }
+    ```
+  </Tab>
+</Tabs>
 
