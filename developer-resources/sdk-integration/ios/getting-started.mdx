@@ -59,7 +59,7 @@ When installation is complete open the .xcworkspace that was created.
 
 ## Completing the initialisation
 
-Import your dependencies
+###Import your dependencies
 
 <Tabs>
   <Tab title="Swift">
@@ -74,7 +74,7 @@ Import your dependencies
   </Tab>
 </Tabs>
 
-Initialize the SDK by passing the `app id` in the `didFinishLaunchingWithOptions` method of the `AppDelegate` class
+###Initialize the SDK by passing the `app id` in the `didFinishLaunchingWithOptions` method of the `AppDelegate` class
 
 <Tabs>
   <Tab title="Swift">
@@ -82,7 +82,7 @@ Initialize the SDK by passing the `app id` in the `didFinishLaunchingWithOptions
     ```
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
       ...
-      let config = CastledConfigs.initialize(apiKey: "<api key>")
+      let config = CastledConfigs.initialize(appId: "<App ID>")
 
       Castled.initialize(withConfig: config, delegate: self, andNotificationCategories: nil)
       ...
