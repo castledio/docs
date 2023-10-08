@@ -49,3 +49,60 @@ Castled Swift SDK supports the following log levels
 
 ### Castled Config 
 
+This section covers the optional configurations available in the SDK. Use these options if you want to enable notifications or want to override default behavior.
+
+| Swift                 | Objective C            | Description                                     | Default Value |
+| --------------------- | ---------------------- | ----------------------------------------------- | ------------- |
+| enablePush            | enablePush             | Enables push notification support               | false         |
+| enableInApp           | enableInApp            | Enables In App notification support             | false         |
+| enableAppInbox        | enableAppInbox         | Enables App Inbox notification support          | false         |
+| appGroupId            | appGroupId             |                                                 |               |
+| logLevel              | logLevel               | Log level applicable for SDK                    | error         |
+| location              | location               | Preferred server location                       | US            |
+| permittedBGIdentifier | permittedBGIdentifier  |                                                 |               |
+
+
+<Tabs>
+  <Tab title="Swift">
+
+    ```
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+      ...
+      let config = CastledConfigs.initialize(appId: "<App ID>")
+
+      config.permittedBGIdentifier = "com.castled.backgroundtask"
+      config.appGroupId = "group.com.castled.CastledPushDemo.Castled"
+      config.enablePush = true
+      config.enableInApp = true
+      config.enableAppInbox = true
+      config.location = CastledLocation.US
+      config.logLevel = CastledLogLevel.debug
+
+      Castled.initialize(withConfig: config, delegate: self, andNotificationCategories: nil)
+      ...
+      return true      
+    }
+    ```
+  </Tab>
+  <Tab title="Objective C">
+    ```
+    - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+        ...
+        CastledConfigs config = [CastledConfigs initializeWithInstanceId:@"<App Id>"];
+
+        config.permittedBGIdentifier = @"com.castled.backgroundtask";
+        config.enablePush = TRUE;
+        config.enableInApp = TRUE;
+        config.enableAppInbox = TRUE;
+        config.appGroupId = @"group.com.castled.CastledPushDemo.Castled";
+        config.logLevel = CastledLogLevelDebug;
+        config.location = CastledLocationUS;
+
+        [Castled initializeWithConfig:config delegate:(id)self andNotificationCategories:nil];
+        ...
+        return YES;
+    }
+    ```
+  </Tab>
+</Tabs>
+
