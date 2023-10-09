@@ -1,0 +1,68 @@
+---
+title: "Custom App Inbox Implementation"
+---
+
+In the preceding section, we discussed the configuration for utilizing the default App Inbox implementation.
+
+For developers interested in implementing a custom View Controller for the App Inbox, the Castled SDK offers methods that facilitate the retrieval of messages for display. Additionally, the SDK provides essential methods for managing key lifecycle events.
+
+
+<Tabs>
+  <Tab title="Swift">
+
+    ```
+    // Fetching the unread message count directly
+    Castled.sharedInstance?.getInboxUnreadCount()
+
+    // Fetching the unread message count using a callback
+    Castled.sharedInstance?.inboxUnreadCount(listener: { unreadCount in
+        print("Inbox unread count is \(unreadCount)")
+    })
+
+    // Retrieving all inbox items
+    Castled.sharedInstance?.getInboxItems(completion: { success, result, errorMessage in
+        print("Inbox items are \(result) \(errorMessage)")
+    })
+
+    // Logging read inbox items
+    Castled.sharedInstance?.logInboxItemsRead(inboxItems)
+
+    // Deleting a specific inbox item
+    Castled.sharedInstance?.deleteInboxItem(inboxItem, completion: { success, errorMessage in
+        // Handle deletion result here
+    })
+
+    // Logging a click on an inbox item
+    Castled.sharedInstance?.logInboxItemClicked(inboxItem, buttonTitle: "title")
+    ```
+  </Tab>
+  <Tab title="Objective C">
+
+    ```
+    // Fetching the unread message count using a callback
+    [[Castled sharedInstance] inboxUnreadCountWithListener:^(NSInteger unreadCount) {
+        NSLog(@"Inbox unread count is %ld", (long)unreadCount);
+    }];
+
+    // Retrieving all inbox items
+    [[Castled sharedInstance] getInboxItemsWithCompletion:^(BOOL success, NSArray<CastledInboxItem *> * _Nullable inboxItems, NSString * _Nullable errorMessage) {
+        NSLog(@"Inbox items are %@", inboxItems);
+    }];
+
+    // Logging read inbox items
+    [[Castled sharedInstance] logInboxItemsRead:inboxItems];
+
+    // Deleting a specific inbox item
+    [[Castled sharedInstance] deleteInboxItem:inboxItem completion:^(BOOL success, NSString * _Nullable errorMessage) {
+        // Handle deletion result here
+    }];
+
+    // Logging a click on an inbox item
+    [[Castled sharedInstance] logInboxItemClicked:inboxItem buttonTitle:@"title"];
+
+    ```
+  </Tab>
+</Tabs>
+
+
+

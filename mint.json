@@ -236,7 +236,13 @@
                 "developer-resources/sdk-integration/ios/push-notifications",
                 "developer-resources/sdk-integration/ios/rich-push-notification",
                 "developer-resources/sdk-integration/ios/in-app-messages",
-                "developer-resources/sdk-integration/ios/inbox-messages",
+                {
+                  "group": "App Inbox",
+                  "pages": [
+                    "developer-resources/sdk-integration/ios/inbox-messages",
+                    "developer-resources/sdk-integration/ios/manual-integration"
+                  ]
+                },
                 "developer-resources/sdk-integration/ios/configuring-p8",
                 "developer-resources/sdk-integration/ios/configuring-p12"
               ]
