@@ -1,0 +1,249 @@
+---
+title: "App Inbox Messages"
+---
+
+<Info>
+
+**Prerequisites**
+
+- [SDK integration completed](/developer-resources/sdk-integration/ios/getting-started)
+
+</Info>
+
+### Displaying App Inbox content
+
+To facilitate the effortless display of App Inbox content, the SDK provides a default view controller: AppInboxViewController. This controller is designed to showcase inbox cards and can be integrated within your app in two primary ways:
+
+**Using Navigation Controller**
+Embed AppInboxViewController within your existing navigation flow for a consistent user experience.
+
+<Tabs>
+  <Tab title="Swift">
+
+    ```
+    func pushViewController() {
+        let inboxViewController = Castled.sharedInstance?.getInboxViewController(with: nil, andDelegate: self)
+        self.navigationController?.pushViewController(inboxViewController, animated: true)
+    }
+    ```
+  </Tab>
+  <Tab title="Objective C">
+
+    ```
+    - (void)pushViewController {
+        UIViewController *inboxViewController = [[Castled sharedInstance] getInboxViewControllerWith:style andDelegate:self];
+        [self.navigationController pushViewController:inboxViewController animated:YES];
+    }
+
+    ```
+  </Tab>
+</Tabs>
+
+**Modally**
+Present the App Inbox cards in a modal view, suitable for focused interactions.
+
+<Tabs>
+  <Tab title="Swift">
+
+    ```
+    func presentViewController() {
+        let inboxViewController = Castled.sharedInstance?.getInboxViewController(with: nil, andDelegate: self)
+        self.navigationController?.present(inboxViewController, animated: true, completion: nil)
+    }
+    ```
+  </Tab>
+  <Tab title="Objective C">
+
+    ```
+    - (void)presentViewController {
+        UIViewController *inboxViewController = [[Castled sharedInstance] getInboxViewControllerWith:style andDelegate:self];
+        [self.navigationController presentViewController:inboxViewController animated:YES completion:nil];
+    }
+
+    ```
+  </Tab>
+</Tabs>
+
+### Handling Inbox Item Selection
+
+To effectively capture and act upon interactions with App Inbox items, SDK offers the **CastledInboxViewControllerDelegate** protocol. By adopting this protocol, you can tap into the callback provided when a user selects an item from the inbox.
+
+<Tabs>
+  <Tab title="Swift">
+
+    ```
+    @objc public protocol CastledInboxViewControllerDelegate {
+        // Called when a Card is clicked by the user
+       @objc optional func didSelectedInboxWith(_ action: CastledClickActionType, _ kvPairs: [AnyHashable: Any]?, _ inboxItem: CastledInboxItem) 
+    }
+    ```
+  </Tab>
+</Tabs>
+
+### Integration Steps:
+
+1. Ensure your view controller conforms to the CastledInboxViewControllerDelegate protocol.
+2. Implement the didSelectedInboxWith(_:kvPairs:inboxItem:) delegate method.
+
+<Tabs>
+  <Tab title="Swift">
+
+    ```
+        class MyViewController: CastledInboxViewControllerDelegate {
+        ...
+            //Implement the callback method
+            func didSelectedInboxWith(_ action: CastledClickActionType, _ kvPairs: [AnyHashable: Any]?, _ inboxItem: CastledInboxItem) {
+                switch action {
+                    case .deepLink:
+                        break
+                    case .navigateToScreen:
+                        break
+                    case .richLanding:
+                        break
+                    case .requestForPush:
+                        break
+                    case .dismiss:
+                        break
+                    case .custom:
+                        break
+                    default:
+                        break
+                }
+            }
+
+            func presentViewController() {
+                //Set the delegate to the method invoked for fetching the App inbox view controller
+                let inboxViewController = Castled.sharedInstance?.getInboxViewController(with: nil, andDelegate: self)
+                self.navigationController?.present(inboxViewController, animated: true, completion: nil)
+            }
+            ...          
+        }
+    ```
+  </Tab>
+  <Tab title="Objective C">
+
+    ```
+        @interface MyViewController () <CastledInboxViewControllerDelegate>
+
+        @implementation ViewController
+
+        - (void)didSelectedInboxWith:(CastledClickActionType)action :(NSDictionary * _Nullable)kvPairs :(CastledInboxItem * _Nonnull)inboxItem {
+            NSLog(@"didSelectedInboxWith ----kvPairs  %@ item %@",kvPairs,inboxItem);
+            switch (action) {
+                case CastledClickActionTypeDeepLink:
+                    break;
+                case CastledClickActionTypeNavigateToScreen:
+                    break;
+                case CastledClickActionTypeRichLanding:
+                    break;
+                case CastledClickActionTypeRequestForPush:
+                    break;
+                case CastledClickActionTypeDismiss:
+                    break;
+                case CastledClickActionTypeCustom:
+                    break;
+                default:
+                    break;
+            }
+        }
+
+         - (void)presentViewController {
+             //Set the delegate to the method invoked for fetching the App inbox view controller
+            UIViewController *inboxViewController = [[Castled sharedInstance] getInboxViewControllerWith:style andDelegate:self];
+            [self.navigationController presentViewController:inboxViewController animated:YES completion:nil];
+        }
+
+    ```
+  </Tab>
+</Tabs>
+
+### Customising App Inbox Display
+
+<Tabs>
+  <Tab title="Swift">
+
+    ```
+    func showAppInbox() {
+        //Customise the App Inbox styling using the below mentioned parameters
+        let style = CastledInboxDisplayConfig()
+        style.inboxViewBackgroundColor = .white
+        style.navigationBarBackgroundColor = .link
+        style.navigationBarTitle = "Castled Inbox"
+        style.navigationBarButtonTintColor = .white
+        style.loaderTintColor = .blue
+        style.hideCloseButton = true
+
+
+        let inboxViewController = Castled.sharedInstance?.getInboxViewController(with: style, andDelegate: self)
+        navigationController?.pushViewController(inboxViewController!, animated: true)
+    }
+
+    ```
+  </Tab>
+  <Tab title="Objective C">
+
+    ```
+    - (void)showAppInbox {
+        CastledInboxDisplayConfig *style = [[CastledInboxDisplayConfig alloc] init];
+        style.inboxViewBackgroundColor = [UIColor whiteColor];
+        style.navigationBarBackgroundColor = [UIColor linkColor];
+        style.navigationBarTitle = @"Castled Inbox";
+        style.navigationBarButtonTintColor = [UIColor whiteColor];
+        style.loaderTintColor = [UIColor blueColor];
+        style.hideCloseButton = YES;
+
+
+        UIViewController *inboxViewController = [[Castled sharedInstance] getInboxViewControllerWith:style andDelegate:self];
+        [self.navigationController pushViewController:inboxViewController animated:YES];
+    }
+
+    ```
+  </Tab>
+</Tabs>
+
+
+### Retrieving Unread Message Count
+
+The SDK offers multiple methods to obtain the count of unread messages, suitable for display purposes. Developers can choose from the following options based on their specific use-case:
+
+**Approach 1 : Listener Approach**
+
+<Tabs>
+  <Tab title="Swift">
+
+    ```
+    Castled.sharedInstance?.inboxUnreadCount(listener: {unreadCount in
+                print("Inbox unread count is \(unreadCount)")
+    })
+
+    ```
+  </Tab>
+  <Tab title="Objective C">
+
+    ```
+    [[Castled sharedInstance] inboxUnreadCountWithListener:^(NSInteger unreadCount) {
+        NSLog(@"Inbox unread count is %ld", (long)unreadCount);
+    }];
+
+    ```
+  </Tab>
+</Tabs>
+
+**Approach 2 : Direct call**
+
+<Tabs>
+  <Tab title="Swift">
+
+    ```
+    Castled.sharedInstance?.getInboxUnreadCount()
+    ```
+  </Tab>
+  <Tab title="Objective C">
+
+    ```
+    [[Castled sharedInstance] getInboxUnreadCount];
+    ```
+  </Tab>
+</Tabs>
+
+
