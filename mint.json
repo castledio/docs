@@ -216,6 +216,13 @@
                 "developer-resources/sdk-integration/android/getting-started",
                 "developer-resources/sdk-integration/android/push-notifications",
                 "developer-resources/sdk-integration/android/in-app-messages",
+                {
+                  "group": "App Inbox",
+                  "pages": [
+                    "developer-resources/sdk-integration/android/inbox-messages",
+                    "developer-resources/sdk-integration/android/manual-integration"
+                  ]
+                },
                 "developer-resources/sdk-integration/android/fcm-setup",
                 "developer-resources/sdk-integration/android/mipush-setup",
                 "developer-resources/sdk-integration/android/user-attributes",
