@@ -1,0 +1,81 @@
+---
+title: "Custom App Inbox Implementation"
+---
+
+In the preceding section, we discussed the configuration for utilizing the default App Inbox implementation.
+
+For developers interested in implementing a custom View Controller for the App Inbox, the Castled SDK offers methods that facilitate the retrieval of messages for display. Additionally, the SDK provides essential methods for managing key lifecycle events.
+
+
+<Tabs>
+  <Tab title="Kotlin">
+
+    ```
+    // Fetching the unread message count directly
+    CastledNotifications.getInboxUnreadCount {
+      println("unread count is $it")
+    }
+
+
+    // Retrieving all inbox items
+    CastledNotifications.getInboxItems { castledInboxItems ->
+      println("castledInboxItems $castledInboxItems")
+    }
+
+    // Logging read inbox items
+    CastledNotifications.logInboxItemsRead(itemsList)
+
+    // Deleting a specific inbox item
+    CastledNotifications.deleteInboxItem(inboxItem) { success, message ->
+      if (success) {
+          println("Deletion was successful: $message")
+      } else {
+          println("Deletion failed: $message")
+      }
+    }
+
+    // Logging a click on an inbox item
+    CastledNotifications.logInboxItemClicked(inboxItem,"title")
+    ```
+  </Tab>
+  <Tab title="Java">
+
+    ```
+    // Fetching the unread message count using a callback
+    CastledNotifications.getInboxUnreadCount(count -> {
+      System.out.println("unread Inbox Count: " + count);
+      return null;
+    });
+
+    // Retrieving all inbox items
+    CastledNotifications.getInboxItems((List<CastledInboxItem> items) -> {
+      // Handle the fetched items here
+      return null;
+    });
+
+    // Logging read inbox items
+    CastledNotifications.logInboxItemsRead(itemsList)
+
+    // Deleting a specific inbox item
+    CastledNotifications.deleteInboxItem(inboxItem, new kotlin.jvm.functions.Function2<Boolean, String, Unit>() {
+      @Override
+      public Unit invoke(Boolean success, String message) {
+          // Handle the success and message here
+          if (success) {
+              System.out.println("Item deleted: " + message);
+          } else {
+              System.out.println("Error: " + message);
+          }
+          return null;
+      }
+    });
+
+    // Logging a click on an inbox item
+    CastledNotifications.logInboxItemClicked(inboxItem,"title");
+
+    ```
+  </Tab>
+</Tabs>
+
+
+
