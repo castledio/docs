@@ -108,6 +108,81 @@
                 "engagement/inbox/inbox-testing",
                 "engagement/inbox/inbox-stats"
               ]
+            },
+            {
+              "group": "Email",
+              "pages": [
+                "engagement/email/email-prerequisite",
+                {
+                  "group": "Creating a message",
+                  "pages": [
+                    "engagement/email/email-campaign-create",
+                    "engagement/email/email-wf-step-create"
+                  ]
+                },
+                "engagement/email/email-testing",
+                "engagement/email/email-stats"
+              ]
+            },
+            {
+              "group": "In-App",
+              "pages": [
+                "engagement/inapp/inapp-prerequisite",
+                {
+                  "group": "Creating a message",
+                  "pages": [
+                    "engagement/inapp/inapp-campaign-create",
+                    "engagement/inapp/inapp-wf-step-create"
+                  ]
+                },
+                "engagement/inapp/inapp-testing",
+                "engagement/inapp/inapp-stats"
+              ]
+            },
+            {
+              "group": "Mobile Push",
+              "pages": [
+                "engagement/mobile-push/push-prerequisite",
+                {
+                  "group": "Creating a message",
+                  "pages": [
+                    "engagement/mobile-push/push-campaign-create",
+                    "engagement/mobile-push/push-wf-step-create"
+                  ]
+                },
+                "engagement/mobile-push/push-testing",
+                "engagement/mobile-push/push-stats"
+              ]
+            },
+            {
+              "group": "SMS",
+              "pages": [
+                "engagement/sms/sms-prerequisite",
+                {
+                  "group": "Creating a message",
+                  "pages": [
+                    "engagement/sms/sms-campaign-create",
+                    "engagement/sms/sms-wf-step-create"
+                  ]
+                },
+                "engagement/sms/sms-testing",
+                "engagement/sms/sms-stats"
+              ]
+            },
+            {
+              "group": "WhatsApp",
+              "pages": [
+                "engagement/whatsapp/whatsapp-prerequisite",
+                {
+                  "group": "Creating a message",
+                  "pages": [
+                    "engagement/whatsapp/whatsapp-campaign-create",
+                    "engagement/whatsapp/whatsapp-wf-step-create"
+                  ]
+                },
+                "engagement/whatsapp/whatsapp-testing",
+                "engagement/whatsapp/whatsapp-stats"
+              ]
             }
           ]
         },
