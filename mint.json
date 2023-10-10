@@ -81,7 +81,7 @@
         {
           "group": "Campaign",
           "pages": [
-            "engagement/campaign/create-campaign"
+            "engagement/campaign/campaign-overview"
           ]
         },
         {
