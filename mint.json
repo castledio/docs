@@ -187,47 +187,6 @@
           ]
         },
         {
-          "group": "Campaign by Channels",
-          "pages": [
-            {
-              "group": "Email",
-              "pages": [
-                "engagement/campaign/email/create-email-campaign",
-                "engagement/campaign/email/email-campaign-stats",
-                "engagement/campaign/email/email-prerequisite"
-              ]
-            },
-            {
-              "group": "Push",
-              "pages": [
-                "engagement/campaign/push/getting-started",
-                "engagement/campaign/push/create-campaign"
-              ]
-            },
-            {
-              "group": "In-App",
-              "pages": [
-                "engagement/campaign/inapp/getting-started",
-                "engagement/campaign/inapp/create-campaign"
-              ]
-            },
-            {
-              "group": "SMS",
-              "pages": [
-                "engagement/campaign/sms/create-sms-campaign",
-                "engagement/campaign/sms/sms-campaign-stats"
-              ]
-            },
-            {
-              "group": "Whatsapp",
-              "pages": [
-                "engagement/campaign/whatsapp/create-whatsapp-campaign",
-                "engagement/campaign/whatsapp/whatsapp-campaign-stats"
-              ]
-            }
-          ]
-        },
-        {
           "group": "Message Template",
           "pages": [
             {
