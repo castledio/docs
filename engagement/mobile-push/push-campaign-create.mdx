@@ -1,3 +1,70 @@
 ---
 title: "App Inbox Campaign"
 ---
+
+## Creating Campaign
+
+Start by creating a new campaign. Select **Push** as the channel type.
+
+<Frame>
+  <img src="/images/push-campaign-1.png" />
+</Frame>
+
+## Composing Push Message
+
+Castled push message builder UI groups push fields into 3 sections
+
+    - **Message Details**
+
+        <Frame>
+            <img src="/images/push-campaign-2.png" />
+        </Frame>
+
+        Fields belonging to message details are listed below:
+
+        | Field                 | Description                                                                                                        |
+        | --------------------- | ------------------------------------------------------------------------------------------------------------------ |
+        | Message Title         | The title of the push notification, typically displayed prominently at the top of the notification.               |
+        | Message               | The main content or body of the push notification, providing the message or information to be communicated.        |
+        | Summary               | A summary or brief description that can be displayed alongside the push notification.                              |
+        | Click Action          | The action triggered when the user clicks on the push notification.                                                |
+        | Click Action URL      | The URL associated with the click action, often used to direct the user to a specific webpage or app screen.        |
+        | Key value pairs       | Additional data or parameters that can be included with the push notification payload to provide custom information.|
+        | Notification Channel  | The channel through which the push notification is delivered, allowing users to customize their notification settings.|
+        | Large Icon URL        | The URL that points to an image to be used as the large icon displayed alongside the push notification.              |
+        | Small Icon Resource Name | The name of the small icon resource to be displayed in the notification, typically representing the app's icon or branding. |
+        | Image URL             | The URL that points to an image to be included or displayed within the push notification.                           |
+
+        Click Action can have one of the following values:
+
+        | Action Type         | Description                                                                                                     |
+        | ------------------- | --------------------------------------------------------------------------------------------------------------- |
+        | Push Deeplinking    | Including a specific deep link URL in the push notification payload to directly open a particular screen or content within the mobile app. |
+        | Navigate to Screen  | Opening and navigating the user to a predefined screen within the app upon interacting with the push notification. |
+        | Rich Landing        | User will be redirected to a webview or browser displaying the contents of the given action URL |
+        | Default             | Default action is opening the app and bringing it to foreground |
+
+
+
+    - **Action Buttons**
+
+        You can add also action buttons to push notification that allow user to interact with a click or a tap.
+        Defining an action button includes the following fields listed below.
+
+        | Field               | Description                                                                                                        |
+        | ------------------- | ------------------------------------------------------------------------------------------------------------------ |
+        | Button Name         | The name or label associated with a button displayed within the push notification.                                 |
+        | Click Action        | The action triggered when the user clicks on the button within the push notification.                              |
+        | Click Action URI    | The URI or URL associated with the click action, often used to direct the user to a specific webpage or app screen. |
+        | Key Value Pairs     | Additional data or parameters that can be included with the push notification payload to provide custom information.|
+
+    - **Advance Settings**
+
+        | Field               | Description                                                                                                        |
+        | ------------------- | ------------------------------------------------------------------------------------------------------------------ |
+        | Collapse Id         | When multiple notifications with the same collapse ID are received, Android automatically stacks or groups them together in the notification shade.  |
+        | Priority            | The action triggered when the user clicks on the button within the push notification.                              |
+        | Time To Live        | It represents the lifespan or expiration time of a notification, indicating how long the notification server should attempt to deliver the message to the intended recipient's device. |
+
+Once the push message has been composed, you can move on to the **Schedule** page where you select a start schedule and publish the campaign.
+
