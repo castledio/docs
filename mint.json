@@ -79,6 +79,38 @@
           ]
         },
         {
+          "group": "Campaign",
+          "pages": [
+            "engagement/campaign/campaign-overview"
+          ]
+        },
+        {
+          "group": "Workflow",
+          "pages": [
+            "engagement/workflow/workflow-overview"
+          ]
+        },
+        {
+          "group": "Messaging By Channel",
+          "pages": [
+            {
+              "group": "App Inbox",
+              "pages": [
+                "engagement/inbox/inbox-prerequisite",
+                {
+                  "group": "Creating a message",
+                  "pages": [
+                    "engagement/inbox/inbox-campaign-create",
+                    "engagement/inbox/inbox-wf-step-create"
+                  ]
+                },
+                "engagement/inbox/inbox-testing",
+                "engagement/inbox/inbox-stats"
+              ]
+            }
+          ]
+        },
+        {
           "group": "Campaign by Channels",
           "pages": [
             {
@@ -117,15 +149,6 @@
                 "engagement/campaign/whatsapp/whatsapp-campaign-stats"
               ]
             }
-          ]
-        },
-        {
-          "group": "Workflow",
-          "pages": [
-            "engagement/workflow/workflow-overview",
-            "engagement/workflow/create-workflow",
-            "engagement/workflow/manage-workflow",
-            "engagement/workflow/workflow-summary"
           ]
         },
         {
