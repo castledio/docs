@@ -87,7 +87,8 @@
         {
           "group": "Workflow",
           "pages": [
-            "engagement/workflow/workflow-overview"
+            "engagement/workflow/workflow-overview",
+            "engagement/workflow/create-workflow"
           ]
         },
         {
