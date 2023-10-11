@@ -80,9 +80,7 @@
         },
         {
           "group": "Campaign",
-          "pages": [
-            "engagement/campaign/campaign-overview"
-          ]
+          "pages": ["engagement/campaign/campaign-overview"]
         },
         {
           "group": "Workflow",
@@ -273,8 +271,8 @@
                 {
                   "group": "App Inbox",
                   "pages": [
-                    "developer-resources/sdk-integration/android/inbox-messages",
-                    "developer-resources/sdk-integration/android/manual-integration"
+                    "developer-resources/sdk-integration/android/app-inbox-default",
+                    "developer-resources/sdk-integration/android/app-inbox-custom"
                   ]
                 },
                 "developer-resources/sdk-integration/android/fcm-setup",
@@ -300,8 +298,8 @@
                 {
                   "group": "App Inbox",
                   "pages": [
-                    "developer-resources/sdk-integration/ios/inbox-messages",
-                    "developer-resources/sdk-integration/ios/manual-integration"
+                    "developer-resources/sdk-integration/ios/app-inbox-default",
+                    "developer-resources/sdk-integration/ios/app-inbox-custom"
                   ]
                 },
                 "developer-resources/sdk-integration/ios/configuring-p8",
@@ -309,9 +307,7 @@
               ]
             }
           ]
-        },
-        "developer-resources/android-guide",
-        "developer-resources/ios-guide"
+        }
       ]
     },
     {
@@ -325,4 +321,4 @@
     "youtube": "https://www.youtube.com/channel/UCpsIoohRnxIH87g5QGFg6vw",
     "Medium": "https://medium.com/castled"
   }
-} 
+}

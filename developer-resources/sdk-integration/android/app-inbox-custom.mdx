@@ -1,21 +1,19 @@
 ---
-title: "Custom App Inbox Implementation"
+title: "Custom App Inbox"
 ---
 
 In the preceding section, we discussed the configuration for utilizing the default App Inbox implementation.
 
-For developers interested in implementing a custom View Controller for the App Inbox, the Castled SDK offers methods that facilitate the retrieval of messages for display. Additionally, the SDK provides essential methods for managing key lifecycle events.
+For developers interested in implementing a custom **Activity** as the **App Inbox** notification center,
+Castled SDK offers methods that facilitate the retrieval of messages for display. Additionally, SDK provides essential methods for managing key lifecycle events.
 
+<CodeGroup>
 
-<Tabs>
-  <Tab title="Kotlin">
-
-    ```
+    ```kotlin kotlin
     // Fetching the unread message count directly
     CastledNotifications.getInboxUnreadCount {
       println("unread count is $it")
     }
-
 
     // Retrieving all inbox items
     CastledNotifications.getInboxItems { castledInboxItems ->
@@ -37,10 +35,9 @@ For developers interested in implementing a custom View Controller for the App I
     // Logging a click on an inbox item
     CastledNotifications.logInboxItemClicked(inboxItem,"title")
     ```
-  </Tab>
-  <Tab title="Java">
 
-    ```
+
+    ```java java
     // Fetching the unread message count using a callback
     CastledNotifications.getInboxUnreadCount(count -> {
       System.out.println("unread Inbox Count: " + count);
@@ -74,8 +71,5 @@ For developers interested in implementing a custom View Controller for the App I
     CastledNotifications.logInboxItemClicked(inboxItem,"title");
 
     ```
-  </Tab>
-</Tabs>
 
-
-
+</CodeGroup>

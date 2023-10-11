@@ -1,0 +1,78 @@
+---
+title: "Default App Inbox"
+---
+
+<Info>
+
+**Prerequisites**
+
+- [SDK integration completed](/developer-resources/sdk-integration/android/getting-started)
+- `enableAppInbox` config set to `true` during SDK initialization.
+
+</Info>
+
+This is the easiest way to add **App Inbox** functionality to your mobile app. In this setup app will be using the default notification
+center activity provided by the SDK for displaying inbox messages and managing them. You can also customize the appearance of the notification center activity
+to match your app theme.
+
+### Displaying App Inbox Contents
+
+You can lauch notification center activity to display **App Inbox** messages. Following code snippet can be used whenever you want to show inbox messages to the app user.
+
+    <CodeGroup>
+
+    ```kotlin kotlin
+    CastledNotifications.showAppInbox(context, styleConfig)
+    ```
+
+    ```java java
+    CastledNotifications.showAppInbox(context, styleConfig);
+    ```
+    </CodeGroup>
+
+Acitivity appearance can be customized using `styleConfig`. More details below.
+
+### Customising App Inbox Display
+
+    <CodeGroup>
+      ```kotlin kotlin
+        val styleConfig = CastledInboxDisplayConfig()
+        styleConfig.emptyMessageViewText = "There are no inbox items."
+        styleConfig.emptyMessageViewTextColor = "#000000"
+        styleConfig.inboxViewBackgroundColor = "#ffffff"
+        styleConfig.navigationBarBackgroundColor = "#0000ff"
+        styleConfig.navigationBarTitleColor = "#ffffff"
+        styleConfig.navigationBarTitle = "Castled Inbox"
+        styleConfig.hideNavigationBar = true
+        CastledNotifications.showAppInbox(context, styleConfig)
+      ```
+      ```java java
+        CastledInboxDisplayConfig styleConfig = new CastledInboxDisplayConfig();
+        styleConfig.setEmptyMessageViewText("There are no inbox items");
+        styleConfig.setEmptyMessageViewTextColor("#000000");
+        styleConfig.setInboxViewBackgroundColor("#FFFFFF");
+        styleConfig.setNavigationBarBackgroundColor("#0000FF");
+        styleConfig.setNavigationBarTitleColor("#FFFFFF");
+        styleConfig.setNavigationBarTitle("Castled Inbox");
+        styleConfig.setHideNavigationBar(false);
+        CastledNotifications.showAppInbox(context, styleConfig);
+      ```
+    </CodeGroup>
+
+### Retrieving Unread Message Count
+
+The SDK offers method to obtain the count of unread messages, suitable for display purposes.
+One use case is to show the unread message count as a badge on notification bell icon to prompt user to check on pending inbox items.
+
+    <CodeGroup>
+    ```kotlin kotlin
+      CastledNotifications.getInboxUnreadCount {
+        // do something with unread count $it
+      }
+    ```
+    ```java java
+      CastledNotifications.getInboxUnreadCount(count -> {
+        // do something with unread count
+      });
+    ```
+    </CodeGroup>

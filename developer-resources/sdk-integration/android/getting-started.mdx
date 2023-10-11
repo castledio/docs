@@ -167,6 +167,39 @@ Find sample server code snippets to generate **HMAC** for the `user-id`.
 
     </CodeGroup>
 
+## SDK Configs
+
+This section covers the basic configurations available in the SDK. Use these configs if you want to enable specific mobile communication channel or want to override default behavior.
+
+| Config Name    | Description                            | Default Value |
+| -------------- | -------------------------------------- | ------------- |
+| enablePush     | Enables push notification support      | false         |
+| enableInApp    | Enables In App notification support    | false         |
+| enableAppInbox | Enables App Inbox notification support | false         |
+| enableTracking | Enables tracking of App events         | false         |
+| location       | Preferred server location              | US            |
+
+Please find below a sample snippet to enable Push Notification and using Castled US server location.
+
+```kotlin MyApplicationClass.kt
+class MyApplicationClass : MultiDexApplication() {
+    override fun onCreate() {
+        super.onCreate()
+
+        // SDK initialization
+        CastledNotifications.initialize(
+            this, CastledConfigs.Builder()
+                .apiKey("<api-key>")
+                .enablePush(true)
+                .location(CastledLocation.US)
+                .build()
+        )
+        ...
+    }
+    ...
+}
+```
+
 ## SDK Permissions
 
 By default `AndroidManifest.xml` of the SDK includes the following permission requests. No developer action is required here.
