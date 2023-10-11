@@ -98,6 +98,7 @@
               "group": "App Inbox",
               "pages": [
                 "engagement/inbox/inbox-overview",
+                "engagement/inbox/inbox-message-types",
                 {
                   "group": "Message Creation",
                   "pages": [
