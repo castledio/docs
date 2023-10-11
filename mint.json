@@ -97,8 +97,9 @@
             {
               "group": "App Inbox",
               "pages": [
+                "engagement/inbox/inbox-overview",
                 {
-                  "group": "Creating a message",
+                  "group": "Message Creation",
                   "pages": [
                     "engagement/inbox/inbox-campaign-create",
                     "engagement/inbox/inbox-wf-step-create"
@@ -110,9 +111,10 @@
             {
               "group": "Email",
               "pages": [
+                "engagement/email/email-overview",
                 "engagement/email/email-prerequisite",
                 {
-                  "group": "Creating a message",
+                  "group": "Message Creation",
                   "pages": [
                     "engagement/email/email-campaign-create",
                     "engagement/email/email-wf-step-create"
@@ -124,8 +126,9 @@
             {
               "group": "In-App",
               "pages": [
+                "engagement/inapp/inapp-overview",
                 {
-                  "group": "Creating a message",
+                  "group": "Message Creation",
                   "pages": [
                     "engagement/inapp/inapp-campaign-create",
                     "engagement/inapp/inapp-wf-step-create"
@@ -137,8 +140,9 @@
             {
               "group": "Mobile Push",
               "pages": [
+                "engagement/mobile-push/push-overview",
                 {
-                  "group": "Creating a message",
+                  "group": "Message Creation",
                   "pages": [
                     "engagement/mobile-push/push-campaign-create",
                     "engagement/mobile-push/push-wf-step-create"
@@ -150,8 +154,9 @@
             {
               "group": "SMS",
               "pages": [
+                "engagement/sms/sms-overview",
                 {
-                  "group": "Creating a message",
+                  "group": "Message Creation",
                   "pages": [
                     "engagement/sms/sms-campaign-create",
                     "engagement/sms/sms-wf-step-create"
@@ -163,8 +168,9 @@
             {
               "group": "WhatsApp",
               "pages": [
+                "engagement/whatsapp/whatsapp-overview",
                 {
-                  "group": "Creating a message",
+                  "group": "Message Creation",
                   "pages": [
                     "engagement/whatsapp/whatsapp-campaign-create",
                     "engagement/whatsapp/whatsapp-wf-step-create"
