@@ -166,6 +166,14 @@ By adopting this protocol, you can tap into the callback provided when a user se
         style.loaderTintColor = .blue
         style.hideCloseButton = true
 
+        // Categories tab styling
+        style.showCategoriesTab = true
+        style.tabBarDefaultTextColor = .green
+        style.tabBarSelectedTextColor = .brown
+        style.tabBarDefaultBackgroundColor = .purple
+        style.tabBarSelectedBackgroundColor = .lightGray
+        style.tabBarIndicatorBackgroundColor = .red
+
         let inboxViewController = Castled.sharedInstance?.getInboxViewController(with: style, andDelegate: self)
         navigationController?.pushViewController(inboxViewController!, animated: true)
     }
@@ -174,6 +182,7 @@ By adopting this protocol, you can tap into the callback provided when a user se
 
     ```objc objc
     - (void)showAppInbox {
+        // Customise the App Inbox styling using the below mentioned parameters
         CastledInboxDisplayConfig *style = [[CastledInboxDisplayConfig alloc] init];
         style.inboxViewBackgroundColor = [UIColor whiteColor];
         style.navigationBarBackgroundColor = [UIColor linkColor];
@@ -182,6 +191,13 @@ By adopting this protocol, you can tap into the callback provided when a user se
         style.loaderTintColor = [UIColor blueColor];
         style.hideCloseButton = YES;
 
+        // Categories tab styling
+        style.showCategoriesTab = YES;
+        style.tabBarDefaultTextColor = [UIColor greenColor];
+        style.tabBarSelectedTextColor = [UIColor brownColor];
+        style.tabBarDefaultBackgroundColor = [UIColor purpleColor];
+        style.tabBarSelectedBackgroundColor = [UIColor lightGrayColor];
+        style.tabBarIndicatorBackgroundColor = [UIColor redColor];
 
         UIViewController *inboxViewController = [[Castled sharedInstance] getInboxViewControllerWith:style andDelegate:self];
         [self.navigationController pushViewController:inboxViewController animated:YES];

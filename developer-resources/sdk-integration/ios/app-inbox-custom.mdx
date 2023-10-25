@@ -18,17 +18,15 @@ For developers interested in implementing a custom View Controller for the App I
     })
 
     // Retrieving all inbox items
-    Castled.sharedInstance?.getInboxItems(completion: { success, result, errorMessage in
-        print("Inbox items are \(result) \(errorMessage)")
+    Castled.sharedInstance?.getInboxItems(completion: { result in
+        print("Inbox items are \(result)")
     })
 
     // Logging read inbox items
     Castled.sharedInstance?.logInboxItemsRead(inboxItems)
 
     // Deleting a specific inbox item
-    Castled.sharedInstance?.deleteInboxItem(inboxItem, completion: { success, errorMessage in
-        // Handle deletion result here
-    })
+    Castled.sharedInstance?.deleteInboxItem(inboxItem)
 
     // Logging a click on an inbox item
     Castled.sharedInstance?.logInboxItemClicked(inboxItem, buttonTitle: "title")
@@ -42,7 +40,7 @@ For developers interested in implementing a custom View Controller for the App I
     }];
 
     // Retrieving all inbox items
-    [[Castled sharedInstance] getInboxItemsWithCompletion:^(BOOL success, NSArray<CastledInboxItem *> * _Nullable inboxItems, NSString * _Nullable errorMessage) {
+    [[Castled sharedInstance] getInboxItemsWithCompletion:^(NSArray<CastledInboxItem *> * _Nullable inboxItems) {
         NSLog(@"Inbox items are %@", inboxItems);
     }];
 
@@ -50,9 +48,7 @@ For developers interested in implementing a custom View Controller for the App I
     [[Castled sharedInstance] logInboxItemsRead:inboxItems];
 
     // Deleting a specific inbox item
-    [[Castled sharedInstance] deleteInboxItem:inboxItem completion:^(BOOL success, NSString * _Nullable errorMessage) {
-        // Handle deletion result here
-    }];
+    [[Castled sharedInstance] deleteInboxItem:inboxItem];
 
     // Logging a click on an inbox item
     [[Castled sharedInstance] logInboxItemClicked:inboxItem buttonTitle:@"title"];

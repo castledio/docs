@@ -16,31 +16,25 @@ Castled SDK offers methods that facilitate the retrieval of messages for display
     }
 
     // Retrieving all inbox items
-    CastledNotifications.getInboxItems { castledInboxItems ->
-      println("castledInboxItems $castledInboxItems")
+    CastledNotifications.getInboxItems { inboxItems ->
+      println("InboxItems $inboxItems")
     }
 
     // Logging read inbox items
     CastledNotifications.logInboxItemsRead(itemsList)
 
     // Deleting a specific inbox item
-    CastledNotifications.deleteInboxItem(inboxItem) { success, message ->
-      if (success) {
-          println("Deletion was successful: $message")
-      } else {
-          println("Deletion failed: $message")
-      }
-    }
+    CastledNotifications.deleteInboxItem(inboxItem)
 
     // Logging a click on an inbox item
-    CastledNotifications.logInboxItemClicked(inboxItem,"title")
+    CastledNotifications.logInboxItemClicked(inboxItem, "btn-title")
     ```
 
 
     ```java java
     // Fetching the unread message count using a callback
     CastledNotifications.getInboxUnreadCount(count -> {
-      System.out.println("unread Inbox Count: " + count);
+      Lg.d("Unread Inbox count: " + count);
       return null;
     });
 
@@ -54,21 +48,10 @@ Castled SDK offers methods that facilitate the retrieval of messages for display
     CastledNotifications.logInboxItemsRead(itemsList)
 
     // Deleting a specific inbox item
-    CastledNotifications.deleteInboxItem(inboxItem, new kotlin.jvm.functions.Function2<Boolean, String, Unit>() {
-      @Override
-      public Unit invoke(Boolean success, String message) {
-          // Handle the success and message here
-          if (success) {
-              System.out.println("Item deleted: " + message);
-          } else {
-              System.out.println("Error: " + message);
-          }
-          return null;
-      }
-    });
+    CastledNotifications.deleteInboxItem(inboxItem);
 
     // Logging a click on an inbox item
-    CastledNotifications.logInboxItemClicked(inboxItem,"title");
+    CastledNotifications.logInboxItemClicked(inboxItem, "btn-title");
 
     ```
 

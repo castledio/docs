@@ -2,23 +2,22 @@
 title: "SDK Customization"
 ---
 
-### Log Level
+## Log Level
 
 Castled Swift SDK supports the following log levels
 
-| Swift     | Objective C          | Description                                     |
-| --------- | -------------------- | ----------------------------------------------- |
-| .error    | CastledLogLevelError | Logs errors                                     |
-| .debug    | CastledLogLevelDebug | Logs debugging informations & .error            |
-| .info     | CastledLogLevelInfo  | Logs everything including .info,.debug &.error  |
-| .none     | CastledLogLevelNone  | Disables logs. When set no logs will be printed |
+| Swift  | Objective C          | Description                                     |
+| ------ | -------------------- | ----------------------------------------------- |
+| .error | CastledLogLevelError | Logs errors                                     |
+| .debug | CastledLogLevelDebug | Logs debugging informations & .error            |
+| .info  | CastledLogLevelInfo  | Logs everything including .info,.debug &.error  |
+| .none  | CastledLogLevelNone  | Disables logs. When set no logs will be printed |
 
 > The default log level is **debug**
 
-<Tabs>
-  <Tab title="Swift">
+<CodeGroup>
 
-    ```
+    ```swift swift
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
       ...
       let config = CastledConfigs.initialize(appId: "<App ID>")
@@ -27,12 +26,11 @@ Castled Swift SDK supports the following log levels
 
       Castled.initialize(withConfig: config, delegate: self, andNotificationCategories: nil)
       ...
-      return true      
+      return true
     }
     ```
-  </Tab>
-  <Tab title="Objective C">
-    ```
+
+    ```objc objc
     - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
         ...
         CastledConfigs config = [CastledConfigs initializeWithInstanceId:@"<App Id>"];
@@ -44,15 +42,24 @@ Castled Swift SDK supports the following log levels
         return YES;
     }
     ```
-  </Tab>
-</Tabs>
 
-### Castled Config 
+</CodeGroup>
 
-<Tabs>
-  <Tab title="Swift">
+## Configs
 
-    ```
+This section covers the basic configurations available in the SDK. Use these configs if you want to enable specific mobile communication channel or want to override default behavior.
+
+| Config Name    | Description                            | Default Value |
+| -------------- | -------------------------------------- | ------------- |
+| enablePush     | Enables push notification support      | false         |
+| enableInApp    | Enables In App notification support    | false         |
+| enableAppInbox | Enables App Inbox notification support | false         |
+| enableTracking | Enables tracking of App events         | false         |
+| location       | Preferred server location              | US            |
+
+<CodeGroup>
+
+    ```swift swift
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
       ...
       let config = CastledConfigs.initialize(appId: "<App ID>")
@@ -67,12 +74,11 @@ Castled Swift SDK supports the following log levels
 
       Castled.initialize(withConfig: config, delegate: self, andNotificationCategories: nil)
       ...
-      return true      
+      return true
     }
     ```
-  </Tab>
-  <Tab title="Objective C">
-    ```
+
+    ```objc objc
     - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
         ...
         CastledConfigs config = [CastledConfigs initializeWithInstanceId:@"<App Id>"];
@@ -90,6 +96,5 @@ Castled Swift SDK supports the following log levels
         return YES;
     }
     ```
-  </Tab>
-</Tabs>
 
+</CodeGroup>

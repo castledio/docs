@@ -36,6 +36,7 @@ Acitivity appearance can be customized using `styleConfig`. More details below.
 
     <CodeGroup>
       ```kotlin kotlin
+        // Customise the App Inbox styling using the below mentioned parameters
         val styleConfig = CastledInboxDisplayConfig()
         styleConfig.emptyMessageViewText = "There are no inbox items."
         styleConfig.emptyMessageViewTextColor = "#000000"
@@ -44,9 +45,19 @@ Acitivity appearance can be customized using `styleConfig`. More details below.
         styleConfig.navigationBarTitleColor = "#ffffff"
         styleConfig.navigationBarTitle = "Castled Inbox"
         styleConfig.hideNavigationBar = true
+
+        // Categories tab styling
+        styleConfig.showCategoriesTab = true
+        styleConfig.tabBarDefaultBackgroundColor ="#00203F"
+        styleConfig.tabBarSelectedBackgroundColor = "#EEA47F"
+        styleConfig.tabBarDefaultTextColor = "#ADEFD1"
+        styleConfig.tabBarSelectedTextColor = "#00539C"
+        styleConfig.tabBarIndicatorBackgroundColor = "#FEE715"
+
         CastledNotifications.showAppInbox(context, styleConfig)
       ```
       ```java java
+        // Customise the App Inbox styling using the below mentioned parameters
         CastledInboxDisplayConfig styleConfig = new CastledInboxDisplayConfig();
         styleConfig.setEmptyMessageViewText("There are no inbox items");
         styleConfig.setEmptyMessageViewTextColor("#000000");
@@ -56,6 +67,14 @@ Acitivity appearance can be customized using `styleConfig`. More details below.
         styleConfig.setNavigationBarTitle("Castled Inbox");
         styleConfig.setHideNavigationBar(false);
         CastledNotifications.showAppInbox(context, styleConfig);
+
+        // Categories tab styling
+        styleConfig.setShowCategoriesTab(true);
+        styleConfig.setTabBarDefaultBackgroundColor("#00203F");
+        styleConfig.setTabBarSelectedBackgroundColor("#EEA47F");
+        styleConfig.setTabBarDefaultTextColor("#ADEFD1");
+        styleConfig.setTabBarSelectedTextColor("#00539C");
+        styleConfig.setTabBarIndicatorBackgroundColor("#FEE715");
       ```
     </CodeGroup>
 
