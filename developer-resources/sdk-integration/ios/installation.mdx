@@ -2,7 +2,7 @@
 title: "SDK Installation"
 ---
 
-## Install from CocoaPods
+## Installation with CocoaPods
 
 [CocoaPods](https://cocoapods.org/) is a dependency manager for Swift and Objective-C Cocoa projects. CocoaPods is built with Ruby and is installable with the default Ruby available on macOS.
 
@@ -11,6 +11,7 @@ title: "SDK Installation"
 ```bash
 sudo gem install cocoapods
 ```
+
 2.**Initialize a Podfile:**
 
 Navigate to your Xcode project directory. If you don't have a Podfile already, initialize one:
@@ -38,3 +39,19 @@ pod install
 5. **Open the Workspace:**
 
 After the installation is complete, make sure to open the .xcworkspace file created by CocoaPods, as it includes all the necessary dependencies and configurations.
+
+## Installation with Swift Package Manager (Xcode 11+)
+
+**Swift Package Manager** (SwiftPM) is a tool for managing the distribution of Swift code as well as C-family dependency. From Xcode 11, SwiftPM got natively integrated with Xcode.
+Once you have your Swift package set up, adding Castled as a dependency is as easy as adding it to the dependencies value of your `Package.swift` file.
+
+```swift Package.swift
+let package = Package(
+    dependencies: [
+    .package(url: “https://github.com/castledio/castled-ios-sdk”, .upToNextMajor(from: “x.y.z"))
+    ],
+    // ...
+)
+```
+
+`x.y.x` is the semantic version of the Castled SDK being installed.

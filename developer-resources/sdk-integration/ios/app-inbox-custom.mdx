@@ -12,8 +12,8 @@ For developers interested in implementing a custom View Controller for the App I
     // Fetching the unread message count directly
     Castled.sharedInstance?.getInboxUnreadCount()
 
-    // Fetching the unread message count using a callback
-    Castled.sharedInstance?.inboxUnreadCount(listener: { unreadCount in
+    // Listening to unread message count changes using a callback
+    Castled.sharedInstance?.observeUnreadCountChanges(listener: { unreadCount in
         print("Inbox unread count is \(unreadCount)")
     })
 
