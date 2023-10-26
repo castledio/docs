@@ -201,8 +201,8 @@
     {
       "group": "Analytics/Reports",
       "pages": [
-        "analytics/campaigns/campaign-report",
-        "analytics/workflows/workflow-report"
+        "analytics/campaigns/campaign-reports",
+        "analytics/workflows/workflow-reports"
       ]
     },
     {

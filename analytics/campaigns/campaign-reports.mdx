@@ -1,0 +1,56 @@
+---
+title: "Campaign Reports"
+---
+
+<Frame caption="A Sample Push Notification Campaign Report">
+  <img src="/images/reports/campaign-reports.png" />
+</Frame>
+
+## Campaign Overview
+
+Provides a high-level summary of the entire campaign. Please find below the list of Campaign overview stats
+
+| Field       | Description                                                                                                                                                                                                                   |
+| ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `Entered`   | Number of users who entered this campaign                                                                                                                                                                                     |
+| `Completed` | Number of users who completed the campaign successfully                                                                                                                                                                       |
+| `Skipped`   | Number of users for whom campaign could not be executed for some reason. For push notification this means push token for user not available, for email it could be that the user already unsubscribed from all campaigns etc. |
+| `Failed`    | Number of users for whom the campaign run failed (after fixed retry attempts)                                                                                                                                                 |
+
+Eventually once campaign is completed, `Entered` should match sum of `Completed`, `Skipped` and `Failed` users.
+
+## Channel Stats
+
+These stats provide insights into how the users are engaging with your campaign. Various engagement stats and associated messaging channels are listed below. Unless otherwise specified all of these
+are calculated based on unique users.
+
+| Field         | Applicable Channels                                        | Description                                                              |
+| ------------- | ---------------------------------------------------------- | ------------------------------------------------------------------------ |
+| `Delivered`   | **WhatsApp**                                               | Number of users to whom this message has been delivered                  |
+| `Impressions` | **Push**, **InApp**                                        | Number of users who have seen this message                               |
+| `Clicked`     | **Push**, **InApp**, **Email**, **WhatsApp**, **AppInbox** | Number of users who clicked the message                                  |
+| `Read/Opened` | **Email**, **WhatsApp**, **AppInbox**                      | Number of users who opened Email or WhatsApp message                     |
+| `Failed`      | **Sms**, **WhatsApp**                                      | Number of message delivery failures. Likley due to invalid phone numbers |
+
+## Conversion Stats
+
+Provides insights into how campaign is performing in terms of the goal conversion criteria you have defined during the start of the campaign. You can define 1 primary conversion criteria
+and upto 4 secondary conversion criteria.
+
+| Field          | Description                                                                                                                                       |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `Primary`      | Number of unique users who met the primary conversion goal                                                                                        |
+| `Secondary  N` | Number of unique users who met the secondary conversion goal N. For e.g. when you have 2 secondary goals defined, `N` can have values `1` and `2` |
+
+## Engagement Metrics
+
+This section provides key customer engagement metrics commonly used across the industry.
+
+| Metric                        | Applicable Channels                             | Description                                                                                                                                                                                                                                        | Formula                                                                                    |
+| ----------------------------- | ----------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------ |
+| **Click Through Rate (CTR)**  | **Push**, **InApp**, **AppInbox**, **WhatsApp** | It's a ratio that compares the number of times a user clicks on a message to the number of impressions (or views) that message receives. A higher CTR typically indicates that the message is more relevant to the audience it's being shown to.   | $CTR = \frac{\text{Number of Clicks}}{\text{Number of Impressions}} \times 100\%$          |
+| **Click To Open Rate (COTR)** | **Email**                                       | It indicates the percentage of recipients who, after opening the message, also clicked on a link within that email. A higher CTOR generally indicates that the content inside the email was relevant and compelling to the audience who opened it. | $CTOR = \frac{\text{Number of Unique Clicks}}{\text{Number of Unique Opens}} \times 100\%$ |
+
+## Variant Performance
+
+This section is useful when campaign is run in experimental mode. You can compare how your AB test message variants compare aganist each other.

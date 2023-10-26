@@ -1,0 +1,52 @@
+---
+title: "Workflow Reports"
+---
+
+<Frame caption="A Sample Workflow Report">
+  <img src="/images/reports/workflow-reports.png" />
+</Frame>
+
+## Workflow Summary
+
+Provides a high-level summary of the entire workflow. Please find below the list of Workflow summary stats
+
+| Field          | Description                                                                                                                                           |
+| -------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `Entered`      | Number of users who entered this workflow                                                                                                             |
+| `Completed(%)` | `%` of users who completed the workflow successfully                                                                                                  |
+| `Failed(%)`    | `%` of users for whom the workflow run failed. If a user fails a step in workflow (even after retries), he is marked failed and removed from workflow |
+
+Let's say `Completed` is 67% and `Failed` is 1% at a point during the workflow run. It also means remaining 32% of users are still continuing in the workflow.
+
+## Conversion Summary
+
+Provides insights into how workflow is performing in terms of the goal conversion criteria you have defined during the start of the workflow. You can define only 1 primary conversion criteria
+and upto 4 secondary conversion criteria.
+
+| Field            | Description                                                                                                                                                                                                          |
+| ---------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `Primary(%)`     | Number of unique users who met the primary conversion goal expressed as a `%` of total users entered the workflow at that time                                                                                       |
+| `Secondary N(%)` | Number of unique users who met the secondary conversion goal N expressed as a `%` of total users entered the workflow at that time. For e.g. when you have 2 secondary goals defined `N` can have values `1` and `2` |
+
+## Workflow Step Summary
+
+<Frame caption="Workflow Step Summary">
+  <img src="/images/reports/workflow-steps-summary.png" />
+</Frame>
+
+Lists all the steps involving a communication channel and provides high-level summary of how users are moving through each step in the list.
+
+| Field                    | Description                                                                                |
+| ------------------------ | ------------------------------------------------------------------------------------------ |
+| `Step #`                 | Id of the step in workflow                                                                 |
+| `Step Name `             | Name of the step                                                                           |
+| `Step Type`              | Channel type (eg. Push, Email etc)                                                         |
+| `Contacts Entered`       | Number of users who entered the step                                                       |
+| `Contacts Completed(%) ` | Number of users who completed the step successfully as a `%` of users who entered the step |
+| `Contacts Failed(%)`     | Number of users who failed the step as a `%` of users who entered the step                 |
+
+You can click on each step name to drill down into the detailed step level report. Format of the step level report is same as the [Campaign Reports](/analytics/campaigns/campaign-reports)
+
+## Workflow Timeseries
+
+This graph shows how new users are entering the workflow. Currently we are in the process of adding timeseries graph for all the engagement stats which will be out soon.
