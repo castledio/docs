@@ -36,12 +36,12 @@ Castled will use **MiPush** as a fallback channel to Google FCM for sending push
   setup](/developer-resources/sdk-integration/android/push-notifications)
 </Note>
 
-1. First, copy the AAR package of the **MiPush** SDK, `MiPush_SDK_Client_5_1_1-G_3rd.aar`, to the project `/libs/` directory, and then to the `build.gradle` of the project app module dependency.
+1. First, copy the AAR package of the **MiPush** SDK, `MiPush_SDK_Client_5_1_8-G_3rd.aar`, to the project `/libs/` directory, and then to the `build.gradle` of the project app module dependency.
    Also add Castled library for handling Xiaomi push.
 
    ```groovy build.gradle
    implementation "io.castled.android:castled-mipush:<latest-version>"  // Replace <latest-version> with latest available version of castled-mipush library
-   implementation files("libs/MiPush_SDK_Client_5_1_1-G_3rd.aar")
+   implementation files("libs/MiPush_SDK_Client_5_1_8-G_3rd.aar")
    ```
 
 2. Initialize `xiaomiAppId` and `xiaomiAppKey` in SDK with `AppID` and `AppKey` obtained in **Step 2**.
