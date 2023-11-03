@@ -320,5 +320,6 @@
     "linkedin": "https://www.linkedin.com/company/castled-data/",
     "youtube": "https://www.youtube.com/channel/UCpsIoohRnxIH87g5QGFg6vw",
     "Medium": "https://medium.com/castled"
-  }
+  },
+  "openapi": ["/api-docs/product-event.yml"]
 }
