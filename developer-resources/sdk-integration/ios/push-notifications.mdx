@@ -33,3 +33,335 @@ If your app uses extensions, you may need to set up an App Group so that data ca
 The name of your app group should be **group.your_bundle_id.castled**.
 
 This is not required for push notifications per se but is relevant if you have a **Notification Service Extension** for rich notifications or need to manage a shared container of data.
+
+**Config the App Group ID to SDK**
+
+Make sure the same App group ID is added to the config as mentioned below.
+
+<CodeGroup>
+```swift swift
+func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+    ...
+    let config = CastledConfigs.initialize(appId: "<App ID>")
+    ...
+    config.appGroupId = "group.com.castled.CastledPushDemo.Castled"
+    ...
+    Castled.initialize(withConfig: config, delegate: self, andNotificationCategories: nil)
+    ...
+    return true
+}
+```
+
+```objc objc
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    ...
+    CastledConfigs config = [CastledConfigs initializeWithInstanceId:@"<App Id>"];
+    ...
+    config.appGroupId = @"group.com.castled.CastledPushDemo.Castled";
+    ...
+
+    [Castled initializeWithConfig:config delegate:(id)self andNotificationCategories:nil];
+    ...
+    return YES;
+}
+```
+</CodeGroup>
+
+### Code changes for registering Push Notification 
+
+In iOS 10 and above, to handle push notifications, you need to implement the following methods from UIApplicationDelegate and UNUserNotificationCenterDelegate protocols:
+
+### UIApplicationDelegate Methods:
+
+**application(_:didFinishLaunchingWithOptions:)**
+
+This method is called when the app finishes launching. You can use this method to register for remote notifications and configure the notification settings.
+
+<CodeGroup>
+```swift swift
+func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+    //1. Configure config
+    let config = CastledConfigs.sharedInstance
+    config.enablePush  = true
+
+    //2. Call Castled.configure method
+    Castled.configure(registerIn: application, launchOptions: launchOptions, instanceId: "<instance_id>", delegate: self)
+
+    //3. Register Push 
+    registerForPush()
+}
+
+func registerForPush() {
+
+    UNUserNotificationCenter.current().delegate = self
+
+    UNUserNotificationCenter.current().requestAuthorization(options: [.sound, .badge, .alert], completionHandler: {granted, error in
+        if granted {
+            DispatchQueue.main.async {
+                UIApplication.shared.registerForRemoteNotifications()
+            }
+        }
+    })
+}
+```
+
+```objc objc
+- (void)registerForPush {
+    UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
+    center.delegate = (id)self;
+    [center requestAuthorizationWithOptions:(UNAuthorizationOptionSound | UNAuthorizationOptionAlert | UNAuthorizationOptionBadge) completionHandler:^(BOOL granted, NSError * _Nullable error){
+        if( !error ){
+            dispatch_async(dispatch_get_main_queue(), ^(void) {
+                [[UIApplication sharedApplication] registerForRemoteNotifications];
+            });
+        }
+    }];
+}
+```
+</CodeGroup>
+
+Obtaining user authorization is a crucial requirement for sending push notifications to an iOS application. When your app requests authorization for the first time, the system presents a prompt to the user, giving them the choice to grant or deny the request. The user's response is then recorded by the system for future reference.
+
+![](/images/request_permission.jpg)
+
+**application(_:didRegisterForRemoteNotificationsWithDeviceToken:)**
+This method is called when the app successfully registers for remote notifications with the Apple Push Notification service (APNs). You can use the deviceToken parameter to send push notifications to the device.
+```swift
+func castled_application(_ application: UIApplication,didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+    //Invoke the setDeviceToken method if swizzling is off
+    Castled.sharedInstance?.setDeviceToken(deviceToken: deviceToken)
+}
+```
+
+**application(_:didFailToRegisterForRemoteNotificationsWithError:)**
+This method is called when the app fails to register for remote notifications. You can handle the error and take appropriate action.
+```swift
+func castled_application(_ application: UIApplication,didFailToRegisterForRemoteNotificationsWithError error: Error) {
+    //Invoke the logRegisterForRemoteNotifications to log the error if swizzling is off
+    Castled.sharedInstance!.logRegisterForRemoteNotifications("Failed to register: \(error)")
+}
+```
+
+### UNUserNotificationCenterDelegate Methods:
+
+**userNotificationCenter(_:willPresent:withCompletionHandler:)**
+This method is called when a notification is about to be presented to the user while the app is in the foreground. You can customize the presentation options for the notification, such as showing an alert, playing a sound, or updating the app badge.
+```swift
+func userNotificationCenter(_ center: UNUserNotificationCenter,
+                                             willPresent notification: UNNotification,
+                                             withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+    //Invoke the API to handle the notification in the foreground
+    Castled.sharedInstance!.handleNotificationInForeground(notification: notification)
+
+    completionHandler([.badge, .sound, .alert])
+}
+```
+
+**userNotificationCenter(_:didReceive:withCompletionHandler:)**
+This method is called when the user taps on or interacts with a notification. You can handle the user's response to the notification, such as opening a specific screen in the app or performing a specific action.
+```swift
+ func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+    //Invoke the handleNotificationAction to handle the user actions
+    Castled.sharedInstance?.handleNotificationAction(response : response)
+
+    completionHandler()
+}
+```
+
+Make sure to set the delegate of the UNUserNotificationCenter instance and the UIApplication instance to your AppDelegate class to receive and handle the push notifications.
+
+## Custom handling of User Actions 
+
+The Castled SDK provides support for handling custom notification actions when the user interacts with push notifications in your application. By implementing the CastledNotificationDelegate protocol in your AppDelegate class, you can define the behavior for different notification actions such as deeplinking, navigating to a specific screen, or displaying a rich landing page.
+
+### CastledNotificationDelegate method
+
+**notificationClicked**
+This delegate method is invoked when a user clicks on a notification that was displayed as a result of a push notification sent from the Castled SDK. It provides detailed context about the notification that was clicked, allowing the application to handle different actions appropriately.
+
+**Parameters:**
+
+**type** : A CastledNotificationType indicating the type of notification. The values include 'push', 'inapp', 'inbox'.
+
+**action** : A CastledClickActionType representing the action taken by the user. The values include :
+    deepLink
+    navigateToScreen
+    richLanding
+    requestForPush
+    dismiss
+    custom
+
+**kvPairs** : An optional dictionary containing key-value pairs providing additional information associated with the notification, such as a URL to open or an ID of content to display.
+
+**userInfo** : A dictionary containing the original notification payload. This includes the custom data that was sent with the notification for the application to use.
+
+<CodeGroup>
+```swift swift
+// Implement the CastledNotificationDelegate methods
+extension AppDelegate: CastledNotificationDelegate {
+
+    func notificationClicked(withNotificationType type: CastledNotificationType, 
+                             action: CastledClickActionType, 
+                             kvPairs: [AnyHashable: Any]?, 
+                             userInfo: [AnyHashable: Any]) {
+        print("Notification type: \(type.rawValue), Action: \(action.rawValue)")
+        
+        switch action {
+            case .deepLink:
+                if let details = kvPairs, 
+                   let value = details["clickActionUrl"] as? String, 
+                   let url = URL(string: value) {
+                    handleDeepLink(url: url)
+                }
+                
+            case .navigateToScreen:
+                if let details = kvPairs, 
+                   let screenName = details["clickActionUrl"] as? String {
+                    handleNavigateToScreen(screenName: screenName)
+                }
+                
+            case .richLanding:
+                // TODO: Handle rich landing action
+                break
+                
+            case .requestForPush:
+                // TODO: Handle request for push action
+                break
+                
+            case .dismiss:
+                // TODO: Handle dismiss action
+                break
+                
+            case .custom:
+                // TODO: Handle custom action
+                break
+                
+            default:
+                break
+        }
+    }
+
+    // MARK: - Helper Methods
+    
+    private func handleDeepLink(url: URL) {
+        // Handle deep link URL
+    }
+    
+    private func handleNavigateToScreen(screenName: String) {
+        // Navigate to specific screen
+    }
+    
+    // TODO: Implement other helper methods for richLanding, requestForPush, dismiss, and custom actions
+}
+```
+
+```objc objc
+@interface AppDelegate ()<UIApplicationDelegate, UNUserNotificationCenterDelegate, CastledNotificationDelegate>
+@end
+
+@implementation AppDelegate
+
+- (void)notificationClickedWithNotificationType:(CastledNotificationType)type
+                                         action:(CastledClickActionType)action
+                                        kvPairs:(NSDictionary<id, id> * _Nullable)kvPairs
+                                       userInfo:(NSDictionary<id, id> *)userInfo {
+    NSLog(@"Notification type: %ld, Action: %ld", (long)type, (long)action);
+    
+    switch (action) {
+        case CastledClickActionTypeDeepLink:
+            if (kvPairs) {
+                NSString *value = kvPairs[@"clickActionUrl"];
+                NSURL *url = [NSURL URLWithString:value];
+                if (url) {
+                    [self handleDeepLinkWithURL:url];
+                }
+            }
+            break;
+        case CastledClickActionTypeNavigateToScreen:
+            if (kvPairs) {
+                NSString *screenName = kvPairs[@"clickActionUrl"];
+                [self handleNavigateToScreenWithScreenName:screenName];
+            }
+            break;
+        case CastledClickActionTypeRichLanding:
+            // TODO: Handle rich landing action
+            break;
+        case CastledClickActionTypeRequestForPush:
+            // TODO: Handle request for push action
+            break;
+        case CastledClickActionTypeDismiss:
+            // TODO: Handle dismiss action
+            break;
+        case CastledClickActionTypeCustom:
+            // TODO: Handle custom action
+            break;
+        default:
+            break;
+    }
+}
+
+// MARK: - Helper Methods
+
+- (void)handleDeepLinkWithURL:(NSURL *)url {
+    // Handle deep link URL
+}
+
+- (void)handleNavigateToScreenWithScreenName:(NSString *)screenName {
+    // Navigate to specific screen
+}
+
+// TODO: Implement other helper methods for richLanding, requestForPush, dismiss, and custom actions
+
+@end
+```
+</CodeGroup>
+
+### Configuring Notification Categories and Actions
+
+Apps are required to enable support for actionable notifications. During app launch, it is necessary to register one or more notification categories that define the types of notifications your app sends. Each category is associated with specific actions that users can take when receiving a notification of that type. 
+
+While each category can have up to four actions, the actual number of displayed actions may vary depending on the notification display. For instance, banners typically show a maximum of two actions.
+
+**Registering the Notification Categories for Your App**
+
+By passing the **notificationCategories** parameter, you can define a set of categories and associated actions for your notifications. Each category corresponds to a type of notification that your app can receive, and for each category, you can specify the actions that a user can take directly from the notification.
+
+This flexibility allows app developers to create a rich and interactive notification experience, tailored to the needs of their application and its users.
+
+<CodeGroup>
+```swift swift
+@main
+class AppDelegate: UIResponder, UIApplicationDelegate , UNUserNotificationCenterDelegate {
+    var window: UIWindow?
+    
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+
+        // Register the Custom Notification categories & actions
+        let notificationCategories = getNotificationCategories();
+        UNUserNotificationCenter.current().setNotificationCategories(notificationCategories)
+
+        Castled.initialize(withConfig: config, delegate: self, andNotificationCategories: notificationCategories)
+
+        return true
+    }
+}
+```
+
+```objc objc
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+
+    // Register custom notification categories & actions
+    NSSet<UNNotificationCategory *> *notificationCategories = [self getNotificationCategories];
+    [[UNUserNotificationCenter currentNotificationCenter] setNotificationCategories:notificationCategories];
+
+    // Initialize Castled with the configuration, delegate, and custom notification categories
+    [Castled initializeWithConfig:config delegate:self andNotificationCategories:notificationCategories];
+
+    return YES;
+}
+```
+</CodeGroup>
+
+<Note>
+The **UNNotificationActionOptions.foreground** option is used to specify the behavior of a notification action when it is clicked by the user. Make sure this option is included, so that the action launches the application and bring it to the foreground.
+</Note>
