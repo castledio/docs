@@ -274,7 +274,7 @@
         {
           "group": "SDK Integration",
           "pages": [
-            "developer-resources/overview",
+            "developer-resources/sdk-integration/overview",
             {
               "group": "Android SDK",
               "pages": [
