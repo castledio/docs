@@ -20,7 +20,6 @@ Refer [here](/developer-resources/sdk-integration/ios/configuring-p8) for more i
 Enable Push Notifications in your app's target capabilities. This adds the required entitlements to your app.
 ![](/images/add_push_capability.png)
 
-
 **2. Capabilities -> Background Modes:**
 
 Enable Background Modes and check **Remote notifications**. This allows your app to be woken up from a push notification.
@@ -40,34 +39,32 @@ This is not required for push notifications per se but is relevant if you have a
 Make sure the same App group ID is added to the config as mentioned below.
 
 <CodeGroup>
+```swift swift
+func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+    ...
+    let config = CastledConfigs.initialize(appId: "<App ID>")
+    ...
+    config.appGroupId = "group.com.castled.CastledPushDemo.Castled"
+    ...
+    Castled.initialize(withConfig: config, delegate: self, andNotificationCategories: nil)
+    ...
+    return true
+}
+```
 
-    ```swift swift
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-      ...
-      let config = CastledConfigs.initialize(appId: "<App ID>")
-      ...
-      config.appGroupId = "group.com.castled.CastledPushDemo.Castled"
-      ...
-      Castled.initialize(withConfig: config, delegate: self, andNotificationCategories: nil)
-      ...
-      return true
-    }
-    ```
+```objc objc
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    ...
+    CastledConfigs config = [CastledConfigs initializeWithInstanceId:@"<App Id>"];
+    ...
+    config.appGroupId = @"group.com.castled.CastledPushDemo.Castled";
+    ...
 
-    ```objc objc
-    - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-        ...
-        CastledConfigs config = [CastledConfigs initializeWithInstanceId:@"<App Id>"];
-        ...
-        config.appGroupId = @"group.com.castled.CastledPushDemo.Castled";
-        ...
-
-        [Castled initializeWithConfig:config delegate:(id)self andNotificationCategories:nil];
-        ...
-        return YES;
-    }
-    ```
-
+    [Castled initializeWithConfig:config delegate:(id)self andNotificationCategories:nil];
+    ...
+    return YES;
+}
+```
 </CodeGroup>
 
 
@@ -105,7 +102,6 @@ func registerForPush() {
             }
         }
     })
-}
 }
 ```
 
@@ -185,19 +181,19 @@ This delegate method is invoked when a user clicks on a notification that was di
 
 **Parameters:**
 
-- **type** : A CastledNotificationType indicating the type of notification. The values include 'push', 'inapp', 'inbox'.
+**type** : A CastledNotificationType indicating the type of notification. The values include 'push', 'inapp', 'inbox'.
 
-- **action** : A CastledClickActionType representing the action taken by the user. The values include :
-    -  deepLink
-     - navigateToScreen
-     - richLanding
-     - requestForPush
-     - dismiss
-     - custom
+**action** : A CastledClickActionType representing the action taken by the user. The values include :
+    deepLink
+    navigateToScreen
+    richLanding
+    requestForPush
+    dismiss
+    custom
 
-- **kvPairs** : An optional dictionary containing key-value pairs providing additional information associated with the notification, such as a URL to open or an ID of content to display.
+**kvPairs** : An optional dictionary containing key-value pairs providing additional information associated with the notification, such as a URL to open or an ID of content to display.
 
-- **userInfo** : A dictionary containing the original notification payload. This includes the custom data that was sent with the notification for the application to use.
+**userInfo** : A dictionary containing the original notification payload. This includes the custom data that was sent with the notification for the application to use.
 
 <CodeGroup>
 ```swift swift
@@ -318,7 +314,6 @@ extension AppDelegate: CastledNotificationDelegate {
 
 @end
 ```
-
 </CodeGroup>
 
 ### Configuring Notification Categories and Actions
@@ -334,7 +329,6 @@ By passing the **notificationCategories** parameter, you can define a set of cat
 This flexibility allows app developers to create a rich and interactive notification experience, tailored to the needs of their application and its users.
 
 <CodeGroup>
-
 ```swift swift
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate , UNUserNotificationCenterDelegate {
