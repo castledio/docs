@@ -15,6 +15,7 @@ Before you begin, ensure you have CocoaPods installed on your system. If you hav
 
 ```bash
 sudo gem install cocoapods
+
 ```
 
 **Installation Steps**
@@ -23,6 +24,7 @@ sudo gem install cocoapods
 
 ```bash
 pod init
+
 ```
 
 2. Open your **Podfile** using a text editor and specify the CastledNotificationContent pod within your target:
@@ -32,6 +34,7 @@ target "YourTargetName" do
   use_frameworks!
   pod 'Castled'
 end
+
 ```
 Make sure to replace "**YourTargetName**" with the actual target name of your application.
 
@@ -47,7 +50,7 @@ With CocoaPods, you can easily manage updates to the Castled SDK. Simply run pod
 
 **Swift Package Manager** (SwiftPM) is a tool for managing the distribution of Swift code as well as C-family dependency. From Xcode 11, SwiftPM got natively integrated with Xcode.
 
-**Installation Steps**
+**Integration via Xcode GUI**
 
 1. Open your project in Xcode.
 
@@ -57,6 +60,7 @@ With CocoaPods, you can easily manage updates to the Castled SDK. Simply run pod
 
 ```
 https://github.com/castledio/castled-ios-sdk
+
 ```
 
 4. Select the version that you want to integrate into your project. It's usually best to select the most recent version unless you have specific reasons for using an older one.
@@ -66,3 +70,22 @@ https://github.com/castledio/castled-ios-sdk
 ![](/images/ios-spm-add.png)
 
 Once integrated, make sure to import the SDK module in your Swift files where you want to use it.
+
+**Integration via 'Package.swift'**
+
+For package authors or those who prefer a more manual integration process, update your Package.swift file with the following dependencies entry:
+
+```swift Package.swift
+
+let package = Package(
+    name: "YourPackageName",
+    // Define other package properties
+    dependencies: [
+        .package(url: "https://github.com/castledio/castled-ios-sdk", .upToNextMajor(from: "x.y.z"))
+    ],
+    // Define targets
+)
+
+```
+
+Replace "x.y.z" with the version of Castled SDK being installed. After editing the **Package.swift** file, you can use swift build to fetch the dependency and compile your project.
