@@ -1,5 +1,6 @@
 ---
 title: "App Delegate Swizzling"
+sidebarTitle: "Swizzling"
 ---
 
 ### App Delegate methods Swizzling
@@ -31,10 +32,6 @@ This default setup allows for a seamless integration process, requiring minimal 
 The purpose of providing callback methods post swizzling is to offer developers a flexible and powerful mechanism to add custom behaviors or logic after Castled SDK has completed its default handling of the notification lifecycle.
 
 Swizzling allows Castled SDK to insert its functionality into the existing app delegate methods without requiring developers to alter their original implementation.
-
-The callbacks ensure that developers still retain control and can execute additional code as needed, such as logging, analytics, user interface updates, or other app-specific operations.
-
-These callback methods empower developers to augment the standard push notification processing with their unique requirements, ensuring that the integration with Castled SDK is seamless and non-disruptive to the existing app functionality.
 
 **1. willPresent notification**
 
