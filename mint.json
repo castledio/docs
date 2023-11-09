@@ -272,84 +272,89 @@
       "group": "Developer Resources",
       "pages": [
         {
-          "group": "Android SDK",
+          "group": "SDK Integration",
           "pages": [
             {
-              "group": "SDK Setup",
+              "group": "Android SDK",
               "pages": [
-                "developer-resources/sdk-integration/android/getting-started"
-              ]
-            },
-            {
-              "group": "User/Event Tracking",
-              "pages": [
-                "developer-resources/sdk-integration/android/user-attributes",
-                "developer-resources/sdk-integration/android/user-events"
-              ]
-            },
-            {
-              "group" : "Channels",
-              "pages" :[
                 {
-                  "group": "Push",
+                  "group": "SDK Setup",
                   "pages": [
-                    "developer-resources/sdk-integration/android/push-notifications",
-                    "developer-resources/sdk-integration/android/fcm-setup",
-                    "developer-resources/sdk-integration/android/mipush-setup"
+                    "developer-resources/sdk-integration/android/getting-started"
                   ]
                 },
                 {
-                  "group": "In-App",
+                  "group": "User/Event Tracking",
                   "pages": [
-                    "developer-resources/sdk-integration/android/in-app-messages"
+                    "developer-resources/sdk-integration/android/user-attributes",
+                    "developer-resources/sdk-integration/android/user-events"
                   ]
                 },
                 {
-                  "group": "App Inbox",
-                  "pages": [
-                    "developer-resources/sdk-integration/android/app-inbox-default",
-                    "developer-resources/sdk-integration/android/app-inbox-custom"
+                  "group" : "Channels",
+                  "pages" :[
+                    {
+                      "group": "Push",
+                      "pages": [
+                        "developer-resources/sdk-integration/android/push-notifications",
+                        "developer-resources/sdk-integration/android/fcm-setup",
+                        "developer-resources/sdk-integration/android/mipush-setup"
+                      ]
+                    },
+                    {
+                      "group": "In-App",
+                      "pages": [
+                        "developer-resources/sdk-integration/android/in-app-messages"
+                      ]
+                    },
+                    {
+                      "group": "App Inbox",
+                      "pages": [
+                        "developer-resources/sdk-integration/android/app-inbox-default",
+                        "developer-resources/sdk-integration/android/app-inbox-custom"
+                      ]
+                    }
                   ]
                 }
               ]
-            }
-          ]
-        },
-        {
-          "group": "iOS SDK",
-          "pages": [
-            {
-              "group": "SDK Setup",
-              "pages": [
-                "developer-resources/sdk-integration/ios/installation",
-                "developer-resources/sdk-integration/ios/initialization",
-                "developer-resources/sdk-integration/ios/customization"
-              ]
             },
             {
-              "group" : "Channels",
-              "pages" :[
+              "group": "iOS SDK",
+              "pages": [
                 {
-                  "group": "Push",
+                  "group": "SDK Setup",
                   "pages": [
-                    "developer-resources/sdk-integration/ios/push-notifications",
-                    "developer-resources/sdk-integration/ios/rich-push-notification",
-                    "developer-resources/sdk-integration/ios/swizzling",
-                    "developer-resources/sdk-integration/ios/configuring-p8",
-                    "developer-resources/sdk-integration/ios/configuring-p12"
+                    "developer-resources/sdk-integration/ios/installation",
+                    "developer-resources/sdk-integration/ios/initialization",
+                    "developer-resources/sdk-integration/ios/customization"
                   ]
                 },
                 {
-                  "group": "In-App",
-                  "pages": [
-                    "developer-resources/sdk-integration/ios/in-app-messages"
-                  ]
-                },
-                {
-                  "group": "App Inbox",
-                  "pages": [
-                    "developer-resources/sdk-integration/ios/app-inbox-default",
-                    "developer-resources/sdk-integration/ios/app-inbox-custom"
+                  "group" : "Channels",
+                  "pages" :[
+                    {
+                      "group": "Push",
+                      "pages": [
+                        "developer-resources/sdk-integration/ios/push-notifications",
+                        "developer-resources/sdk-integration/ios/rich-push-notification",
+                        "developer-resources/sdk-integration/ios/swizzling",
+                        "developer-resources/sdk-integration/ios/configuring-p8",
+                        "developer-resources/sdk-integration/ios/configuring-p12"
+                      ]
+                    },
+                    {
+                      "group": "In-App",
+                      "pages": [
+                        "developer-resources/sdk-integration/ios/in-app-messages"
+                      ]
+                    },
+                    {
+                      "group": "App Inbox",
+                      "pages": [
+                        "developer-resources/sdk-integration/ios/app-inbox-default",
+                        "developer-resources/sdk-integration/ios/app-inbox-custom"
+                      ]
+                    }
                   ]
                 }
               ]
