@@ -4,21 +4,17 @@ title: "Push Notification"
 
 Castled provides a convenient way to send push notifications to your applications directly from our dashboard. Follow these steps to send your first push notification to your application:
 
-### 1. Configure Push Notifications
+<Info>
 
-To enable push notifications on your iOS application using the Castled dashboard, you are required to upload a key or certificate obtained from your Apple Developer account. There are two available methods to configure push notifications.
+**Prerequisites**
 
-### Using APNS Authentication Key (Recommended)
+To enable push notifications on your iOS application using the Castled dashboard, you are required to upload the APNS Authentication Key obtained from your Apple Developer account. There are two available methods to configure push notifications.
 
-![](/images/ios-1.png)
 Refer [here](/developer-resources/sdk-integration/ios/configuring-p8) for more information on how to obtain **.p8 file**.
 
-### Using APNS Provider Certificate
+</Info>
 
-![](/images/ios-2.png)
-Refer [here](/developer-resources/sdk-integration/ios/configuring-p12) for more information on how to obtain **.p12 certificate**.
-
-### 2. Configure Push Notification in App Target
+### Configure Push Notification in App Target
 
 **1. Capabilities -> Push Notifications:**
 Enable Push Notifications in your app's target capabilities. This adds the required entitlements to your app.
@@ -27,7 +23,7 @@ Enable Push Notifications in your app's target capabilities. This adds the requi
 
 **2. Capabilities -> Background Modes:**
 
-Enable Background Modes and check 'Remote notifications'.This allows your app to be woken up from a push notification.
+Enable Background Modes and check **Remote notifications**. This allows your app to be woken up from a push notification.
 ![](/images/add_background_mode.png)
 
 **3. Set Up App Groups (Optional):**
@@ -35,11 +31,12 @@ Enable Background Modes and check 'Remote notifications'.This allows your app to
 If your app uses extensions, you may need to set up an App Group so that data can be shared between the main app and its extensions.
 ![](/images/ios-app-group.png)
 
-The name of your app group should be **group.{your_bundle_id}.castled**.
+The name of your app group should be **group.<your_bundle_id>.castled**.
 
 This is not required for push notifications per se but is relevant if you have a **Notification Service Extension** for rich notifications or need to manage a shared container of data.
 
 **Config the App Group ID to SDK**
+
 Make sure the same App group ID is added to the config as mentioned below.
 
 <CodeGroup>
@@ -74,7 +71,7 @@ Make sure the same App group ID is added to the config as mentioned below.
 </CodeGroup>
 
 
-### 3. Code changes for registering Push Notification 
+### Code changes for registering Push Notification 
 
 In iOS 10 and above, to handle push notifications, you need to implement the following methods from UIApplicationDelegate and UNUserNotificationCenterDelegate protocols:
 
@@ -82,27 +79,25 @@ In iOS 10 and above, to handle push notifications, you need to implement the fol
 
 **application(_:didFinishLaunchingWithOptions:)**
 This method is called when the app finishes launching. You can use this method to register for remote notifications and configure the notification settings.
-```swift
+
+<CodeGroup>
+```swift swift
 func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
     //1. Configure config
     let config = CastledConfigs.sharedInstance
     config.enablePush  = true
-    config.location    = CastledLocation.US
 
-    //2. Set application delegate
-     application.delegate = self
-
-    //3. Set UNUserNotificationCenter delegate 
-    UNUserNotificationCenter.current().delegate = self
-
-    //4. Call Castled.configure method
+    //2. Call Castled.configure method
     Castled.configure(registerIn: application, launchOptions: launchOptions, instanceId: "<instance_id>", delegate: self)
 
-    //5. Register Push 
+    //3. Register Push 
     registerForPush()
 }
 
 func registerForPush() {
+
+    UNUserNotificationCenter.current().delegate = self
+
     UNUserNotificationCenter.current().requestAuthorization(options: [.sound, .badge, .alert], completionHandler: {granted, error in
         if granted {
             DispatchQueue.main.async {
@@ -111,7 +106,23 @@ func registerForPush() {
         }
     })
 }
+}
 ```
+
+```objc objc
+- (void)registerForPush {
+    UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
+    center.delegate = (id)self;
+    [center requestAuthorizationWithOptions:(UNAuthorizationOptionSound | UNAuthorizationOptionAlert | UNAuthorizationOptionBadge) completionHandler:^(BOOL granted, NSError * _Nullable error){
+        if( !error ){
+            dispatch_async(dispatch_get_main_queue(), ^(void) {
+                [[UIApplication sharedApplication] registerForRemoteNotifications];
+            });
+        }
+    }];
+}
+```
+</CodeGroup>
 
 Obtaining user authorization is a crucial requirement for sending push notifications to an iOS application. When your app requests authorization for the first time, the system presents a prompt to the user, giving them the choice to grant or deny the request. The user's response is then recorded by the system for future reference.
 
@@ -167,103 +178,148 @@ Make sure to set the delegate of the UNUserNotificationCenter instance and the U
 
 The Castled SDK provides support for handling custom notification actions when the user interacts with push notifications in your application. By implementing the CastledNotificationDelegate protocol in your AppDelegate class, you can define the behavior for different notification actions such as deeplinking, navigating to a specific screen, or displaying a rich landing page.
 
-### CastledNotificationDelegate methods
+### CastledNotificationDelegate method
 
-**handleDeepLink(url: URL?, useWebview: Bool, additionalData: [String: Any]?)**
-This method is called when the user selects a notification action with a deeplink type.
-    - url : the deeplink URL associated with the action, which you can use to navigate to a specific screen or perform custom logic.
-    - useWebview : indicates whether the deeplink should be opened in a webview.
-    - additionalData : any additional data associated with the action
+**notificationClicked**
+This delegate method is invoked when a user clicks on a notification that was displayed as a result of a push notification sent from the Castled SDK. It provides detailed context about the notification that was clicked, allowing the application to handle different actions appropriately.
 
-```swift
+**Parameters:**
+
+- **type** : A CastledNotificationType indicating the type of notification. The values include 'push', 'inapp', 'inbox'.
+
+- **action** : A CastledClickActionType representing the action taken by the user. The values include :
+    -  deepLink
+     - navigateToScreen
+     - richLanding
+     - requestForPush
+     - dismiss
+     - custom
+
+- **kvPairs** : An optional dictionary containing key-value pairs providing additional information associated with the notification, such as a URL to open or an ID of content to display.
+
+- **userInfo** : A dictionary containing the original notification payload. This includes the custom data that was sent with the notification for the application to use.
+
+<CodeGroup>
+```swift swift
 // Implement the CastledNotificationDelegate methods
-func handleDeepLink(url: URL?, useWebview: Bool, additionalData: [String: Any]?) {
-    // Handle deeplink action
-    // Navigate to the specified URL or perform custom logic
-}
-```
+extension AppDelegate: CastledNotificationDelegate {
 
-**handleNavigateToScreen(screenName: String?, useWebview: Bool, additionalData: [String: Any]?)**
-This method is called when the user selects a notification action to navigate to a specific screen.
-    - screenName : the name or identifier of the screen you want to navigate to.
-    - useWebview : indicates whether the deeplink should be opened in a webview.
-    - additionalData : any additional data associated with the action
-
-```swift
-func handleNavigateToScreen(screenName: String?, useWebview: Bool, additionalData: [String: Any]?) {
-    // Handle navigate to screen action
-    // Navigate to the specified screen or perform custom logic
-}
-```
-
-**handleRichLanding(screenName: String?, useWebview: Bool, additionalData: [String: Any]?)**
-This method is called when the user selects a notification action to display a rich landing page.
-    - screenName : he name or identifier of the rich landing screen.
-    - useWebview : indicates whether the deeplink should be opened in a webview.
-    - additionalData : any additional data associated with the action
-
-```swift
-func handleRichLanding(screenName: String?, useWebview: Bool, additionalData: [String: Any]?) {
-    // Handle rich landing action
-    // Display the rich landing page or perform custom logic
-}
-```
-
-### App Integration to handle user actions
-
-To integrate the Castled SDK and handle custom notification actions, follow these steps:
-
-**Step 1: Import the Castled SDK**
-In your AppDelegate file, import the Castled SDK by adding the following import statement at the top of the file:
-
-```swift
-import Castled
-```
-
-**Step 2: Implement the CastledNotificationDelegate**
-In your AppDelegate class, adopt the CastledNotificationDelegate protocol by adding it to the class declaration and implementing its methods. Here's an example implementation:
-
-```swift
-@Main
-class AppDelegate: UIResponder, UIApplicationDelegate, CastledNotificationDelegate {
-
-    // ...
-
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Initialize the Castled SDK and other setup
-        Castled.configure(registerIn: application, launchOptions: launchOptions, instanceId: "<instance_id>", delegate: self)
+    func notificationClicked(withNotificationType type: CastledNotificationType, 
+                             action: CastledClickActionType, 
+                             kvPairs: [AnyHashable: Any]?, 
+                             userInfo: [AnyHashable: Any]) {
+        print("Notification type: \(type.rawValue), Action: \(action.rawValue)")
         
-        // Set the CastledNotificationDelegate
-        Castled.sharedInstance?.setCastledNotificationDelegate(self)
-        
-        // Other didFinishLaunchingWithOptions setup
-        
-        return true
+        switch action {
+            case .deepLink:
+                if let details = kvPairs, 
+                   let value = details["clickActionUrl"] as? String, 
+                   let url = URL(string: value) {
+                    handleDeepLink(url: url)
+                }
+                
+            case .navigateToScreen:
+                if let details = kvPairs, 
+                   let screenName = details["clickActionUrl"] as? String {
+                    handleNavigateToScreen(screenName: screenName)
+                }
+                
+            case .richLanding:
+                // TODO: Handle rich landing action
+                break
+                
+            case .requestForPush:
+                // TODO: Handle request for push action
+                break
+                
+            case .dismiss:
+                // TODO: Handle dismiss action
+                break
+                
+            case .custom:
+                // TODO: Handle custom action
+                break
+                
+            default:
+                break
+        }
     }
 
-    // Implement the CastledNotificationDelegate methods
-    func handleDeepLink(url: URL?, useWebview: Bool, additionalData: [String: Any]?) {
-        // Handle deeplink action
-        // Navigate to the specified URL or perform custom logic
+    // MARK: - Helper Methods
+    
+    private func handleDeepLink(url: URL) {
+        // Handle deep link URL
     }
-
-    func handleNavigateToScreen(screenName: String?, useWebview: Bool, additionalData: [String: Any]?) {
-        // Handle navigate to screen action
-        // Navigate to the specified screen or perform custom logic
+    
+    private func handleNavigateToScreen(screenName: String) {
+        // Navigate to specific screen
     }
-
-    func handleRichLanding(screenName: String?, useWebview: Bool, additionalData: [String: Any]?) {
-        // Handle rich landing action
-        // Display the rich landing page or perform custom logic
-    }
-
-    // ...
+    
+    // TODO: Implement other helper methods for richLanding, requestForPush, dismiss, and custom actions
 }
-
 ```
 
-**Step 3: Configuring Custom Actions in the Castled Dashboard**
-In the Castled dashboard, configure your push notifications with custom actions. Specify the action type (deeplink, navigate to screen, or rich landing), and provide any additional data required for each action. Make sure the details passed match the implementation details in the methods you implemented in the CastledNotificationDelegate.
+```objc objc
+@interface AppDelegate ()<UIApplicationDelegate, UNUserNotificationCenterDelegate, CastledNotificationDelegate>
+@end
+
+@implementation AppDelegate
+
+- (void)notificationClickedWithNotificationType:(CastledNotificationType)type
+                                         action:(CastledClickActionType)action
+                                        kvPairs:(NSDictionary<id, id> * _Nullable)kvPairs
+                                       userInfo:(NSDictionary<id, id> *)userInfo {
+    NSLog(@"Notification type: %ld, Action: %ld", (long)type, (long)action);
+    
+    switch (action) {
+        case CastledClickActionTypeDeepLink:
+            if (kvPairs) {
+                NSString *value = kvPairs[@"clickActionUrl"];
+                NSURL *url = [NSURL URLWithString:value];
+                if (url) {
+                    [self handleDeepLinkWithURL:url];
+                }
+            }
+            break;
+        case CastledClickActionTypeNavigateToScreen:
+            if (kvPairs) {
+                NSString *screenName = kvPairs[@"clickActionUrl"];
+                [self handleNavigateToScreenWithScreenName:screenName];
+            }
+            break;
+        case CastledClickActionTypeRichLanding:
+            // TODO: Handle rich landing action
+            break;
+        case CastledClickActionTypeRequestForPush:
+            // TODO: Handle request for push action
+            break;
+        case CastledClickActionTypeDismiss:
+            // TODO: Handle dismiss action
+            break;
+        case CastledClickActionTypeCustom:
+            // TODO: Handle custom action
+            break;
+        default:
+            break;
+    }
+}
+
+// MARK: - Helper Methods
+
+- (void)handleDeepLinkWithURL:(NSURL *)url {
+    // Handle deep link URL
+}
+
+- (void)handleNavigateToScreenWithScreenName:(NSString *)screenName {
+    // Navigate to specific screen
+}
+
+// TODO: Implement other helper methods for richLanding, requestForPush, dismiss, and custom actions
+
+@end
+```
+
+</CodeGroup>
 
 ### Configuring Notification Categories and Actions
 
@@ -273,11 +329,13 @@ While each category can have up to four actions, the actual number of displayed 
 
 **Registering the Notification Categories for Your App**
 
-During app launch, you can register all notification categories together using the **setNotificationCategories:** method of the shared **UNUserNotificationCenter object**. Prior to calling this method, you need to create one or more instances of the **UNNotificationCategory** class. Each category instance should include the category name and options that determine how notifications of that type should be displayed.
+By passing the **notificationCategories** parameter, you can define a set of categories and associated actions for your notifications. Each category corresponds to a type of notification that your app can receive, and for each category, you can specify the actions that a user can take directly from the notification.
 
-Category names are internal to your app and remain invisible to the user. **When scheduling notifications, you include the corresponding category name in the notification payload**. The system then uses this category name to retrieve the associated options and properly display the notification.
+This flexibility allows app developers to create a rich and interactive notification experience, tailored to the needs of their application and its users.
 
-```swift
+<CodeGroup>
+
+```swift swift
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate , UNUserNotificationCenterDelegate {
     var window: UIWindow?
@@ -288,29 +346,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate , UNUserNotificationCenter
         let notificationCategories = getNotificationCategories();
         UNUserNotificationCenter.current().setNotificationCategories(notificationCategories)
 
-        return true
-    }
+        Castled.initialize(withConfig: config, delegate: self, andNotificationCategories: notificationCategories)
 
-    func getNotificationCategories() -> Set<UNNotificationCategory>{
-        // Create the custom actions
-        let action1 = UNNotificationAction(identifier: "ACCEPT", title: "Accept", options: UNNotificationActionOptions.foreground)
-        let action2 = UNNotificationAction(identifier: "DECLINE", title: "Decline", options: [])
-        
-        // Create the category with the custom actions
-        let customCategory1 = UNNotificationCategory(identifier: "ACCEPT_DECLINE", actions: [action1, action2], intentIdentifiers: [], options: [])
-        
-        let action3 = UNNotificationAction(identifier: "YES", title: "Yes", options: [UNNotificationActionOptions.foreground])
-        let action4 = UNNotificationAction(identifier: "NO", title: "No", options: [])
-        
-        // Create the category with the custom actions
-        let customCategory2 = UNNotificationCategory(identifier: "YES_NO", actions: [action3, action4], intentIdentifiers: [], options: [])
-        
-        let categoriesSet = Set.init([customCategory1,customCategory2])
-        
-        return categoriesSet;
+        return true
     }
 }
 ```
+
+```objc objc
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+
+    // Register custom notification categories & actions
+    NSSet<UNNotificationCategory *> *notificationCategories = [self getNotificationCategories];
+    [[UNUserNotificationCenter currentNotificationCenter] setNotificationCategories:notificationCategories];
+
+    // Initialize Castled with the configuration, delegate, and custom notification categories
+    [Castled initializeWithConfig:config delegate:self andNotificationCategories:notificationCategories];
+
+    return YES;
+}
+```
+</CodeGroup>
+
 <Note>
 The **UNNotificationActionOptions.foreground** option is used to specify the behavior of a notification action when it is clicked by the user. Make sure this option is included, so that the action launches the application and bring it to the foreground.
 </Note>
