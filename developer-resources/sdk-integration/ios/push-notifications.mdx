@@ -4,6 +4,16 @@ title: "Push Notification"
 
 Castled provides a convenient way to send push notifications to your applications directly from our dashboard. Follow these steps to send your first push notification to your application:
 
+<Info>
+
+**Prerequisite**
+
+To enable push notifications on your iOS application using the Castled dashboard, you are required to upload the APNS Authentication Key obtained from your Apple Developer account. There are two available methods to configure push notifications.
+
+Refer [here](/developer-resources/sdk-integration/ios/configuring-p8) for more information on how to obtain **.p8 file**.
+
+</Info>
+
 ### Configure Push Notification in App Target
 
 **1. Capabilities -> Push Notifications:**
@@ -20,6 +30,6 @@ Enable Background Modes and check **Remote notifications**. This allows your app
 If your app uses extensions, you may need to set up an App Group so that data can be shared between the main app and its extensions.
 ![](/images/ios-app-group.png)
 
-The name of your app group should be **group.<your_bundle_id>.castled**.
+The name of your app group should be **group.your_bundle_id.castled**.
 
 This is not required for push notifications per se but is relevant if you have a **Notification Service Extension** for rich notifications or need to manage a shared container of data.
