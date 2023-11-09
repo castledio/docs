@@ -29,6 +29,19 @@
       "url": "https://app.castled.io/auth/login"
     }
   ],
+  "primaryTab": {
+    "name": "User Guide"
+  },
+  "tabs": [
+    {
+      "name": "Developer Guide",
+      "url": "developer-resources"
+   },
+    {
+        "name": "API Docs",
+        "url": "api-docs"
+    }
+ ],
   "anchors": [
     {
       "name": "Get a Demo",
