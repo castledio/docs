@@ -18,17 +18,61 @@ Refer [here](/developer-resources/sdk-integration/ios/configuring-p8) for more i
 ![](/images/ios-2.png)
 Refer [here](/developer-resources/sdk-integration/ios/configuring-p12) for more information on how to obtain **.p12 certificate**.
 
-### 2. Enable Push Notification in App Target
+### 2. Configure Push Notification in App Target
 
-1. Add the Castled framework in **General** tab
-![](/images/add_castled_framework_1.png)
-![](/images/add_castled_framework_2.png)
+**1. Capabilities -> Push Notifications:**
+Enable Push Notifications in your app's target capabilities. This adds the required entitlements to your app.
+![](/images/add_push_capability.png)
 
-2. Add Remote Notificaiton as a Background Mode in **Signing and Capabilities** tab
+
+**2. Capabilities -> Background Modes:**
+
+Enable Background Modes and check 'Remote notifications'.This allows your app to be woken up from a push notification.
 ![](/images/add_background_mode.png)
 
-3. Add Push Notification cabaility by clicking on + Capability button
-![](/images/add_push_capability.png)
+**3. Set Up App Groups (Optional):**
+
+If your app uses extensions, you may need to set up an App Group so that data can be shared between the main app and its extensions.
+![](/images/ios-app-group.png)
+
+The name of your app group should be **group.{your_bundle_id}.castled**.
+
+This is not required for push notifications per se but is relevant if you have a **Notification Service Extension** for rich notifications or need to manage a shared container of data.
+
+**Config the App Group ID to SDK**
+Make sure the same App group ID is added to the config as mentioned below.
+
+<CodeGroup>
+
+    ```swift swift
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+      ...
+      let config = CastledConfigs.initialize(appId: "<App ID>")
+      ...
+      config.appGroupId = "group.com.castled.CastledPushDemo.Castled"
+      ...
+      Castled.initialize(withConfig: config, delegate: self, andNotificationCategories: nil)
+      ...
+      return true
+    }
+    ```
+
+    ```objc objc
+    - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+        ...
+        CastledConfigs config = [CastledConfigs initializeWithInstanceId:@"<App Id>"];
+        ...
+        config.appGroupId = @"group.com.castled.CastledPushDemo.Castled";
+        ...
+
+        [Castled initializeWithConfig:config delegate:(id)self andNotificationCategories:nil];
+        ...
+        return YES;
+    }
+    ```
+
+</CodeGroup>
+
 
 ### 3. Code changes for registering Push Notification 
 

@@ -307,6 +307,7 @@
                 },
                 "developer-resources/sdk-integration/ios/push-notifications",
                 "developer-resources/sdk-integration/ios/rich-push-notification",
+                "developer-resources/sdk-integration/ios/swizzling",
                 "developer-resources/sdk-integration/ios/in-app-messages",
                 {
                   "group": "App Inbox",

@@ -1,0 +1,317 @@
+---
+title: "App Delegate Swizzling"
+---
+
+### App Delegate methods Swizzling
+
+**What is Method Swizzling?**
+
+Method swizzling is a technique used in Objective-C and Swift that allows developers to interchange the implementations of two methods at runtime. This is particularly useful in modifying the behavior of existing system methods without subclassing or altering the original source code. 
+
+In the context of iOS development, swizzling can intercept system calls to the **AppDelegate's** push notification delegate methods, providing an opportunity to insert additional logic such as analytics, third-party SDK functions, or custom handling.
+
+**Advantages of Using Swizzling for Push Notifications**
+
+Swizzling streamlines the process of integrating push notifications with various services and frameworks. When using swizzling:
+
+- Developers do not need to write boilerplate code to handle common notification tasks.
+
+- ensures that all the necessary methods are called without explicitly invoking them in the app's code.
+
+-SDKs can provide out-of-the-box functionality, enhancing or augmenting notification handling with minimal setup required.
+
+**Default Behavior in Castled SDK**
+
+Castled SDK is designed to simplify push notification handling. By default, swizzling is enabled, which means the SDK automatically handles the registration of device tokens, the presentation of notifications, and the response to user interactions with those notifications.
+
+This default setup allows for a seamless integration process, requiring minimal code changes on the developer's part.
+
+### Callback Methods Post Swizzling
+
+The purpose of providing callback methods post swizzling is to offer developers a flexible and powerful mechanism to add custom behaviors or logic after Castled SDK has completed its default handling of the notification lifecycle.
+
+Swizzling allows Castled SDK to insert its functionality into the existing app delegate methods without requiring developers to alter their original implementation.
+
+The callbacks ensure that developers still retain control and can execute additional code as needed, such as logging, analytics, user interface updates, or other app-specific operations.
+
+These callback methods empower developers to augment the standard push notification processing with their unique requirements, ensuring that the integration with Castled SDK is seamless and non-disruptive to the existing app functionality.
+
+**1. willPresent notification**
+
+This method is called when a notification is delivered to the app while it is in the foreground. The app can choose to present the notification with an alert, a badge, a sound, or a combination of these options. Developers can use this callback to customize the presentation of the notification or execute additional code when the notification arrives.
+
+<CodeGroup>
+```swift swift
+func castled_userNotificationCenter(_ center: UNUserNotificationCenter, 
+                                   willPresent notification: UNNotification, 
+                                   withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+    print("Notification will be presented: \(notification.request.content.userInfo)")
+    // Additional custom handling of the notification
+    completionHandler([.alert, .badge, .sound])
+}
+```
+
+```objc objc
+- (void)castled_userNotificationCenter:(UNUserNotificationCenter *)center 
+                          willPresent:(UNNotification *)notification 
+                    withCompletionHandler:(void (^)(UNNotificationPresentationOptions options))completionHandler {
+    NSLog(@"Notification will be presented: %@", notification.request.content.userInfo);
+    // Additional custom handling of the notification
+    completionHandler(UNNotificationPresentationOptionAlert | UNNotificationPresentationOptionBadge | UNNotificationPresentationOptionSound);
+}
+```
+</CodeGroup>
+
+**2. didReceive response**
+
+Invoked when a user interacts with a notification (e.g., tapping on it). This callback provides an opportunity for the app to respond to the user's interaction with the received notification, such as navigating to a specific view controller.
+
+<CodeGroup>
+```swift swift
+func castled_userNotificationCenter(_ center: UNUserNotificationCenter, 
+                                   didReceive response: UNNotificationResponse, 
+                                   withCompletionHandler completionHandler: @escaping () -> Void) {
+    print("User interacted with the notification: \(response.notification.request.content.userInfo)")
+    // Additional custom handling of the notification interaction
+    completionHandler()
+}
+```
+
+```objc objc
+- (void)castled_userNotificationCenter:(UNUserNotificationCenter *)center 
+                           didReceive:(UNNotificationResponse *)response 
+                    withCompletionHandler:(void (^)(void))completionHandler {
+    NSLog(@"User interacted with the notification: %@", response.notification.request.content.userInfo);
+    // Additional custom handling of the notification interaction
+    completionHandler();
+}
+```
+</CodeGroup>
+
+**3. didFailToRegisterForRemoteNotificationsWithError**
+
+This method is called if the application fails to register with the Apple Push Notification service (APNs). Developers can use this callback to handle the error and perhaps attempt to register again or inform the user of the failure.
+
+<CodeGroup>
+```swift swift
+func castled_application(_ application: UIApplication, 
+                        didFailToRegisterForRemoteNotificationsWithError error: Error) {
+    print("Failed to register for remote notifications: \(error.localizedDescription)")
+    // Additional error handling
+}
+```
+
+```objc objc
+- (void)castled_application:(UIApplication *)application 
+didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
+    NSLog(@"Failed to register for remote notifications: %@", [error localizedDescription]);
+    // Additional error handling
+}
+```
+</CodeGroup>
+
+**4. didRegisterForRemoteNotificationsWithDeviceToken**
+
+Called when the app successfully registers with APNs. The callback provides the device token that the app must forward to the server responsible for sending push notifications.
+
+<CodeGroup>
+```swift swift
+func castled_application(_ application: UIApplication, 
+                        didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+    print("Registered for remote notifications with device token: \(deviceToken)")
+    // Send device token to server or further handling
+}
+```
+
+```objc objc
+- (void)castled_application:(UIApplication *)application 
+didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+    NSLog(@"Registered for remote notifications with device token: %@", deviceToken);
+    // Send device token to server or further handling
+}
+```
+</CodeGroup>
+
+**5. didReceiveRemoteNotification fetchCompletionHandler**
+
+This method is called when a remote notification is received, and the app is running in the foreground or background. It provides an opportunity for the app to process the notification and load new data if needed.
+
+<CodeGroup>
+```swift swift
+func castled_application(_ application: UIApplication, 
+                        didReceiveRemoteNotification userInfo: [AnyHashable: Any], 
+                        fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+    print("Remote notification received: \(userInfo)")
+    // Perform background fetch or additional handling
+    completionHandler(.newData)
+}
+```
+
+```objc objc
+- (void)castled_application:(UIApplication *)application 
+didReceiveRemoteNotification:(NSDictionary *)userInfo 
+        fetchCompletionHandler:(void (^)(UIBackgroundFetchResult result))completionHandler {
+    NSLog(@"Remote notification received: %@", userInfo);
+    // Perform background fetch or additional handling
+    completionHandler(UIBackgroundFetchResultNewData);
+}
+```
+</CodeGroup>
+
+### Disabling Swizzling in Castled SDK
+
+Although swizzling is convenient, some developers may prefer to have more granular control over notification handling or may need to comply with specific architectural requirements. In such cases, Castled SDK allows swizzling to be disabled.
+
+To disable method swizzling with Castled SDK, you must update the **Info.plist** file of your application. Add a new key-value pair where the key is specific to the Castled SDK's configuration and the value explicitly indicates that swizzling should be turned off.
+
+```xml Info.plist
+<key>CastledSwizzlingDisabled</key>
+<true/>
+```
+
+### Manual Handling of Push Notifications
+
+Once swizzling is disabled, the responsibility of invoking the necessary methods falls on the developer. Developer needs to implement various **UNUserNotificationCenterDelegate** and **UIApplicationDelegate** methods to handle different notification scenarios.
+
+Castled SDK exposes corresponding APIs to be called within these delegate methods to maintain the functionality that swizzling would have provided:
+
+**1. Handling Device Token Registration**
+
+When the device registers for push notifications, you should capture the device token and pass it to the Castled SDK using the setPushToken method.
+
+<CodeGroup>
+```swift swift
+// MARK: - Registration for Push Notifications
+
+/// This method is called when the app has successfully registered with the Apple Push Notification service (APNs).
+/// If you have disabled swizzling, you should manually set the device token via the Castled SDK in this method.
+func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+    let deviceTokenString = deviceToken.map { String(format: "%02.2hhx", $0) }.joined()
+
+    Castled.sharedInstance.setPushToken(deviceTokenString)
+}
+```
+
+```objc objc
+/// Called when the application successfully registers with the Apple Push Notification service (APNs).
+/// If method swizzling is disabled, manually set the device token through the Castled SDK.
+-(void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+    NSString *deviceTokenString = [deviceToken description];
+    deviceTokenString = [deviceTokenString stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"<>"]];
+    deviceTokenString = [deviceTokenString stringByReplacingOccurrencesOfString:@" " withString:@""];
+
+    [[Castled sharedInstance] setPushToken:deviceTokenString];
+}
+
+```
+</CodeGroup>
+
+**2. Handling Registration Failure**
+
+If the device fails to register, log the error. There is no Castled method for this scenario as it is purely for logging purposes.
+
+<CodeGroup>
+```swift swift
+// MARK: - Handling Failure to Register for Notifications
+
+/// This method is called if the application fails to be registered for remote notifications.
+/// Use this method to handle the failure as necessary and log the error.
+func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+    print("Failed to register for remote notifications: \(error.localizedDescription)")
+}
+```
+
+```objc objc
+/// Called if the application fails to register for remote notifications.
+/// Here you can handle the failure as required and log the error.
+-(void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
+    NSLog(@"Failed to register for remote notifications: %@", error.localizedDescription);
+}
+```
+</CodeGroup>
+
+**3. Handling Notification Responses**
+
+When the user interacts with the notification (e.g., tap on the notification), invoke the userNotificationCenter(didReceive:response) method from the Castled SDK.
+
+<CodeGroup>
+```swift swift
+// MARK: - Handling Notification Delivery When App is in Foreground
+
+/// This method is called when a push notification is delivered to the app while it is in the foreground.
+/// The Castled SDK should be informed so that it can handle the notification accordingly.
+func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+    Castled.sharedInstance.userNotificationCenter(center, willPresent: notification)
+    completionHandler([.alert, .badge, .sound])
+}
+```
+
+```objc objc
+/// Called when a notification is delivered to the app while it is in the foreground.
+/// Inform the Castled SDK so that it can handle the notification properly.
+-(void)userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions options))completionHandler {
+    [[Castled sharedInstance] userNotificationCenter:center willPresent:notification];
+    completionHandler(UNNotificationPresentationOptionAlert | UNNotificationPresentationOptionBadge | UNNotificationPresentationOptionSound);
+}
+```
+
+</CodeGroup>
+
+**4. Handling Foreground Notification Presentation**
+
+Determine how to handle notifications when the app is in the foreground with the userNotificationCenter(willPresent:notification) Castled method.
+
+<CodeGroup>
+```swift swift
+// MARK: - Handling User Interaction with Notifications
+
+/// This method is called when the user interacts with a notification (e.g., taps on it).
+/// Pass the interaction to the Castled SDK so it can handle any deep linking or notification response.
+func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+    Castled.sharedInstance.userNotificationCenter(center, didReceive: response)
+    completionHandler()
+}
+```
+
+```objc objc
+/// Called when the user interacts with a notification (for example, tapping on it).
+/// Pass this interaction to the Castled SDK for it to handle any actions or notification responses.
+-(void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)(void))completionHandler {
+    [[Castled sharedInstance] userNotificationCenter:center didReceive:response];
+    completionHandler();
+}
+```
+
+</CodeGroup>
+
+**5. Handling Background Notifications**
+
+For handling background notification fetch calls, use the didReceiveRemoteNotification Castled method.
+
+<CodeGroup>
+```swift swift
+// MARK: - Handling Remote Notifications in the Background
+
+/// This method is called when a remote notification is received and the app is running in the background.
+/// It is crucial to inform the Castled SDK about the notification for proper processing.
+func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+    Castled.sharedInstance.didReceiveRemoteNotification(inApplication: application, withInfo: userInfo, fetchCompletionHandler: { _ in
+        completionHandler(.newData)
+    })
+}
+```
+
+```objc objc
+/// This method is called when a remote notification is received while the app is in the background.
+/// Notify the Castled SDK of the notification for it to handle it appropriately.
+-(void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
+    [[Castled sharedInstance] didReceiveRemoteNotificationInApplication:application withInfo:userInfo fetchCompletionHandler:^(UIBackgroundFetchResult result) {
+        completionHandler(UIBackgroundFetchResultNewData);
+    }];
+}
+```
+</CodeGroup>
+
+
+
+
