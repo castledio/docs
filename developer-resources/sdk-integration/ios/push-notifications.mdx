@@ -126,47 +126,115 @@ Obtaining user authorization is a crucial requirement for sending push notificat
 
 **application(_:didRegisterForRemoteNotificationsWithDeviceToken:)**
 This method is called when the app successfully registers for remote notifications with the Apple Push Notification service (APNs). You can use the deviceToken parameter to send push notifications to the device.
-```swift
+
+<CodeGroup>
+```swift swift
 func castled_application(_ application: UIApplication,didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
     //Invoke the setDeviceToken method if swizzling is off
-    Castled.sharedInstance?.setDeviceToken(deviceToken: deviceToken)
+    Castled.sharedInstance?.setPushToken(deviceToken: deviceToken)
 }
 ```
+
+```objc objc
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+
+    [[Castled sharedInstance] setPushToken:deviceToken.debugDescription];
+}
+```
+</CodeGroup>
 
 **application(_:didFailToRegisterForRemoteNotificationsWithError:)**
 This method is called when the app fails to register for remote notifications. You can handle the error and take appropriate action.
-```swift
+
+<CodeGroup>
+```swift swift
 func castled_application(_ application: UIApplication,didFailToRegisterForRemoteNotificationsWithError error: Error) {
-    //Invoke the logRegisterForRemoteNotifications to log the error if swizzling is off
-    Castled.sharedInstance!.logRegisterForRemoteNotifications("Failed to register: \(error)")
+    
 }
 ```
+
+```objc objc
+- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
+    NSLog(@"failed to register for remote notifications: %@ %@", self.description, error.localizedDescription);
+}
+```
+</CodeGroup>
 
 ### UNUserNotificationCenterDelegate Methods:
 
-**userNotificationCenter(_:willPresent:withCompletionHandler:)**
-This method is called when a notification is about to be presented to the user while the app is in the foreground. You can customize the presentation options for the notification, such as showing an alert, playing a sound, or updating the app badge.
-```swift
-func userNotificationCenter(_ center: UNUserNotificationCenter,
-                                             willPresent notification: UNNotification,
-                                             withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-    //Invoke the API to handle the notification in the foreground
-    Castled.sharedInstance!.handleNotificationInForeground(notification: notification)
-
-    completionHandler([.badge, .sound, .alert])
-}
-```
-
 **userNotificationCenter(_:didReceive:withCompletionHandler:)**
 This method is called when the user taps on or interacts with a notification. You can handle the user's response to the notification, such as opening a specific screen in the app or performing a specific action.
-```swift
- func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
-    //Invoke the handleNotificationAction to handle the user actions
-    Castled.sharedInstance?.handleNotificationAction(response : response)
 
+<CodeGroup>
+```swift swift
+func userNotificationCenter(_ center: UNUserNotificationCenter, 
+                            didReceive response: UNNotificationResponse, 
+                            withCompletionHandler completionHandler: @escaping () -> Void) {
+    // Handle the click events
+    Castled.sharedInstance.userNotificationCenter(center, didReceive: response)
     completionHandler()
 }
 ```
+
+```objc objc
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center 
+    didReceiveNotificationResponse:(UNNotificationResponse *)response 
+           withCompletionHandler:(void (^)(void))completionHandler {
+
+    [[Castled sharedInstance] userNotificationCenter:center didReceive:response];
+    completionHandler();
+}
+```
+</CodeGroup>
+
+**userNotificationCenter(_:willPresent:withCompletionHandler:)**
+This method is called when a notification is about to be presented to the user while the app is in the foreground. You can customize the presentation options for the notification, such as showing an alert, playing a sound, or updating the app badge.
+
+<CodeGroup>
+```swift swift
+func userNotificationCenter(_ center: UNUserNotificationCenter, 
+                            willPresent notification: UNNotification, 
+                            withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+    Castled.sharedInstance.userNotificationCenter(center, willPresent: notification)
+    completionHandler([.alert, .badge, .sound])
+}
+```
+
+```objc objc
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center 
+         willPresentNotification:(UNNotification *)notification 
+           withCompletionHandler:(void (^)(UNNotificationPresentationOptions))completionHandler {
+
+    [[Castled sharedInstance] userNotificationCenter:center willPresent:notification];
+    completionHandler(UNAuthorizationOptionAlert | UNAuthorizationOptionBadge | UNAuthorizationOptionSound);
+}
+```
+</CodeGroup>
+
+**userNotificationCenter(_:didReceiveRemoteNotification:completionHandler:)**
+This method is invoked when to handle a remote notification received while the app is running in the foreground or background
+
+<CodeGroup>
+```swift swift
+func application(_ application: UIApplication, 
+                 didReceiveRemoteNotification userInfo: [AnyHashable: Any], 
+                 fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+    Castled.sharedInstance.didReceiveRemoteNotification(inApplication: application, withInfo: userInfo, fetchCompletionHandler: { _ in completionHandler(.newData)})
+}
+```
+
+```objc objc
+- (void)application:(UIApplication *)application 
+didReceiveRemoteNotification:(NSDictionary *)userInfo 
+ fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
+
+    [[Castled sharedInstance] didReceiveRemoteNotificationInApplication:application withInfo:userInfo 
+                                                fetchCompletionHandler:^(UIBackgroundFetchResult) {
+                                                    completionHandler(UIBackgroundFetchResultNewData);
+                                                }];
+}
+```
+</CodeGroup>
 
 Make sure to set the delegate of the UNUserNotificationCenter instance and the UIApplication instance to your AppDelegate class to receive and handle the push notifications.
 
