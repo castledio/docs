@@ -132,6 +132,7 @@ Castled SDK is designed to simplify push notification handling. By default, swiz
 Refer [swizzling](/developer-resources/sdk-integration/ios/swizzling) section for more callback methods post swizzling.
 
 **Disabling AppDelegate Swizzling**
+
 To disable method swizzling with Castled SDK, you must update the **Info.plist** file of your application. Add a new key-value pair where the key is specific to the Castled SDK’s configuration and the value explicitly indicates that swizzling should be turned off. 
 
 Refer [swizzling](/developer-resources/sdk-integration/ios/swizzling) section to disable swizzling and manual handling of push notifications after disabling.
@@ -327,7 +328,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate , UNUserNotificationCenter
 }
 ```
 </CodeGroup>
-
+<br />
 
 <Note>
 The **UNNotificationActionOptions.foreground** option is used to specify the behavior of a notification action when it is clicked by the user. Make sure this option is included, so that the action launches the application and bring it to the foreground.
