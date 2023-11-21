@@ -64,7 +64,7 @@ To receive push notifications, you must explicitly enable this capability.To ena
 
 ### Registering Push Notification 
 
-In iOS 10 and above, to handle push notifications, you need to implement the following method from **UIApplicationDelegate** protocol and the below mentioned three steps for registering push notification.
+In iOS 10 and above, to handle push notifications, you need to implement the following method from **UIApplicationDelegate** protocol and add the three steps mentioned in the code snippet below for registering push notification.
 
 **application(_:didFinishLaunchingWithOptions:)**
 
@@ -73,6 +73,7 @@ This method is called when the app finishes launching. You can use this method t
 <CodeGroup>
 ```swift swift
 func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+    
     //1. Configure config
     let config = CastledConfigs.initialize(appId: "<App ID>")
     config.enablePush  = true
