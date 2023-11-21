@@ -20,7 +20,7 @@ To enable push notifications for your iOS app, you need to configure the app's t
 
 Follow the steps below to set up these features in the Signing & Capabilities tab of your app target:
 
-**Adding an App Group ID**
+**1. Adding an App Group ID**
 
 App Groups facilitate the sharing of data between multiple apps developed by the same organization and their extensions. This is not required for push notifications per se but is relevant if you have a **Notification Content Extension** for rich notifications or need to manage a shared container of data.
 
@@ -38,7 +38,7 @@ To add an App Group:
 The name of your app group should be **group.your_bundle_id.castled**.
 </Info>
 
-**Enabling Remote Notifications**
+**2. Enabling Remote Notifications**
 
 Remote notifications are essential for receiving notifications from a server.This will allow your app to be awakened in the background to receive notifications.
 
@@ -52,7 +52,7 @@ To enable Remote notifications :
 It is advised to enabling Remote Notifications for efficient **Uninstall tracking** and **Delivery Status tracking** even incases app is idle or in the background.
 </Info>
 
-**Enabling Push Notifications Capability**
+**3. Enabling Push Notifications Capability**
 
 To receive push notifications, you must explicitly enable this capability.To enable push notification :
 
