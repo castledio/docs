@@ -14,58 +14,53 @@ Refer [here](/developer-resources/sdk-integration/ios/configuring-p8) for more i
 
 </Info>
 
-### Configuring Push Notification in App Target
+### Configuring App Target for Push Notification
 
-**1. Capabilities -> Push Notifications:**
-Enable Push Notifications in your app's target capabilities. This adds the required entitlements to your app.
-![](/images/add_push_capability.png)
+To enable push notifications for your iOS app, you need to configure the app's target settings in Xcode. This involves adding an App Group ID, enabling remote notifications, and activating the push notifications capability.
 
-**2. Capabilities -> Background Modes:**
+Follow the steps below to set up these features in the Signing & Capabilities tab of your app target:
 
-Enable Background Modes and check **Remote notifications**. This allows your app to be woken up from a push notification.
-![](/images/add_background_mode.png)
+**Adding an App Group ID**
 
-**3. Set Up App Groups (Optional):**
+App Groups facilitate the sharing of data between multiple apps developed by the same organization and their extensions. This is not required for push notifications per se but is relevant if you have a **Notification Content Extension** for rich notifications or need to manage a shared container of data.
 
-If your app uses extensions, you may need to set up an App Group so that data can be shared between the main app and its extensions.
-![](/images/ios-app-group.png)
+To add an App Group:
 
+1. Open your project in Xcode and select the app target.
+2. Go to the Signing & Capabilities tab.
+3. Click on the "+" button to add a new capability.
+4. Type "App Groups" in the search bar and select it from the list.
+5. Under the App Groups section, click the "+" to create a new group.
+6. Enter the App Group ID using the format **group.your_bundle_id.castled**.
+7. Make sure the App Group ID is checked to enable it.
+
+<Info>
 The name of your app group should be **group.your_bundle_id.castled**.
+</Info>
 
-This is not required for push notifications per se but is relevant if you have a **Notification Service Extension** for rich notifications or need to manage a shared container of data.
+**Enabling Remote Notifications**
 
-**Adding App Group ID to config**
+Remote notifications are essential for receiving notifications from a server.This will allow your app to be awakened in the background to receive notifications.
 
-Make sure the same App group ID is added to the config as mentioned below.
+To enable Remote notifications :
 
-<CodeGroup>
-```swift swift
-func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-    ...
-    let config = CastledConfigs.initialize(appId: "<App ID>")
-    ...
-    config.appGroupId = "group.com.castled.CastledPushDemo.Castled"
-    ...
-    Castled.initialize(withConfig: config, delegate: self, andNotificationCategories: nil)
-    ...
-    return true
-}
-```
+1. Within the Signing & Capabilities tab, ensure that the Background Modes capability is present.
+2. If not, add it by clicking the "+" button and selecting "Background Modes."
+3. In the Background Modes section, find and check the "Remote notifications" option.
 
-```objc objc
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    ...
-    CastledConfigs config = [CastledConfigs initializeWithInstanceId:@"<App Id>"];
-    ...
-    config.appGroupId = @"group.com.castled.CastledPushDemo.Castled";
-    ...
+<Info>
+It is advised to enabling Remote Notifications for efficient **Uninstall tracking** and **Delivery Status tracking** even incases app is idle or in the background.
+</Info>
 
-    [Castled initializeWithConfig:config delegate:(id)self andNotificationCategories:nil];
-    ...
-    return YES;
-}
-```
-</CodeGroup>
+**Enabling Push Notifications Capability**
+
+To receive push notifications, you must explicitly enable this capability.To enable push notification :
+
+1. Still on the Signing & Capabilities tab, click the "+" button to add a new capability.
+2. Search for "Push Notifications" and add it.
+3. Ensure that the Push Notifications capability is checked.
+
+![](/images/ios-app-target.png)
 
 ### Registering Push Notification 
 
@@ -114,6 +109,39 @@ func registerForPush() {
             });
         }
     }];
+}
+```
+</CodeGroup>
+
+**Adding App Group ID to config**
+
+Make sure the App group ID configured in the Signed & Capabilities tab of the app's target is added to the config as mentioned below.
+
+<CodeGroup>
+```swift swift
+func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+    ...
+    let config = CastledConfigs.initialize(appId: "<App ID>")
+    ...
+    config.appGroupId = "group.com.castled.CastledPushDemo.Castled"
+    ...
+    Castled.initialize(withConfig: config, delegate: self, andNotificationCategories: nil)
+    ...
+    return true
+}
+```
+
+```objc objc
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    ...
+    CastledConfigs config = [CastledConfigs initializeWithInstanceId:@"<App Id>"];
+    ...
+    config.appGroupId = @"group.com.castled.CastledPushDemo.Castled";
+    ...
+
+    [Castled initializeWithConfig:config delegate:(id)self andNotificationCategories:nil];
+    ...
+    return YES;
 }
 ```
 </CodeGroup>
