@@ -166,3 +166,35 @@ You can also optionally specify default small and large icons for push notificat
     ...
 </resources>
 ```
+
+## Notification Listeners
+
+App can listen to Castled push notification events by registering a listener. Listener object should implement the interface `CastledPushNotificationListener`.
+
+Following code snippet uses an anonymous object as the listener.
+
+```kotlin MyApplicationClass.kt
+    // Listening to push notification events
+    CastledNotifications.subscribeToPushNotificationEvents(object :
+        CastledPushNotificationListener {
+
+        // Push received
+        override fun onCastledPushReceived(pushMessage: CastledPushMessage) {
+            logger.debug("Received push message with id: ${pushMessage.getNotificationDisplayId()}")
+        }
+
+        // Push clicked
+        override fun onCastledPushClicked(
+            pushMessage: CastledPushMessage,
+            actionContext: CastledActionContext
+        ) {
+            logger.debug("User clicked push message with id: ${pushMessage.getNotificationDisplayId()}")
+        }
+
+        // Push dismissed
+        override fun onCastledPushDismissed(pushMessage: CastledPushMessage) {
+            logger.debug("Dismissed push message with id: ${pushMessage.getNotificationDisplayId()}")
+        }
+    })
+
+```
