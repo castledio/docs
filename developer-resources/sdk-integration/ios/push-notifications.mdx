@@ -81,11 +81,11 @@ This method is called when the app finishes launching. You can use this method t
 ```swift swift
 func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
     //1. Configure config
-    let config = CastledConfigs.sharedInstance
+    let config = CastledConfigs.initialize(appId: "<App ID>")
     config.enablePush  = true
 
-    //2. Call Castled.configure method
-    Castled.configure(registerIn: application, launchOptions: launchOptions, instanceId: "<instance_id>", delegate: self)
+    //2. Call Castled.initialize method
+    Castled.initialize(withConfig: config, delegate: self, andNotificationCategories: nil)
 
     //3. Register Push 
     registerForPush()
