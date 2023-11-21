@@ -14,7 +14,7 @@ Refer [here](/developer-resources/sdk-integration/ios/configuring-p8) for more i
 
 </Info>
 
-### Configure Push Notification in App Target
+### Configuring Push Notification in App Target
 
 **1. Capabilities -> Push Notifications:**
 Enable Push Notifications in your app's target capabilities. This adds the required entitlements to your app.
@@ -67,11 +67,9 @@ func application(_ application: UIApplication, didFinishLaunchingWithOptions lau
 ```
 </CodeGroup>
 
-### Code changes for registering Push Notification 
+### Registering Push Notification 
 
-In iOS 10 and above, to handle push notifications, you need to implement the following methods from UIApplicationDelegate and UNUserNotificationCenterDelegate protocols:
-
-### UIApplicationDelegate Methods:
+In iOS 10 and above, to handle push notifications, you need to implement the following method from **UIApplicationDelegate** protocol and the below mentioned three steps for registering push notification.
 
 **application(_:didFinishLaunchingWithOptions:)**
 
@@ -120,10 +118,11 @@ func registerForPush() {
 ```
 </CodeGroup>
 
+### Requesting User Permission for Push Notifications
+
 Obtaining user authorization is a crucial requirement for sending push notifications to an iOS application. When your app requests authorization for the first time, the system presents a prompt to the user, giving them the choice to grant or deny the request. The user's response is then recorded by the system for future reference.
 
 ![](/images/request_permission.jpg)
-
 
 ### AppDelegate Swizzling in Castled SDK
 
