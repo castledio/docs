@@ -45,16 +45,13 @@ Mention the name of the Notification Service class created in NSExtensionPrincip
 
 **Step 3: Importing the CastledNotificationService Framework**
 
-1. Add the CastledNotificationService.framework to your Xcode project.
-2. Go to your Notification Service Extension target's Build Phases.
-3. Expand the "Link Binary With Libraries" section.
-4. Click the "+" button and add the CastledNotificationService.framework.
-![](/images/NSE-4.png)
-5. Import the framework in your Notification Service Extension code file
-![](/images/NSE-5.png)
+Import the CastledNotificationService framework by adding the below entry in the Podfile
 
-```swift
-import CastledNotificationService
+``` Podfile
+target 'YourNotificationServiceExtension' do
+  use_frameworks!
+   pod 'CastledNotificationService'
+end
 ```
 
 **Step 4: Implementing the Notification Service Extension**
@@ -67,7 +64,8 @@ Override the **didReceive(_:withContentHandler:)** method to modify the notifica
 
 Override the **serviceExtensionTimeWillExpire()** method to handle situations when the service extension time is about to expire.
 
-```swift
+<CodeGroup>
+```swift swift
 import UserNotifications
 import CastledNotificationService
 
@@ -92,6 +90,31 @@ class NotificationService: CastledNotificationServiceExtension {
     }   
 }
 ```
+
+```objc objc
+// NotificationService.h
+#import <UserNotifications/UserNotifications.h>
+#import <CastledNotificationService/CastledNotificationServiceObjC.h>
+
+@interface NotificationService : CastledNotificationServiceObjC
+@end
+
+// NotificationService.m
+#import "NotificationService.h"
+
+@implementation NotificationService
+
+- (void)didReceiveNotificationRequest:(UNNotificationRequest *)request withContentHandler:(void (^)(UNNotificationContent * _Nonnull))contentHandler {
+    [super didReceiveNotificationRequest:request withContentHandler:contentHandler];
+}
+
+- (void)serviceExtensionTimeWillExpire {
+    [super serviceExtensionTimeWillExpire];
+}
+
+@end
+```
+</CodeGroup>
 
 Please refer to the official Apple documentation for further details on working with [Notification Service Extensions](https://developer.apple.com/documentation/usernotifications/unnotificationserviceextension)
 
@@ -131,16 +154,13 @@ The required categories can be added as an array.
 
 **Step 3: Importing the CastledNotificationContent Framework**
 
-1. Add the CastledNotificationContent.framework to your Xcode project.
-2. Go to your Notification Content Extension target's Build Phases.
-3. Expand the "Link Binary With Libraries" section.
-4. Click the "+" button and add the CastledNotificationContent.framework.
-![](/images/NCE-4.png)
-5. Import the framework in your Notification Content Extension code file
-![](/images/NCE-5.png)
+Import the CastledNotificationContent framework by adding the below entry in the Podfile
 
-```swift
-import CastledNotificationContent
+``` Podfile
+target 'YourNotificationContentExtension' do
+  use_frameworks!
+   pod 'CastledNotificationContent'
+end
 ```
 
 **Step 4: Implementing the Notification Content Extension**
@@ -151,7 +171,8 @@ Customize the notification handling logic in the overridden methods of Notificat
 
 Override the **viewDidLoad()** and **didReceive()** methods to modify the notification content if needed.
 
-```swift
+<CodeGroup>
+```swift swift
 import UIKit
 import Castled
 import UserNotifications
@@ -171,3 +192,37 @@ class NotificationViewController: CastledNotificationViewController {
     
 }
 ```
+
+```objc objc
+// NotificationViewController.h
+#import <UIKit/UIKit.h>
+#import <CastledNotificationContent/CastledNotificationViewControllerObjC.h>
+
+@interface NotificationViewController : CastledNotificationViewControllerObjC
+
+@end
+
+// NotificationViewController.m
+#import "NotificationViewController.h"
+#import <UserNotifications/UserNotifications.h>
+#import <UserNotificationsUI/UserNotificationsUI.h>
+
+@interface NotificationViewController () <UNNotificationContentExtension>
+@property IBOutlet UILabel *label;
+@end
+
+@implementation NotificationViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    self.appGroupId = @"group.com.castled.CastledPushDemo.Castled";
+    // Do any required interface initialization here.
+}
+
+- (void)didReceiveNotification:(UNNotification *)notification {
+    [super didReceiveNotification:notification];
+}
+
+@end
+```
+</CodeGroup>
