@@ -124,119 +124,17 @@ Obtaining user authorization is a crucial requirement for sending push notificat
 
 ![](/images/request_permission.jpg)
 
-**application(_:didRegisterForRemoteNotificationsWithDeviceToken:)**
-This method is called when the app successfully registers for remote notifications with the Apple Push Notification service (APNs). You can use the deviceToken parameter to send push notifications to the device.
 
-<CodeGroup>
-```swift swift
-func castled_application(_ application: UIApplication,didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-    //Invoke the setDeviceToken method if swizzling is off
-    Castled.sharedInstance?.setPushToken(deviceToken: deviceToken)
-}
-```
+**AppDelegate Swizzling in Castled SDK**
 
-```objc objc
-- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+Castled SDK is designed to simplify push notification handling. By default, swizzling is **enabled**, which means the SDK automatically handles the registration of device tokens, the presentation of notifications, and the response to user interactions with those notifications. 
 
-    [[Castled sharedInstance] setPushToken:deviceToken.debugDescription];
-}
-```
-</CodeGroup>
+Refer [swizzling](developer-resources/sdk-integration/ios/swizzling) section for more callback methods post swizzling.
 
-**application(_:didFailToRegisterForRemoteNotificationsWithError:)**
-This method is called when the app fails to register for remote notifications. You can handle the error and take appropriate action.
+**Disabling AppDelegate Swizzling**
+To disable method swizzling with Castled SDK, you must update the **Info.plist** file of your application. Add a new key-value pair where the key is specific to the Castled SDK’s configuration and the value explicitly indicates that swizzling should be turned off. 
 
-<CodeGroup>
-```swift swift
-func castled_application(_ application: UIApplication,didFailToRegisterForRemoteNotificationsWithError error: Error) {
-    
-}
-```
-
-```objc objc
-- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
-    NSLog(@"failed to register for remote notifications: %@ %@", self.description, error.localizedDescription);
-}
-```
-</CodeGroup>
-
-### UNUserNotificationCenterDelegate Methods:
-
-**userNotificationCenter(_:didReceive:withCompletionHandler:)**
-This method is called when the user taps on or interacts with a notification. You can handle the user's response to the notification, such as opening a specific screen in the app or performing a specific action.
-
-<CodeGroup>
-```swift swift
-func userNotificationCenter(_ center: UNUserNotificationCenter, 
-                            didReceive response: UNNotificationResponse, 
-                            withCompletionHandler completionHandler: @escaping () -> Void) {
-    // Handle the click events
-    Castled.sharedInstance.userNotificationCenter(center, didReceive: response)
-    completionHandler()
-}
-```
-
-```objc objc
-- (void)userNotificationCenter:(UNUserNotificationCenter *)center 
-    didReceiveNotificationResponse:(UNNotificationResponse *)response 
-           withCompletionHandler:(void (^)(void))completionHandler {
-
-    [[Castled sharedInstance] userNotificationCenter:center didReceive:response];
-    completionHandler();
-}
-```
-</CodeGroup>
-
-**userNotificationCenter(_:willPresent:withCompletionHandler:)**
-This method is called when a notification is about to be presented to the user while the app is in the foreground. You can customize the presentation options for the notification, such as showing an alert, playing a sound, or updating the app badge.
-
-<CodeGroup>
-```swift swift
-func userNotificationCenter(_ center: UNUserNotificationCenter, 
-                            willPresent notification: UNNotification, 
-                            withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-    Castled.sharedInstance.userNotificationCenter(center, willPresent: notification)
-    completionHandler([.alert, .badge, .sound])
-}
-```
-
-```objc objc
-- (void)userNotificationCenter:(UNUserNotificationCenter *)center 
-         willPresentNotification:(UNNotification *)notification 
-           withCompletionHandler:(void (^)(UNNotificationPresentationOptions))completionHandler {
-
-    [[Castled sharedInstance] userNotificationCenter:center willPresent:notification];
-    completionHandler(UNAuthorizationOptionAlert | UNAuthorizationOptionBadge | UNAuthorizationOptionSound);
-}
-```
-</CodeGroup>
-
-**userNotificationCenter(_:didReceiveRemoteNotification:completionHandler:)**
-This method is invoked when to handle a remote notification received while the app is running in the foreground or background
-
-<CodeGroup>
-```swift swift
-func application(_ application: UIApplication, 
-                 didReceiveRemoteNotification userInfo: [AnyHashable: Any], 
-                 fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-    Castled.sharedInstance.didReceiveRemoteNotification(inApplication: application, withInfo: userInfo, fetchCompletionHandler: { _ in completionHandler(.newData)})
-}
-```
-
-```objc objc
-- (void)application:(UIApplication *)application 
-didReceiveRemoteNotification:(NSDictionary *)userInfo 
- fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
-
-    [[Castled sharedInstance] didReceiveRemoteNotificationInApplication:application withInfo:userInfo 
-                                                fetchCompletionHandler:^(UIBackgroundFetchResult) {
-                                                    completionHandler(UIBackgroundFetchResultNewData);
-                                                }];
-}
-```
-</CodeGroup>
-
-Make sure to set the delegate of the UNUserNotificationCenter instance and the UIApplication instance to your AppDelegate class to receive and handle the push notifications.
+Refer [swizzling](developer-resources/sdk-integration/ios/swizzling) section to disable swizzling and manual handling of push notifications after disabling.
 
 ## Custom handling of User Actions 
 
@@ -256,7 +154,7 @@ This delegate method is invoked when a user clicks on a notification that was di
 - navigateToScreen
 - richLanding
 - requestForPush
--dismiss
+- dismiss
 - custom
 
 **kvPairs** : An optional dictionary containing key-value pairs providing additional information associated with the notification, such as a URL to open or an ID of content to display.
