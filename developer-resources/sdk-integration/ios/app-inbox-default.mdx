@@ -28,7 +28,7 @@ Embed `AppInboxViewController` within your existing navigation flow for a consis
 
       ```swift swift
       func pushViewController() {
-          let inboxViewController = Castled.sharedInstance?.getInboxViewController(withUIConfigs: nil, andDelegate: self)
+          let inboxViewController = Castled.sharedInstance.getInboxViewController(withUIConfigs: nil, andDelegate: self)
           self.navigationController?.pushViewController(inboxViewController, animated: true)
       }
       ```
@@ -51,7 +51,7 @@ Present the App Inbox cards in a modal view, suitable for focused interactions.
 
       ```swift swift
         func presentViewController() {
-            let inboxViewController = Castled.sharedInstance?.getInboxViewController(withUIConfigs: nil, andDelegate: self)
+            let inboxViewController = Castled.sharedInstance.getInboxViewController(withUIConfigs: nil, andDelegate: self)
             self.navigationController?.present(inboxViewController, animated: true, completion: nil)
         }
       ```
@@ -108,7 +108,7 @@ By adopting this protocol, you can tap into the callback provided when a user se
 
             func presentViewController() {
                 // Set the delegate to the method invoked for fetching the App inbox view controller
-                let inboxViewController = Castled.sharedInstance?.getInboxViewController(with: nil, andDelegate: self)
+                let inboxViewController = Castled.sharedInstance.getInboxViewController(with: nil, andDelegate: self)
                 self.navigationController?.present(inboxViewController, animated: true, completion: nil)
             }
             ...
@@ -174,7 +174,7 @@ By adopting this protocol, you can tap into the callback provided when a user se
         style.tabBarSelectedBackgroundColor = .lightGray
         style.tabBarIndicatorBackgroundColor = .red
 
-        let inboxViewController = Castled.sharedInstance?.getInboxViewController(with: style, andDelegate: self)
+        let inboxViewController = Castled.sharedInstance.getInboxViewController(with: style, andDelegate: self)
         navigationController?.pushViewController(inboxViewController!, animated: true)
     }
 
@@ -216,7 +216,7 @@ The SDK offers multiple methods to obtain the count of unread messages, suitable
     <CodeGroup>
 
     ```swift swift
-    Castled.sharedInstance?.inboxUnreadCount(listener: {unreadCount in
+    Castled.sharedInstance.inboxUnreadCount(listener: {unreadCount in
                 print("Inbox unread count is \(unreadCount)")
     })
 
@@ -237,7 +237,7 @@ The SDK offers multiple methods to obtain the count of unread messages, suitable
 
 
     ```swift swift
-    Castled.sharedInstance?.getInboxUnreadCount()
+    Castled.sharedInstance.getInboxUnreadCount()
     ```
 
     ```objc objc
@@ -253,7 +253,7 @@ Use the method below to dismiss the App Inbox programmatically.
     <CodeGroup>
 
     ```swift swift
-    Castled.sharedInstance?.dismissInboxViewController()
+    Castled.sharedInstance.dismissInboxViewController()
     ```
 
     ```objc objc

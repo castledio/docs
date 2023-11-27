@@ -58,7 +58,7 @@ sign-in flow of your app. `user-id` is the id that you use internally within you
 
 <CodeGroup>
   ```swift swift
-  Castled.sharedInstance?.setUserId("<user-id>")
+  Castled.sharedInstance.setUserId("<user-id>")
   ```
    
   ```objc objc
@@ -83,7 +83,7 @@ completes the login flow within your app.
 <CodeGroup>
 
     ```swift swift
-    Castled.sharedInstance?.setUserId("user@org.com", userToken: "<user-token>")
+    Castled.sharedInstance.setUserId("user@org.com", userToken: "<user-token>")
     ```
 
     ```objc objc

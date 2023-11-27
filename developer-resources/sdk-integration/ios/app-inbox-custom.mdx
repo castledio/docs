@@ -10,26 +10,26 @@ For developers interested in implementing a custom View Controller for the App I
 
     ```swift swift
     // Fetching the unread message count directly
-    Castled.sharedInstance?.getInboxUnreadCount()
+    Castled.sharedInstance.getInboxUnreadCount()
 
     // Listening to unread message count changes using a callback
-    Castled.sharedInstance?.observeUnreadCountChanges(listener: { unreadCount in
+    Castled.sharedInstance.observeUnreadCountChanges(listener: { unreadCount in
         print("Inbox unread count is \(unreadCount)")
     })
 
     // Retrieving all inbox items
-    Castled.sharedInstance?.getInboxItems(completion: { result in
+    Castled.sharedInstance.getInboxItems(completion: { result in
         print("Inbox items are \(result)")
     })
 
     // Logging read inbox items
-    Castled.sharedInstance?.logInboxItemsRead(inboxItems)
+    Castled.sharedInstance.logInboxItemsRead(inboxItems)
 
     // Deleting a specific inbox item
-    Castled.sharedInstance?.deleteInboxItem(inboxItem)
+    Castled.sharedInstance.deleteInboxItem(inboxItem)
 
     // Logging a click on an inbox item
-    Castled.sharedInstance?.logInboxItemClicked(inboxItem, buttonTitle: "title")
+    Castled.sharedInstance.logInboxItemClicked(inboxItem, buttonTitle: "title")
     ```
 
 
