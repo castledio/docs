@@ -207,19 +207,24 @@ Following code snippet uses an anonymous object as the listener.
   </Accordion>
 
 <Accordion title="Push notification is not showing in the device after sending from Castled dashboard">
-   There can be a lot of reasons why this can happen after a successfull SDK initialization. You can use the following checklist as a starter for debugging this issue.
+   There can be a lot of reasons why this could happen after a successfull SDK initialization. You can use the following checklist as a starter for debugging this issue.
    
-   1. Make sure `enablePush` config is set to `true`.
-   2. Firebase configs are setup in Castled dashboard. 
-   3. Make sure app has granted push notification permission. You can navigate to **Settings > Notifications > Your App** to see the notification permission status.
-   4. If you are running the app in debug mode, make sure app is running. It can be in focus or out of focus.
-   5. Verify that the app is not force stopped. For e.g. some devices have energy saving mode enabled that could kill the app. 
-   You can verify the app status by running the following command in adb shell.
-   
-    ```shell
-    adb shell dumpsys package com.company.myapp | grep stopped
-    ```
-    App state should be `stopped=false` to receive push.
+   1. Ensure mobile device has network connection. 
+   2. Make sure `enablePush` config is set to `true`.
+   3. Firebase configs are setup in Castled dashboard. 
+   4. Make sure app has granted push notification permission. You can navigate to **Settings > Notifications > App Notifications > Your App** to see the notification permission status.
+   5. If you are running the app in debug mode, make sure app is running. It can be in focus or out of focus.
+   6. If sending notification using a **Campaign** or **Workflow**, check out the **Reports** section for the **Campaign** or **Workflow**. If `Skipped` counter is non zero, 
+      it likely means SDK was not able to send push token to Castled server. Try removing the app and re-installing. If problem persists contact support.  
+   7. Verify that the app is not force stopped. For e.g. some devices have energy saving mode enabled that could kill the app.
+      You can verify the app status by running the following command in adb shell.
+        
+        ```shell
+        adb shell dumpsys package com.company.myapp | grep stopped
+        ```
+        App state should be `stopped=false` to receive push.
+   8. If you already tried the above checklist and the problem still persists, reach out to `tech@castled.io` or ping us in our Slack channel.
 </Accordion>
+
 
 </AccordionGroup>

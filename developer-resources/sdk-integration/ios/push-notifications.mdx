@@ -428,3 +428,49 @@ class AppDelegate: UIResponder, UIApplicationDelegate , UNUserNotificationCenter
 <Note>
 The **UNNotificationActionOptions.foreground** in swift and **UNNotificationActionOptionForeground** in Objective C option is used to specify the behavior of a notification action when it is clicked by the user. Make sure this option is included, so that the action launches the application and bring it to the foreground.
 </Note>
+
+## FAQ
+
+<AccordionGroup>
+  <Accordion title="Failed to register for remote notifications: No valid “aps-environment” entitlement string found for application">
+    Ensure that push notification capability is enabled in **Xcode**. Navigate to the project file (.xcodeproj), go to **Capabilities**, 
+    and enable Push Notification. This ensures the presence of the necessary `aps-environment` entitlement string for your application.
+  </Accordion>
+
+  <Accordion title="Push notification is not showing in the device after sending from Castled dashboard">
+    You can use the following checklist as a starter for debugging this issue.
+    
+    1. Ensure mobile device has network connection. 
+    2. Make sure `enablePush` config is set to `true`.
+    3. If the app was uninstalled, the token becomes invalid. Ensure that the app is installed on the device.
+    4. APNS configs are setup in Castled dashboard.
+    5. Make sure app has granted push notification permission. You can navigate to **Settings > Notifications > Your App** to see the notification permission status.
+    6. If you are sending notification using a **Campaign** or **Workflow**, check out the **Reports** section for the **Campaign** or **Workflow**. If you see `Skipped` counter is non zero, 
+       it likely means SDK was not able to send push token to Castled server. Try removing the app and re-installing. If problem persists contact support.  
+    7. If you are getting a specific error message when sending test push notification, checkout the faq section about common error codes.
+    8. If you already tried the above checklist and the problem still persists, reach out to `tech@castled.io` or ping us in our Slack channel.
+    
+  </Accordion>
+
+  <Accordion title="Common error codes when sending test push notification">
+   
+   #### BadDeviceToken
+   If you encounter a BadDeviceToken issue, there are two potential causes related to sandbox configuration:
+   1. Sandbox selection in Castled dashboard:
+      Ensure that the sandbox environment is correctly selected in the Castled dashboard under **Settings -> Channels -> Mobile Push -> iOS**. 
+      The environment chosen should align with your development or testing phase.
+   
+   2. Send to sandbox selection in **Send Test** push:
+      When sending test pushes, make sure that the **Send to Sandbox** option is appropriately selected. If you're testing in a sandbox environment, enable this option to direct notifications to the sandbox APNS servers. 
+      Conversely, for production testing, ensure that this option is disabled.
+
+   #### TopicDisallowed
+   Validate that the project `Bundle ID` matches the one provided in your Castled dashboard under **Settings -> Channels -> Mobile Push -> iOS**.
+
+   #### InvalidProviderToken   
+   Double-check the correctness of `Team ID`, `Key ID`, and `Key File` provided in your Castled dashboard. Also, confirm that the `Key File` and the `Bundle ID` provided are associated with the same `Team ID`. 
+   This ensures a seamless connection between your app and the APNS.
+ 
+  </Accordion>
+
+</AccordionGroup>
