@@ -1,5 +1,5 @@
 ---
-title: "Getting Started with Android SDK"
+title: "Getting Started with React Native SDK"
 sidebarTitle: "Getting Started"
 ---
 
@@ -11,93 +11,135 @@ sidebarTitle: "Getting Started"
 
 </Info>
 
-The Castled Android SDK enables mobile applications running on Android devices to receive push, in-app and inbox notifications originating from the Castled Customer Engagement Platform.
-The steps outlined below will assist your Android app developers in integrating the SDK with your mobile application
+React Native is a JavaScript library for building apps on multiple platforms like Android and iOS, by maintaining a single code base.
 
-## SDK installation
+**Castled React Native SDK** enables your React Native App to receive push, in-app and inbox notifications originating from the Castled Customer Engagement Platform.
+It is implemented as a [**Turbo Native Module**](https://reactnative.dev/docs/next/the-new-architecture/pillars-turbomodules) with backward compatability. Turbo Native Modules
+are the next iteration on React Native Modules for apps based on the [New Architecture](https://reactnative.dev/docs/the-new-architecture/landing-page).
+
+<Note>
+  If your react app is on legacy architecture, you will still be able to use the
+  Castled SDK as Turbo Native Modules are backward compatible.
+</Note>
+
+## Installation
+
+To use the SDK, add the library to your project
+
+<CodeGroup>
+
+```bash npm
+  npm install castled-react-native-sdk
+```
+
+```bash yarn
+  yarn add castled-react-native-sdk
+```
+
+</CodeGroup>
+
+## Native Setup
 
 <Tabs>
-  <Tab title="Gradle">
-    Applicable if your project uses **Gradle** for managing dependency. Add `castled-notifications` as a dependency in the `build.gradle` file of your Android application module.
+    <Tab title="Android">
+      
+        #### Step 1.  Update `build.gradle`
 
-    ```groovy build.gradle
-        ...
-        dependencies {
+        Include `google-services` plugin dependency in top-level gradle file
+
+        ```gradle android/build.gradle
+        // Top-level build file where you can add configuration options common to all sub-projects/modules.
+        buildscript {
+            repositories {
+                // Add google maven repository
+                google()
+            }
             ...
-            implementation 'io.castled.android:castled-notifications:<sdk-latest-version>'
+            dependencies {
+                ...
+                classpath("com.google.gms:google-services:<plugin-version>")
+            }
         }
-    ````
+        ```
+        Apply `google-services` plugin to app gradle file
 
-    Replace `latest-version` with the latest version number of the SDK found here. Sync the gradle file to pull the dependencies just added.
+        ```gradle android/app/build.gradle
+          apply plugin: "com.google.gms.google-services"
 
-</Tab>
+          ```
+        #### Step 2. Add required permissions
+        By default `AndroidManifest.xml` of the SDK includes the following permission requests. No developer action is required here.
 
-<Tab title="Maven">
+        ```xml
+        <!-- Castled SDK needs this permission to sync user token and campaign events  -->
+        <uses-permission android:name="android.permission.INTERNET"/>
+        <!-- Castled SDK will use this permission to decide when to make network calls -->
+        <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+        ```
 
-    Applicable if your project uses **Maven** for managing dependency. Add the following snippet in your module `pom.xml` file as a child of `dependencies`
-
-    ```xml pom.xml
-        <dependency>
-            <groupId>io.castled.android</groupId>
-            <artifactId>castled-notifications</artifactId>
-            <version>sdk-latest-version</version>
-        </dependency>
-    ```
-
-    Replace `sdk-latest-version` with the latest version of the sdk.
-
-</Tab>
+    </Tab>
+    <Tab title="iOS">
+      TODO: Add iOS specific steps here...
+    </Tab>
 
 </Tabs>
 
-## SDK initialization
+## Initialization
 
-The next step is to initialize the SDK. Initialization is typically done in the `onCreate` method of your
-`Application` class as follows.
+Next step is to initialize the SDK. Initialization is typically done in `App.js`.
 
-```kotlin MyApplicationClass.kt
-class MyApplicationClass : MultiDexApplication() {
-    override fun onCreate() {
-        super.onCreate()
+```tsx
+  import * as React from 'react';
+  // Importing SDK modules required for initialization
+  import {
+    CastledNotifications,
+    CastledConfigs,
+    CastledLocation,
+  } from 'castled-react-native-sdk';
+  import Header from './Header';
 
-        // SDK initialization
-        CastledNotifications.initialize(
-            this, CastledConfigs.Builder()
-                .appId("<app-id>")
-                .location(<location>)
-                .build()
-        )
-        ...
-    }
+  export default function App() {
+
     ...
-}
+
+    React.useEffect(() => {
+      // Set config
+      const configs = new CastledConfigs();
+      configs.appId = '<app-id>';
+      configs.location = CastledLocation.US;
+
+      // Initialize SDK
+      CastledNotifications.initialize(configs);
+    }, []);
+
+    ...
+
+    return (
+      <>
+        ...
+      </>
+    );
+  }
 ```
 
 - `api-key` is a unique key associated with your Castled account. It can be found in the Castled dashboard at **Settings > Api Keys**.
 - `location` is the region where you have your Castled account.
 
-```kotlin CastledConfigs.kt
-    enum class CastledLocation {
-        US,   // United States
-        IN,   // India
-        AP    // Asia Pacific
-    }
-```
+You can refer to the **SDK Configs** section for the list of configs available during initialization.
 
 ### User Identification
 
 To identify the user associated with this app instance, use the following method. This is typically invoked immediately after user completes the
 sign-in flow of your app. `user-id` is the id that you use internally within your organisation to identify a user.
 
-```kotlin
-
+```tsx
 // User identification
-CastledNotifications.setUserId(context, "<user-id>")
+CastledNotifications.setUserId("<user-id>")
 ```
 
 <Note>
-  It is recommended to pass an optional **user-token** as the third parameter to
-  `setUserId` to mitigate any risk of user impersonation. In the absence of a
+  It is recommended to pass an optional **user-token** as the second parameter
+  to `setUserId` to mitigate any risk of user impersonation. In the absence of a
   **user-token**, no additional verifications will be done to enforce user
   authenticity. If your **user-id** is random id such as a UUID, **user-token**
   is probably not required. More info on **user-token** can be found in the next
@@ -107,12 +149,11 @@ CastledNotifications.setUserId(context, "<user-id>")
 ### Secure User Identification
 
 `user-token` is a unique token for each user generated by your app server. This token is usually issued by the app server after the user
-completes the login flow within your app.
+is verified by the app server after login.
 
-```kotlin
-
+```tsx
 // Secure user identification
-CastledNotifications.setUserId(this, "<user-id>", "<user-token>")
+CastledNotifications.setUserId("<user-id>", "<user-token>")
 ```
 
 `user-token` is basically a Base64 encoded **Hash-based Message Authentication Code** (HMAC). Ensure the hash computation happens in your app server so that `api-key`
@@ -168,17 +209,18 @@ Find sample server code snippets to generate **HMAC** for the `user-id`.
 
 ### User Logout
 
-To remove the user association with a particular app instance. Typically invoked as part of the user sign-out flow within the app. Once invoked, the app won't be able to
+To remove the user association with a particular app instance. Typically invoked as part of the user sign-out flow within the app. Once invoked, app won't be able to
 receive any messages or notifications sent from Castled until the user sign-in again to the app again.
 
-```kotlin
+```tsx
 // User logout
 CastledNotifications.logout()
 ```
 
 ## SDK Configs
 
-This section covers the basic configurations available in the SDK. Use these configs if you want to enable specific mobile communication channel or want to override default behavior.
+This section covers the basic configurations available in the `CastledConfigs` class of the SDK.
+Use these configs if you want to enable specific messsaging channel or want to override default behavior.
 
 | Config Name     | Description                                                                                       | Default Value |
 | --------------- | ------------------------------------------------------------------------------------------------- | ------------- |
@@ -189,35 +231,8 @@ This section covers the basic configurations available in the SDK. Use these con
 | enableTracking  | Enables tracking of User attributes or App events                                                 | false         |
 | location        | Preferred server location                                                                         | US            |
 
-Please find below a sample snippet to enable Push Notification and using Castled US server location.
-
-```kotlin MyApplicationClass.kt
-class MyApplicationClass : MultiDexApplication() {
-    override fun onCreate() {
-        super.onCreate()
-
-        // SDK initialization
-        CastledNotifications.initialize(
-            this, CastledConfigs.Builder()
-                .apiKey("<api-key>")
-                .enablePush(true)
-                .location(CastledLocation.US)
-                .build()
-        )
-        ...
-    }
-    ...
-}
-```
-
-## SDK Permissions
-
-By default `AndroidManifest.xml` of the SDK includes the following permission requests. No developer action is required here.
-
-```xml
-
-<!-- Castled SDK needs this permission to sync user token and campaign events  -->
-<uses-permission android:name="android.permission.INTERNET"/>
-<!-- Castled SDK will use this permission to decide when to make network calls -->
-<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-```
+<Note>
+  Push boost feature has to be included in your account plan for
+  `enablePushBoost` to work as expected. For any inquiries or further
+  assistance, please contact our support team.
+</Note>

@@ -36,12 +36,12 @@
     {
       "name": "Developer Guide",
       "url": "developer-resources"
-   },
+    },
     {
-        "name": "API Docs",
-        "url": "api-docs"
+      "name": "API Docs",
+      "url": "api-docs"
     }
- ],
+  ],
   "anchors": [
     {
       "name": "Get a Demo",
@@ -292,8 +292,8 @@
                   ]
                 },
                 {
-                  "group" : "Channels",
-                  "pages" :[
+                  "group": "Channels",
+                  "pages": [
                     {
                       "group": "Push",
                       "pages": [
@@ -331,8 +331,8 @@
                   ]
                 },
                 {
-                  "group" : "Channels",
-                  "pages" :[
+                  "group": "Channels",
+                  "pages": [
                     {
                       "group": "Push",
                       "pages": [
@@ -354,6 +354,40 @@
                       "pages": [
                         "developer-resources/sdk-integration/ios/app-inbox-default",
                         "developer-resources/sdk-integration/ios/app-inbox-custom"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "group": "React Native SDK",
+              "pages": [
+                {
+                  "group": "SDK Setup",
+                  "pages": [
+                    "developer-resources/sdk-integration/reactnative/getting-started"
+                  ]
+                },
+                {
+                  "group": "Channels",
+                  "pages": [
+                    {
+                      "group": "Push",
+                      "pages": [
+                        "developer-resources/sdk-integration/reactnative/push-notifications"
+                      ]
+                    },
+                    {
+                      "group": "In-App",
+                      "pages": [
+                        "developer-resources/sdk-integration/reactnative/in-app-messages"
+                      ]
+                    },
+                    {
+                      "group": "App Inbox",
+                      "pages": [
+                        "developer-resources/sdk-integration/reactnative/app-inbox"
                       ]
                     }
                   ]
