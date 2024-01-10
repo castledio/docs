@@ -216,14 +216,14 @@ The SDK offers multiple methods to obtain the count of unread messages, suitable
     <CodeGroup>
 
     ```swift swift
-    Castled.sharedInstance.inboxUnreadCount(listener: {unreadCount in
-                print("Inbox unread count is \(unreadCount)")
+    Castled.sharedInstance.observeUnreadCountChanges(listener: { unreadCount in
+        print("Inbox unread count is \(unreadCount)")
     })
 
     ```
 
     ```objc objc
-    [[Castled sharedInstance] inboxUnreadCountWithListener:^(NSInteger unreadCount) {
+    [[Castled sharedInstance] observeUnreadCountChangesWithListener:^(NSInteger unreadCount) {
         NSLog(@"Inbox unread count is %ld", (long)unreadCount);
     }];
 
