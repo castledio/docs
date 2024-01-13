@@ -1,3 +1,216 @@
 ---
 title: "Push Notification"
 ---
+
+<Info>
+
+**Prerequisites**
+
+- [Firebase account already setup and is added to your app](/developer-resources/sdk-integration/android/fcm-setup)
+- [SDK integration completed](/developer-resources/sdk-integration/reactnative/getting-started)
+
+</Info>
+
+This section covers how to setup push notification in React Native.
+
+## Enabling Push Notification in SDK
+
+Set `enablePush` to `true` during SDK initialization. More details about SDK initialization can be found
+[here](/developer-resources/sdk-integration/reactnative/getting-started#initialization)
+
+```tsx
+// Set config
+const configs = new CastledConfigs()
+configs.appId = "<app-id>"
+configs.location = CastledLocation.US
+configs.enablePush = true
+
+// Initialize SDK
+CastledNotifications.initialize(configs)
+```
+
+## Native setup
+
+<Tabs>
+    <Tab title="Android">
+      
+        #### Step 1: Add required permissions
+        Add the following permission to android app `AndroidManifest.xml`. This allows the app to receive push notifications
+
+        ```xml AndroidManifest.xml
+            <manifest ...>
+                <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+                <application ...>
+                    ...
+                </application>
+            </manifest>
+        ```
+
+        #### Step 2: Firebase push messaging handling service
+        By default SDK takes care of push token fetch and notification handling once app gets the permission to post notification.
+        In case the app has registered its own Firebase message service class (`FirebaseMessagingService`) for handling push tokens,
+        SDK needs to be notified of the new token and any push notification received from Castled platform.
+        Folow these [instructions](https://docs.castled.io/developer-resources/sdk-integration/android/push-notifications#firebase-push-messaging-handling-service)
+        if you already have a `FirebaseMessagingService` registered.
+
+        #### Step 3: Notification default configs
+        You can also configure default values for **Notification Channels** and **Notification Icons**. Please find the instructions
+        [here](/developer-resources/sdk-integration/android/push-notifications#notification-default-configs)
+
+
+    </Tab>
+    <Tab title="iOS">
+      #### Step 1: Configuring iOS push
+      Follow these [instructions](/developer-resources/sdk-integration/ios/push-notifications) for native iOS setup.
+
+      <Warning>
+      When integrating a Swift library such as **Castled** into a React Native project, you may encounter an issue during the pod install process.
+      This issue arises because Swift pods, including **Castled**, depend on libraries which do not define modules.
+      In React Native projects, integrating Swift pods as static libraries requires the generation of module maps for proper Swift compatibility.
+
+      To resolve this issue, follow these steps to configure your Podfile:
+
+      ```pod
+      target 'YourTargetName' do
+        config = use_native_modules!
+        pod 'SDWebImage', '~> 5.11', :modular_headers => true
+        pod 'Realm', :modular_headers => true
+      end
+      ```
+      Save the Podfile and run `pod install` again.
+      </Warning>
+
+      #### Step 2: Disabling Swizzling
+      This step is applicable only if:
+        1. Your app is using other SDKs along with Castled for handling push notification.
+        2. You prefer to have more granular control over notification handling or may need to comply with specific architectural requirements.
+
+        To disable method swizzling with Castled SDK, you must update the Info.plist file of your application.
+        ```xml info.plist
+        <key>CastledSwizzlingDisabled</key>
+        <true/>
+        ```
+
+        Once swizzling is disabled, the responsibility of invoking the necessary methods falls on the developer.
+        Developer needs to implement various `UNUserNotificationCenterDelegate` and `UIApplicationDelegate` methods to handle
+        different notification scenarios.
+
+        #### Manual Handling of Push Notifications
+
+        <CodeGroup>
+        ```objc objc
+            // Handling Device Token Registration
+            -(void) application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken{
+            NSMutableString *deviceTokenString =[NSMutableString string];
+            if (@available(iOS 13.0, *)) {
+                    deviceTokenString = [NSMutableString string];
+                    const unsigned char *bytes = (const unsigned char *)[deviceToken bytes];
+                    NSInteger count = deviceToken.length;
+                    for (int i = 0; i < count; i++) {
+                        [deviceTokenString appendFormat:@"%02x", bytes[i]&0x000000FF];
+                    }
+                } else {
+                    NSString *deviceToken1 =  [[[[deviceToken description]
+                                            stringByReplacingOccurrencesOfString:@"<" withString:@""]
+                                            stringByReplacingOccurrencesOfString:@">" withString:@""]
+                                        stringByReplacingOccurrencesOfString:@" " withString:@""];
+                    deviceTokenString = [[NSMutableString alloc] initWithString:deviceToken1];
+                }
+            NSLog(@"didRegisterForRemoteNotificationsWithDeviceToken: %@", deviceTokenString);
+            [[CastledReactBridge sharedInstance] setPushToken:deviceTokenString];
+            }
+
+            // Handling Registration Failure
+            -(void) application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error{
+            NSLog(@"failed to register for remote notifications: %@ %@", self.description, error.localizedDescription);
+            }
+
+            // Handling Notification Responses
+            -(void) userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)(void))completionHandler{
+            [[CastledReactBridge sharedInstance] userNotificationCenter:center didReceiveNotificationResponse:response];
+            completionHandler();
+            }
+
+            // Handling Foreground Notification Presentation
+            -(void) userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions))completionHandler{
+            [[CastledReactBridge sharedInstance] userNotificationCenter:center willPresentNotification:notification];
+            completionHandler(UNAuthorizationOptionAlert | UNAuthorizationOptionBadge | UNAuthorizationOptionSound);
+            }
+
+            // Handling Background Notifications
+            - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler{
+            [[CastledReactBridge sharedInstance] didReceiveRemoteNotificationInApplication:application withInfo:userInfo fetchCompletionHandler:^(UIBackgroundFetchResult) {
+                completionHandler(UIBackgroundFetchResultNewData);
+            }];
+            }
+
+        ```
+        ```swift swift
+            // Import the Castled React Bridge in Bridging Header
+            #import <castled-react-native-sdk/CastledReactBridge.h>
+
+            extension AppDelegate: UNUserNotificationCenterDelegate {
+
+                // Handling Device Token Registration
+                func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+                    let deviceTokenString = deviceToken.map { String(format: "%02.2hhx", $0) }.joined()
+                    CastledReactBridge.sharedInstance().setPushToken(deviceTokenString)
+                    print("APNs token \(deviceTokenString) \(self.description)")
+                }
+
+                // Handling Registration Failure
+                func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+                    print("Failed to register for remote notifications \(error.localizedDescription)")
+                }
+
+                // Handling Notification Responses
+                func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+                    // Handle the click events
+                    CastledReactBridge.sharedInstance().userNotificationCenter(center, didReceive: response)
+                    completionHandler()
+                }
+
+                // Handling Foreground Notification Presentation
+                func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+                    CastledReactBridge.sharedInstance().userNotificationCenter(center, willPresent: notification)
+                    completionHandler([.alert, .badge, .sound])
+                }
+
+                // Handling Background Notifications
+                func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+                    CastledReactBridge.sharedInstance().didReceiveRemoteNotification(in: application, withInfo: userInfo, fetchCompletionHandler: { _ in
+                    completionHandler(.newData)
+                    })
+                }
+            }
+
+        ```
+        </CodeGroup>
+
+        <Note>
+            If your **Swift** project doesn't have a bridging header yet, you need to create one. To acheive this,
+            Create a new **Objective-C** file in your Swift project. Xcode will prompt you to create a bridging header.
+            Accept and let Xcode create it.
+         </Note>
+
+         #### Step 4: Support for Rich Push Notification
+
+         Follow the [instructions](https://docs.castled.io/developer-resources/sdk-integration/ios/rich-push-notification) here
+         for setting up rich push notifications.
+
+         Also in the /ios directory of your project,
+         open the Podfile and add the following outside of the main target (should be at the same level as your main target):
+
+         ```pod
+         target 'CastledNotificationServiceExtension' do
+            pod 'CastledNotificationService'
+         end
+
+         target 'CastledNotificationContentExtension' do
+            pod 'CastledNotificationContent'
+         end
+         ```
+
+    </Tab>
+
+</Tabs>
