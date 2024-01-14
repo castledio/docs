@@ -79,7 +79,7 @@ func application(_ application: UIApplication, didFinishLaunchingWithOptions lau
     config.enablePush  = true
 
     //2. Call Castled.initialize method
-    Castled.initialize(withConfig: config, delegate: self, andNotificationCategories: nil)
+    Castled.initialize(withConfig: config, delegate: self)
 
     //3. Register Push 
     registerForPush()
