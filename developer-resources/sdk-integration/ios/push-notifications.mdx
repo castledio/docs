@@ -79,10 +79,11 @@ func application(_ application: UIApplication, didFinishLaunchingWithOptions lau
     config.enablePush  = true
 
     //2. Call Castled.initialize method
-    Castled.initialize(withConfig: config, delegate: self)
+    Castled.initialize(withConfig: config, andDelegate: self)
 
     //3. Register Push 
     registerForPush()
+    ...
 }
 
 func registerForPush() {
@@ -122,7 +123,7 @@ Make sure the App group ID configured in the Signed & Capabilities tab of the ap
 ```swift swift
 func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
     ...
-    let config = CastledConfigs.initialize(appId: "<App ID>")
+    let config = CastledConfigs.initialize(appId: "<App ID>")   
     ...
     config.appGroupId = "group.com.castled.CastledPushDemo.Castled"
     ...
