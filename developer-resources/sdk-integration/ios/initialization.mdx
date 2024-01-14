@@ -24,7 +24,7 @@ Initialize the SDK by setting the `app id` available in the Castled Settings pag
       ...
       let config = CastledConfigs.initialize(appId: "<app-id>")
 
-      Castled.initialize(withConfig: config, delegate: self)
+      Castled.initialize(withConfig: config, andDelegate: self)
       ...
       return true
     }
@@ -43,7 +43,7 @@ Initialize the SDK by setting the `app id` available in the Castled Settings pag
         ...
         CastledConfigs *config = [CastledConfigs initializeWithAppId:@"<app-id>"];
 
-        [Castled initializeWithConfig:config delegate:(id)self];
+        [Castled initializeWithConfig:config andDelegate:self];
         ...
         return YES;
     }
