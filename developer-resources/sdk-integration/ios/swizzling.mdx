@@ -63,11 +63,25 @@ func application(_ application: UIApplication, didRegisterForRemoteNotifications
 /// Called when the application successfully registers with the Apple Push Notification service (APNs).
 /// If method swizzling is disabled, manually set the device token through the Castled SDK.
 -(void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
-    NSString *deviceTokenString = [deviceToken description];
-    deviceTokenString = [deviceTokenString stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"<>"]];
-    deviceTokenString = [deviceTokenString stringByReplacingOccurrencesOfString:@" " withString:@""];
+    NSMutableString *deviceTokenString =[NSMutableString string];
+    if (@available(iOS 13.0, *)) {
+        deviceTokenString = [NSMutableString string];
+        const unsigned char *bytes = (const unsigned char *)[deviceToken bytes];
+        NSInteger count = deviceToken.length;
+        for (int i = 0; i < count; i++) {
+            [deviceTokenString appendFormat:@"%02x", bytes[i]&0x000000FF];
+        }
+    } else {
+        NSString *deviceToken1 =  [[[[deviceToken description]
+                                     stringByReplacingOccurrencesOfString:@"<" withString:@""]
+                                    stringByReplacingOccurrencesOfString:@">" withString:@""]
+                                   stringByReplacingOccurrencesOfString:@" " withString:@""];
+        deviceTokenString = [[NSMutableString alloc] initWithString:deviceToken1];
+    }
 
+    NSLog(@"didRegisterForRemoteNotificationsWithDeviceToken: %@", deviceTokenString);
     [[Castled sharedInstance] setPushToken:deviceTokenString];
+
 }
 
 ```
