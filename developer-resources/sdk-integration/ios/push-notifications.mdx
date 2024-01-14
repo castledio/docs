@@ -331,12 +331,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate , UNUserNotificationCenter
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
+        ...
+
         // Register the Custom Notification categories & actions
         let notificationCategories = getNotificationCategories();
-        UNUserNotificationCenter.current().setNotificationCategories(notificationCategories)
+        Castled.sharedInstance.setNotificationCategories(withItems: notificationCategories)
 
-        Castled.initialize(withConfig: config, delegate: self, andNotificationCategories: notificationCategories)
-
+        ...
         return true
     }
 
@@ -379,13 +380,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate , UNUserNotificationCenter
 ```objc objc
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
+    ...
+
     // Register custom notification categories & actions
     NSSet<UNNotificationCategory *> *notificationCategories = [self getNotificationCategories];
-    [[UNUserNotificationCenter currentNotificationCenter] setNotificationCategories:notificationCategories];
+    [[Castled sharedInstance] setNotificationCategoriesWithItems:notificationCategories];
 
-    // Initialize Castled with the configuration, delegate, and custom notification categories
-    [Castled initializeWithConfig:config delegate:self andNotificationCategories:notificationCategories];
-
+    ...
     return YES;
 }
 
@@ -419,6 +420,39 @@ class AppDelegate: UIResponder, UIApplicationDelegate , UNUserNotificationCenter
 
     NSSet<UNNotificationCategory *> *categoriesSet = [NSSet setWithObjects:customCategory1, customCategory2, nil];
     return categoriesSet;
+}
+
+```
+</CodeGroup>
+
+### Setting Launch Options 
+
+<CodeGroup>
+```swift swift
+@main
+class AppDelegate: UIResponder, UIApplicationDelegate , UNUserNotificationCenterDelegate {
+    var window: UIWindow?
+    
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+
+        ...
+
+        Castled.sharedInstance.setLaunchOptions(launchOptions)
+        ...
+        return true
+    }
+}
+```
+
+```objc objc
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+
+    ...
+
+    [[Castled sharedInstance] setLaunchOptions:launchOptions];
+
+    ...
+    return YES;
 }
 
 ```
