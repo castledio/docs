@@ -83,7 +83,9 @@ func application(_ application: UIApplication, didFinishLaunchingWithOptions lau
 
     //3. Register Push 
     registerForPush()
-    ...
+     
+
+    return true
 }
 
 func registerForPush() {
@@ -101,6 +103,22 @@ func registerForPush() {
 ```
 
 ```objc objc
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+
+    //1. Configure config
+    CastledConfigs *config = [CastledConfigs initializeWithAppId:@"<App ID>"];
+    config.enablePush = TRUE;
+  
+    //2. Call Castled.initialize method
+   [Castled initializeWithConfig:config andDelegate:self];
+
+    //3. Register Push
+    [self registerForPush];
+
+    
+    return YES;
+}
+
 - (void)registerForPush {
     UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
     center.delegate = (id)self;
