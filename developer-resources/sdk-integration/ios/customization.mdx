@@ -24,7 +24,7 @@ Castled Swift SDK supports the following log levels
 
       config.logLevel = CastledLogLevel.debug
 
-      Castled.initialize(withConfig: config, delegate: self, andNotificationCategories: nil)
+      Castled.initialize(withConfig: config, andDelegate: self)
       ...
       return true
     }
@@ -37,7 +37,7 @@ Castled Swift SDK supports the following log levels
 
         config.logLevel = CastledLogLevelDebug;
 
-        [Castled initializeWithConfig:config delegate:(id)self andNotificationCategories:nil];
+        [Castled initializeWithConfig:config andDelegate:self];
         ...
         return YES;
     }
@@ -72,7 +72,7 @@ This section covers the basic configurations available in the SDK. Use these con
       config.location = CastledLocation.US
       config.logLevel = CastledLogLevel.debug
 
-      Castled.initialize(withConfig: config, delegate: self, andNotificationCategories: nil)
+      Castled.initialize(withConfig: config, andDelegate: self)
       ...
       return true
     }
@@ -91,7 +91,7 @@ This section covers the basic configurations available in the SDK. Use these con
         config.logLevel = CastledLogLevelDebug;
         config.location = CastledLocationUS;
 
-        [Castled initializeWithConfig:config delegate:(id)self andNotificationCategories:nil];
+        [Castled initializeWithConfig:config andDelegate:self];
         ...
         return YES;
     }
