@@ -126,7 +126,7 @@ func application(_ application: UIApplication, didFinishLaunchingWithOptions lau
     ...
     config.appGroupId = "group.com.castled.CastledPushDemo.Castled"
     ...
-    Castled.initialize(withConfig: config, delegate: self)
+    Castled.initialize(withConfig: config, andDelegate: self)
     ...
     return true
 }
@@ -140,7 +140,7 @@ func application(_ application: UIApplication, didFinishLaunchingWithOptions lau
     config.appGroupId = @"group.com.castled.CastledPushDemo.Castled";
     ...
 
-    [Castled initializeWithConfig:config delegate:(id)self];
+    [Castled initializeWithConfig:config andDelegate:self];
     ...
     return YES;
 }
