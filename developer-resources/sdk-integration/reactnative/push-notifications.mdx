@@ -63,23 +63,6 @@ CastledNotifications.initialize(configs)
       #### Step 1: Configuring iOS push
       Follow these [instructions](/developer-resources/sdk-integration/ios/push-notifications) for native iOS setup.
 
-      <Warning>
-      When integrating a Swift library such as **Castled** into a React Native project, you may encounter an issue during the pod install process.
-      This issue arises because Swift pods, including **Castled**, depend on libraries which do not define modules.
-      In React Native projects, integrating Swift pods as static libraries requires the generation of module maps for proper Swift compatibility.
-
-      To resolve this issue, follow these steps to configure your Podfile:
-
-      ```pod
-      target 'YourTargetName' do
-        config = use_native_modules!
-        pod 'SDWebImage', '~> 5.11', :modular_headers => true
-        pod 'Realm', :modular_headers => true
-      end
-      ```
-      Save the Podfile and run `pod install` again.
-      </Warning>
-
       #### Step 2: Disabling Swizzling
       This step is applicable only if:
         1. Your app is using other SDKs along with Castled for handling push notification.

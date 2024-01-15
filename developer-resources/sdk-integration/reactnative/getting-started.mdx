@@ -79,7 +79,26 @@ To use the SDK, add the library to your project
 
     </Tab>
     <Tab title="iOS">
-      TODO: Add iOS specific steps here...
+        #### Step 1: Pod Installation
+
+           Navigate to ios directory of your app project and run `pod install`
+
+            <Warning>
+            When integrating a Swift library such as **Castled** into a React Native project, you may encounter an issue during the pod install process.
+            This issue arises because Swift pods, including **Castled**, depend on libraries which do not define modules.
+            In React Native projects, integrating Swift pods as static libraries requires the generation of module maps for proper Swift compatibility.
+
+            To resolve this issue, follow these steps to configure your Podfile:
+
+            ```pod
+            target 'YourTargetName' do
+              config = use_native_modules!
+              pod 'SDWebImage', '~> 5.11', :modular_headers => true
+              pod 'Realm', :modular_headers => true
+            end
+            ```
+            Save the Podfile and run `pod install` again.
+            </Warning>
     </Tab>
 
 </Tabs>
