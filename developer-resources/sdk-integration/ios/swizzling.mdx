@@ -60,6 +60,17 @@ func application(_ application: UIApplication, didRegisterForRemoteNotifications
 ```
 
 ```objc objc
+#import "AppDelegate.h"
+#import <Castled/Castled-Swift.h>
+#import <UserNotifications/UserNotifications.h>
+
+@interface AppDelegate ()<UIApplicationDelegate,UNUserNotificationCenterDelegate,CastledNotificationDelegate>
+{
+
+}
+@end
+
+@implementation AppDelegate
 /// Called when the application successfully registers with the Apple Push Notification service (APNs).
 /// If method swizzling is disabled, manually set the device token through the Castled SDK.
 -(void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
