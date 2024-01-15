@@ -62,6 +62,35 @@ CastledNotifications.initialize(configs)
     <Tab title="iOS">
       #### Step 1: Configuring iOS push
       Follow these [instructions](/developer-resources/sdk-integration/ios/push-notifications) for native iOS setup.
+      
+      `When integrating the Castled framework, be sure to modify the import statements as per the platform requirements.`
+        <CodeGroup>
+        ```objc objc
+            #import "AppDelegate.h"
+            #import "CastledReactBridge.h"
+            #import <UserNotifications/UserNotifications.h>
+            @interface AppDelegate ()<UNUserNotificationCenterDelegate>
+            {
+            }
+            @end
+            
+            @implementation AppDelegate{
+
+            }
+
+        ```
+        ```swift swift
+            // Import the Castled React Bridge in Bridging Header
+            #import <castled-react-native-sdk/CastledReactBridge.h>
+
+        ```
+        </CodeGroup>
+
+        <Note>
+            If your **Swift** project doesn't have a bridging header yet, you need to create one. To acheive this,
+            Create a new **Objective-C** file in your Swift project. Xcode will prompt you to create a bridging header.
+            Accept and let Xcode create it.
+         </Note>
 
       #### Step 2: Disabling Swizzling
       This step is applicable only if:
