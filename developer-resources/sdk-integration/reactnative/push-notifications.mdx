@@ -99,6 +99,14 @@ CastledNotifications.initialize(configs)
 
         <CodeGroup>
         ```objc objc
+            #import "AppDelegate.h"
+            #import "CastledReactBridge.h"
+            #import <UserNotifications/UserNotifications.h>
+            @interface AppDelegate ()<UNUserNotificationCenterDelegate>
+            {
+            }
+            @end
+            @implementation AppDelegate
             // Handling Device Token Registration
             -(void) application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken{
             NSMutableString *deviceTokenString =[NSMutableString string];
