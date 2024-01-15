@@ -72,33 +72,36 @@ This method is called when the app finishes launching. You can use this method t
 
 <CodeGroup>
 ```swift swift
-func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+class AppDelegate: UIResponder, UIApplicationDelegate , UNUserNotificationCenterDelegate {
 
-    //1. Configure config
-    let config = CastledConfigs.initialize(appId: "<App ID>")
-    config.enablePush  = true
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
-    //2. Call Castled.initialize method
-    Castled.initialize(withConfig: config, andDelegate: self)
+        //1. Configure config
+        let config = CastledConfigs.initialize(appId: "<App ID>")
+        config.enablePush  = true
 
-    //3. Register Push 
-    registerForPush()
-     
+        //2. Call Castled.initialize method
+        Castled.initialize(withConfig: config, andDelegate: self)
 
-    return true
-}
+        //3. Register Push 
+        registerForPush()
+         
 
-func registerForPush() {
+        return true
+    }
 
-    UNUserNotificationCenter.current().delegate = self
+    func registerForPush() {
 
-    UNUserNotificationCenter.current().requestAuthorization(options: [.sound, .badge, .alert], completionHandler: {granted, error in
-        if granted {
-            DispatchQueue.main.async {
-                UIApplication.shared.registerForRemoteNotifications()
+        UNUserNotificationCenter.current().delegate = self
+
+        UNUserNotificationCenter.current().requestAuthorization(options: [.sound, .badge, .alert], completionHandler: {granted, error in
+            if granted {
+                DispatchQueue.main.async {
+                    UIApplication.shared.registerForRemoteNotifications()
+                }
             }
-        }
-    })
+        })
+    }
 }
 ```
 

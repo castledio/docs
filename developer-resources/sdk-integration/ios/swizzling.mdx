@@ -48,14 +48,17 @@ When the device registers for push notifications, you should capture the device 
 
 <CodeGroup>
 ```swift swift
-// MARK: - Registration for Push Notifications
+class AppDelegate: UIResponder, UIApplicationDelegate , UNUserNotificationCenterDelegate {
 
-/// This method is called when the app has successfully registered with the Apple Push Notification service (APNs).
-/// If you have disabled swizzling, you should manually set the device token via the Castled SDK in this method.
-func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-    let deviceTokenString = deviceToken.map { String(format: "%02.2hhx", $0) }.joined()
+    // MARK: - Registration for Push Notifications
 
-    Castled.sharedInstance.setPushToken(deviceTokenString)
+    /// This method is called when the app has successfully registered with the Apple Push Notification service (APNs).
+    /// If you have disabled swizzling, you should manually set the device token via the Castled SDK in this method.
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        let deviceTokenString = deviceToken.map { String(format: "%02.2hhx", $0) }.joined()
+
+        Castled.sharedInstance.setPushToken(deviceTokenString)
+    }
 }
 ```
 
