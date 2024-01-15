@@ -67,7 +67,7 @@ To use the SDK, add the library to your project
           apply plugin: "com.google.gms.google-services"
 
           ```
-        #### Step 2. Add required permissions
+        #### Step 2. Required permissions
         By default `AndroidManifest.xml` of the SDK includes the following permission requests. No developer action is required here.
 
         ```xml
@@ -115,7 +115,6 @@ Next step is to initialize the SDK. Initialization is typically done in `App.js`
     CastledConfigs,
     CastledLocation,
   } from 'castled-react-native-sdk';
-  import Header from './Header';
 
   export default function App() {
 
@@ -141,7 +140,7 @@ Next step is to initialize the SDK. Initialization is typically done in `App.js`
   }
 ```
 
-- `api-key` is a unique key associated with your Castled account. It can be found in the Castled dashboard at **Settings > Api Keys**.
+- `app-id` is a unique key associated with your Castled account. It can be found in the Castled dashboard at **Settings > Api Keys**.
 - `location` is the region where you have your Castled account.
 
 You can refer to the **SDK Configs** section for the list of configs available during initialization.
