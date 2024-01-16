@@ -60,167 +60,188 @@ CastledNotifications.initialize(configs)
 
     </Tab>
     <Tab title="iOS">
-      #### Step 1: Configuring iOS push
-      Follow these [instructions](/developer-resources/sdk-integration/ios/push-notifications) for native iOS setup.
+      #### Step 1: Configure App Target for iOS Push
+      Follow these [instructions](/developer-resources/sdk-integration/ios/push-notifications#configuring-app-target-for-push-notification) for app target setup.
 
-      <Note>
-      When integrating the Castled framework, be sure to modify the import statements as per the platform requirements.
-      </Note>
+      #### Step 2: Registering Push Notification
+      In iOS 10 and above, to handle push notifications, you need to implement the following method from UIApplicationDelegate protocol and
+      add the three steps mentioned in the code snippet below for registering push notification.
 
-        <CodeGroup>
-        ```objc objc
-            #import "AppDelegate.h"
-            #import "CastledReactBridge.h"
-            #import <UserNotifications/UserNotifications.h>
-            @interface AppDelegate ()<UNUserNotificationCenterDelegate>
-            {
-            }
-            @end
-            
-            @implementation AppDelegate{
+      **application(_:didFinishLaunchingWithOptions:)**
 
-            }
+      This method is called when the app finishes launching. You can use this method to register for remote notifications and configure the notification settings.
 
-        ```
+      <CodeGroup>
         ```swift swift
-            // Import the Castled React Bridge in Bridging Header
-            #import <castled-react-native-sdk/CastledReactBridge.h>
+        class AppDelegate: UIResponder, UIApplicationDelegate , UNUserNotificationCenterDelegate {
 
-        ```
-        </CodeGroup>
+            func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+                self.moduleName = "Module Name”
 
+                // You can add your custom initial props in the dictionary below.
+                // They will be passed down to the ViewController used by React Native.
+                self.initialProps = [:]
 
-        <Note>
-            If your **Swift** project doesn't have a bridging header yet, you need to create one. To acheive this,
-            Create a new **Objective-C** file in your Swift project. Xcode will prompt you to create a bridging header.
-            Accept and let Xcode create it.
-         </Note>
-
-      #### Step 2: Disabling Swizzling
-      This step is applicable only if:
-        1. Your app is using other SDKs along with Castled for handling push notification.
-        2. You prefer to have more granular control over notification handling or may need to comply with specific architectural requirements.
-
-        To disable method swizzling with Castled SDK, you must update the Info.plist file of your application.
-        ```xml info.plist
-        <key>CastledSwizzlingDisabled</key>
-        <true/>
-        ```
-
-        Once swizzling is disabled, the responsibility of invoking the necessary methods falls on the developer.
-        Developer needs to implement various `UNUserNotificationCenterDelegate` and `UIApplicationDelegate` methods to handle
-        different notification scenarios.
-
-        #### Manual Handling of Push Notifications
-
-        <CodeGroup>
-        ```objc objc
-            #import "AppDelegate.h"
-            #import "CastledReactBridge.h"
-            #import <UserNotifications/UserNotifications.h>
-            @interface AppDelegate ()<UNUserNotificationCenterDelegate>
-            {
+                self.registerForPush()
+                return super.application(application, didFinishLaunchingWithOptions: launchOptions)
             }
-            @end
-            
-            @implementation AppDelegate
 
-
-            // Handling Device Token Registration
-            -(void) application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken{
-            NSMutableString *deviceTokenString =[NSMutableString string];
-            if (@available(iOS 13.0, *)) {
-                    deviceTokenString = [NSMutableString string];
-                    const unsigned char *bytes = (const unsigned char *)[deviceToken bytes];
-                    NSInteger count = deviceToken.length;
-                    for (int i = 0; i < count; i++) {
-                        [deviceTokenString appendFormat:@"%02x", bytes[i]&0x000000FF];
+            func registerForPush() {
+                UNUserNotificationCenter.current().delegate = self
+                UNUserNotificationCenter.current().requestAuthorization(options: [.sound, .badge, .alert], completionHandler: { granted, _ in
+                    if granted {
+                        DispatchQueue.main.async {
+                            UIApplication.shared.registerForRemoteNotifications()
+                        }
                     }
-                } else {
-                    NSString *deviceToken1 =  [[[[deviceToken description]
-                                            stringByReplacingOccurrencesOfString:@"<" withString:@""]
-                                            stringByReplacingOccurrencesOfString:@">" withString:@""]
-                                        stringByReplacingOccurrencesOfString:@" " withString:@""];
-                    deviceTokenString = [[NSMutableString alloc] initWithString:deviceToken1];
-                }
-            NSLog(@"didRegisterForRemoteNotificationsWithDeviceToken: %@", deviceTokenString);
-            [[CastledReactBridge sharedInstance] setPushToken:deviceTokenString];
+                })
             }
-
-            // Handling Registration Failure
-            -(void) application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error{
-            NSLog(@"failed to register for remote notifications: %@ %@", self.description, error.localizedDescription);
-            }
-
-            // Handling Notification Responses
-            -(void) userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)(void))completionHandler{
-            [[CastledReactBridge sharedInstance] userNotificationCenter:center didReceiveNotificationResponse:response];
-            completionHandler();
-            }
-
-            // Handling Foreground Notification Presentation
-            -(void) userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions))completionHandler{
-            [[CastledReactBridge sharedInstance] userNotificationCenter:center willPresentNotification:notification];
-            completionHandler(UNAuthorizationOptionAlert | UNAuthorizationOptionBadge | UNAuthorizationOptionSound);
-            }
-
-            // Handling Background Notifications
-            - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler{
-            [[CastledReactBridge sharedInstance] didReceiveRemoteNotificationInApplication:application withInfo:userInfo fetchCompletionHandler:^(UIBackgroundFetchResult) {
-                completionHandler(UIBackgroundFetchResultNewData);
-            }];
-            }
+        }
 
         ```
+
+        ```objc objc
+        #import "AppDelegate.h"
+        #import "CastledReactBridge.h"
+        #import <UserNotifications/UserNotifications.h>
+
+        @interface AppDelegate ()<UIApplicationDelegate,UNUserNotificationCenterDelegate>
+        {
+        }
+        @end
+
+        @implementation AppDelegate
+
+        - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+            self.moduleName = @"Module Name";
+
+            // You can add your custom initial props in the dictionary below.
+            // They will be passed down to the ViewController used by React Native.
+            self.initialProps = @{};
+            [self registerForPush];
+            return [super application:application didFinishLaunchingWithOptions:launchOptions];
+        }
+
+        - (void)registerForPush {
+            UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
+            center.delegate = (id)self;
+            [center requestAuthorizationWithOptions:(UNAuthorizationOptionSound | UNAuthorizationOptionAlert | UNAuthorizationOptionBadge) completionHandler:^(BOOL granted, NSError * _Nullable error){
+                if( !error ){
+                dispatch_async(dispatch_get_main_queue(), ^(void) {
+                    [[UIApplication sharedApplication] registerForRemoteNotifications];
+                });
+                }
+            }];
+        }
+
+        ```
+      </CodeGroup>
+
+        #### Step 3: Configuring Notification Categories and Actions (Optional)
+
+        Apps are required to enable support for actionable notifications. During app launch, it is necessary to register one or more notification categories that define the types of notifications your app sends.
+        Each category is associated with specific actions that users can take when receiving a notification of that type.
+        While each category can have up to four actions, the actual number of displayed actions may vary depending on the notification display. For instance, banners typically show a maximum of two actions.
+
+        **Registering the Notification Categories for Your App**
+
+        By passing the notificationCategories parameter, you can define a set of categories and associated actions for your notifications.
+        Each category corresponds to a type of notification that your app can receive, and for each category,
+        you can specify the actions that a user can take directly from the notification.
+
+        This flexibility allows app developers to create a rich and interactive notification experience,
+        tailored to the needs of their application and its users.
+
+        <CodeGroup>
         ```swift swift
-            // Import the Castled React Bridge in Bridging Header
-            #import <castled-react-native-sdk/CastledReactBridge.h>
+        func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+            self.moduleName = "Module Name”
 
-            extension AppDelegate: UNUserNotificationCenterDelegate {
+            // You can add your custom initial props in the dictionary below.
+            // They will be passed down to the ViewController used by React Native.
+            self.initialProps = [:]
+            CastledReactBridge.sharedInstance().setNotificationCategoriesWithItems(getNotificationCategories())
+            return super.application(application, didFinishLaunchingWithOptions: launchOptions)
+        }
 
-                // Handling Device Token Registration
-                func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-                    let deviceTokenString = deviceToken.map { String(format: "%02.2hhx", $0) }.joined()
-                    CastledReactBridge.sharedInstance().setPushToken(deviceTokenString)
-                    print("APNs token \(deviceTokenString) \(self.description)")
-                }
+        func getNotificationCategories() -> Set<UNNotificationCategory> {
+            // Create the custom actions
+            let action1 = UNNotificationAction(identifier: "ACCEPT", title: "Accept", options: UNNotificationActionOptions.foreground)
+            let action2 = UNNotificationAction(identifier: "DECLINE", title: "Decline", options: UNNotificationActionOptions.foreground)
+            // Create the category with the custom actions
+            let customCategory1 = UNNotificationCategory(identifier: "ACCEPT_DECLINE", actions: [action1, action2], intentIdentifiers: [], options: [])
 
-                // Handling Registration Failure
-                func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
-                    print("Failed to register for remote notifications \(error.localizedDescription)")
-                }
+            let action3 = UNNotificationAction(identifier: "YES", title: "Yes", options: [UNNotificationActionOptions.foreground])
+            let action4 = UNNotificationAction(identifier: "NO", title: "No", options: [])
+            // Create the category with the custom actions
+            let customCategory2 = UNNotificationCategory(identifier: "YES_NO", actions: [action3, action4], intentIdentifiers: [], options: [])
+            let categoriesSet = Set([customCategory1, customCategory2])
+            return categoriesSet
+        }
 
-                // Handling Notification Responses
-                func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
-                    // Handle the click events
-                    CastledReactBridge.sharedInstance().userNotificationCenter(center, didReceive: response)
-                    completionHandler()
-                }
+        ```
 
-                // Handling Foreground Notification Presentation
-                func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-                    CastledReactBridge.sharedInstance().userNotificationCenter(center, willPresent: notification)
-                    completionHandler([.alert, .badge, .sound])
-                }
+        ```objc objc
+        - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+            self.moduleName = @"TestApp";
 
-                // Handling Background Notifications
-                func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-                    CastledReactBridge.sharedInstance().didReceiveRemoteNotification(in: application, withInfo: userInfo, fetchCompletionHandler: { _ in
-                    completionHandler(.newData)
-                    })
-                }
-            }
+            // You can add your custom initial props in the dictionary below.
+            // They will be passed down to the ViewController used by React Native.
+            self.initialProps = @{};
+            [[CastledReactBridge sharedInstance] setNotificationCategoriesWithItems:[self getNotificationCategories]];
+            return [super application:application didFinishLaunchingWithOptions:launchOptions];
+        }
+
+        - (NSSet<UNNotificationCategory *> *)getNotificationCategories {
+            // Create the custom actions
+            UNNotificationAction *action1 = [UNNotificationAction actionWithIdentifier:@"ACCEPT" title:@"Accept" options:UNNotificationActionOptionForeground];
+            UNNotificationAction *action2 = [UNNotificationAction actionWithIdentifier:@"DECLINE" title:@"Decline" options:0];
+            // Create the category with the custom actions
+            UNNotificationCategory *customCategory1 = [UNNotificationCategory categoryWithIdentifier:@"ACCEPT_DECLINE" actions:@[action1, action2] intentIdentifiers:@[] options:0];
+
+            UNNotificationAction *action3 = [UNNotificationAction actionWithIdentifier:@"YES" title:@"Yes" options:UNNotificationActionOptionForeground];
+            UNNotificationAction *action4 = [UNNotificationAction actionWithIdentifier:@"NO" title:@"No" options:0];
+            // Create the category with the custom actions
+            UNNotificationCategory *customCategory2 = [UNNotificationCategory categoryWithIdentifier:@"YES_NO" actions:@[action3, action4] intentIdentifiers:@[] options:0];
+            NSSet<UNNotificationCategory *> *categoriesSet = [NSSet setWithObjects:customCategory1, customCategory2, nil];
+            return categoriesSet;
+        }
 
         ```
         </CodeGroup>
 
-        <Note>
-            If your **Swift** project doesn't have a bridging header yet, you need to create one. To acheive this,
-            Create a new **Objective-C** file in your Swift project. Xcode will prompt you to create a bridging header.
-            Accept and let Xcode create it.
-         </Note>
+        #### Step 4: Setting Launch Options(Optional)
 
-         #### Step 4: Support for Rich Push Notification
+        <CodeGroup>
+
+        ```swift swift
+        func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+            self.moduleName = "Module Name”
+
+            // You can add your custom initial props in the dictionary below.
+            // They will be passed down to the ViewController used by React Native.
+            self.initialProps = [:]
+            CastledReactBridge.sharedInstance().setLaunchOptions(launchOptions)
+            return super.application(application, didFinishLaunchingWithOptions: launchOptions)
+        }
+
+        ```
+
+        ```objc objc
+        - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+            self.moduleName = @"TestApp";
+
+            // You can add your custom initial props in the dictionary below.
+            // They will be passed down to the ViewController used by React Native.
+            self.initialProps = @{};
+            [[CastledReactBridge sharedInstance] setLaunchOptions:launchOptions];
+            return [super application:application didFinishLaunchingWithOptions:launchOptions];
+        }
+
+        ```
+        </CodeGroup>
+
+         #### Step 5: Support for Rich Push Notification(Optional)
 
          Follow the [instructions](https://docs.castled.io/developer-resources/sdk-integration/ios/rich-push-notification) here
          for setting up rich push notifications.
@@ -237,6 +258,137 @@ CastledNotifications.initialize(configs)
             pod 'CastledNotificationContent'
          end
          ```
+
+         #### Step 6: AppDelegate Swizzling in Castled SDK
+
+        Castled SDK is designed to simplify push notification handling. By default, swizzling is enabled, which means the SDK automatically handles the registration of device tokens,
+        the presentation of notifications, and the response to user interactions with those notifications.
+
+        **Disable Swizzling**
+
+        This step is applicable only if:
+            1. Your app is using other SDKs along with Castled for handling push notification.
+            2. You prefer to have more granular control over notification handling or may need to comply with specific architectural requirements.
+
+            To disable method swizzling with Castled SDK, you must update the Info.plist file of your application.
+            ```xml info.plist
+            <key>CastledSwizzlingDisabled</key>
+            <true/>
+            ```
+
+            Once swizzling is disabled, the responsibility of invoking the necessary methods falls on the developer.
+            Developer needs to implement various `UNUserNotificationCenterDelegate` and `UIApplicationDelegate` methods to handle
+            different notification scenarios.
+
+            #### Manual Handling of Push Notifications
+
+            <CodeGroup>
+            ```objc objc
+                #import "AppDelegate.h"
+                #import "CastledReactBridge.h"
+                #import <UserNotifications/UserNotifications.h>
+                @interface AppDelegate ()<UNUserNotificationCenterDelegate>
+                {
+                }
+                @end
+
+                @implementation AppDelegate
+
+
+                // Handling Device Token Registration
+                -(void) application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken{
+                NSMutableString *deviceTokenString =[NSMutableString string];
+                if (@available(iOS 13.0, *)) {
+                        deviceTokenString = [NSMutableString string];
+                        const unsigned char *bytes = (const unsigned char *)[deviceToken bytes];
+                        NSInteger count = deviceToken.length;
+                        for (int i = 0; i < count; i++) {
+                            [deviceTokenString appendFormat:@"%02x", bytes[i]&0x000000FF];
+                        }
+                    } else {
+                        NSString *deviceToken1 =  [[[[deviceToken description]
+                                                stringByReplacingOccurrencesOfString:@"<" withString:@""]
+                                                stringByReplacingOccurrencesOfString:@">" withString:@""]
+                                            stringByReplacingOccurrencesOfString:@" " withString:@""];
+                        deviceTokenString = [[NSMutableString alloc] initWithString:deviceToken1];
+                    }
+                NSLog(@"didRegisterForRemoteNotificationsWithDeviceToken: %@", deviceTokenString);
+                [[CastledReactBridge sharedInstance] setPushToken:deviceTokenString];
+                }
+
+                // Handling Registration Failure
+                -(void) application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error{
+                NSLog(@"failed to register for remote notifications: %@ %@", self.description, error.localizedDescription);
+                }
+
+                // Handling Notification Responses
+                -(void) userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)(void))completionHandler{
+                [[CastledReactBridge sharedInstance] userNotificationCenter:center didReceiveNotificationResponse:response];
+                completionHandler();
+                }
+
+                // Handling Foreground Notification Presentation
+                -(void) userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions))completionHandler{
+                [[CastledReactBridge sharedInstance] userNotificationCenter:center willPresentNotification:notification];
+                completionHandler(UNAuthorizationOptionAlert | UNAuthorizationOptionBadge | UNAuthorizationOptionSound);
+                }
+
+                // Handling Background Notifications
+                - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler{
+                [[CastledReactBridge sharedInstance] didReceiveRemoteNotificationInApplication:application withInfo:userInfo fetchCompletionHandler:^(UIBackgroundFetchResult) {
+                    completionHandler(UIBackgroundFetchResultNewData);
+                }];
+                }
+
+            ```
+            ```swift swift
+                // Import the Castled React Bridge in Bridging Header
+                #import <castled-react-native-sdk/CastledReactBridge.h>
+
+                extension AppDelegate: UNUserNotificationCenterDelegate {
+
+                    // Handling Device Token Registration
+                    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+                        let deviceTokenString = deviceToken.map { String(format: "%02.2hhx", $0) }.joined()
+                        CastledReactBridge.sharedInstance().setPushToken(deviceTokenString)
+                        print("APNs token \(deviceTokenString) \(self.description)")
+                    }
+
+                    // Handling Registration Failure
+                    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+                        print("Failed to register for remote notifications \(error.localizedDescription)")
+                    }
+
+                    // Handling Notification Responses
+                    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+                        // Handle the click events
+                        CastledReactBridge.sharedInstance().userNotificationCenter(center, didReceive: response)
+                        completionHandler()
+                    }
+
+                    // Handling Foreground Notification Presentation
+                    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+                        CastledReactBridge.sharedInstance().userNotificationCenter(center, willPresent: notification)
+                        completionHandler([.alert, .badge, .sound])
+                    }
+
+                    // Handling Background Notifications
+                    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+                        CastledReactBridge.sharedInstance().didReceiveRemoteNotification(in: application, withInfo: userInfo, fetchCompletionHandler: { _ in
+                        completionHandler(.newData)
+                        })
+                    }
+                }
+
+            ```
+            </CodeGroup>
+            <br/>
+
+            <Note>
+                If your **Swift** project doesn't have a bridging header yet, you need to create one. To acheive this,
+                Create a new **Objective-C** file in your Swift project. Xcode will prompt you to create a bridging header.
+                Accept and let Xcode create it.
+            </Note>
 
     </Tab>
 
