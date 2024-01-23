@@ -94,7 +94,8 @@ To use the SDK, add the library to your project
             target 'YourTargetName' do
               config = use_native_modules!
               pod 'SDWebImage', '~> 5.11', :modular_headers => true
-              pod 'Realm', :modular_headers => true
+              pod 'Realm', '~> 10.43.0', :modular_headers => true
+
             end
             ```
             Save the Podfile and run `pod install` again.
