@@ -100,6 +100,28 @@ To use the SDK, add the library to your project
             ```
             Save the Podfile and run `pod install` again.
             </Warning>
+
+            <Warning>
+                When adding a cocoapods dependency for apps on **React Native** version **0.64** or **0.65**, you might get errors like these:
+                ```bash
+                ld: Undefined symbols:
+                clang: error: linker command failed with exit code 1 (use -v to see invocation)
+                ```
+
+                The issue seemes to be that projects bootstrapped by `react-native init`, has `LIBRARY_SEARCH_PATHS` set to the following:
+                ```bash
+                LIBRARY_SEARCH_PATHS = "$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)" "$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)" "$(inherited)"
+                ```
+
+                Simply clearing out `LIBRARY_SEARCH_PATHS` so that it's empty will fix the issue.
+
+                **Before**
+                ![Before](/images/sdk/react-native/ios/before-fix.png)
+
+                **After**
+                ![After](/images/sdk/react-native/ios/after-fix.png)
+
+            </Warning>
     </Tab>
 
 </Tabs>
