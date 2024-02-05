@@ -1,0 +1,19 @@
+<Info>
+**Prerequisites**
+
+- [Castled SDK is installed and initialised](./getting-started)
+
+</Info>
+
+Use the `identify` static method in Castled SDK to create/update users with their unique traits. The data sent via identify will be stored in your data warehouse.
+
+```php
+Castled::identify([
+        'userId' => '12345',
+        'traits' => [
+            'plan' => 'basic',
+            'first_name' => 'John',
+            'last_name' => 'Taylor'
+        ]
+    ]);
+```

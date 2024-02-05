@@ -1,0 +1,33 @@
+---
+title: "Getting Started with PHP SDK"
+sidebarTitle: "Getting Started"
+---
+
+<Info>
+
+**Prerequisites**
+
+- [Castled CEP account is already setup](/account-management/user-signup)
+
+</Info>
+
+The Castled PHP SDK empowers your PHP-based backend servers to transmit user attributes and events to Castled. This data can serve as triggers for campaigns or workflows, or be synchronized with your data warehouse for advanced customer segmentation. 
+The following steps will guide you through the process of integrating the SDK with your PHP application.
+
+## SDK installation
+
+Make sure the vendor/autoload.php file is included once at the beginning of your application's entry point. Then use the PHP composer to install the latest stable version of castled php sdk.
+
+```php
+require_once __DIR__ . '/vendor/autoload.php';
+
+composer require castledio/castled-php-sdk
+```
+
+## SDK initialization
+
+Now initialise the SDK using the init method and pass the Api-Key generated from the Castled Dashboard. You can create a new api key for your workspace at **Settings > Api Keys**.
+
+```php
+   Castled::init(<Your API Key>);
+```

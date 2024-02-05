@@ -1,0 +1,19 @@
+<Info>
+**Prerequisites**
+
+- [Castled SDK is installed and initialised](./getting-started)
+
+</Info>
+
+Use the `track` static method in Castled SDK to record user activity on your application. The events collected can be used a trigger for campaigns/workflows and also synced to your data warehouse.
+
+```php
+Castled::track([
+        'event' => 'order_status_update',
+        'userId' => '12345',
+        'properties' => [
+            'plan' => 'basic',
+            'order_id' => 'o1'
+        ]
+    ]);
+```

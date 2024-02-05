@@ -393,6 +393,24 @@
                   ]
                 }
               ]
+            },
+            {
+              "group": "PHP SDK",
+              "pages": [
+                {
+                  "group": "SDK Setup",
+                  "pages": [
+                    "developer-resources/sdk-integration/php/getting-started"
+                  ]
+                },
+                {
+                  "group": "Event Tracking",
+                  "pages": [
+                    "developer-resources/sdk-integration/php/user-attributes",
+                    "developer-resources/sdk-integration/php/user-events"
+                  ]
+                }
+              ]
             }
           ]
         }
