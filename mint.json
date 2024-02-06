@@ -391,6 +391,13 @@
                       ]
                     }
                   ]
+                },
+                {
+                  "group": "Event Tracking",
+                  "pages": [
+                    "developer-resources/sdk-integration/reactnative/user-attributes",
+                    "developer-resources/sdk-integration/reactnative/user-events"
+                  ]
                 }
               ]
             },

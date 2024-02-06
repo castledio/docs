@@ -1,3 +1,7 @@
+---
+title: "User Attributes"
+---
+
 <Info>
 **Prerequisites**
 
@@ -5,9 +9,7 @@
 
 </Info>
 
-## User Attributes
-
-Use the `identify` method in the Castled JS SDK to create/update users with their unique traits. It also lets you record the traits about them like their name, email address, etc. in your data warehouse.
+Use the `identify` method in the Castled JS SDK to create/update users with their unique traits. It also lets you record the traits about them such as their name, email address, etc. in your data warehouse.
 
 A sample `identify()` call is shown below:
 
@@ -27,5 +29,5 @@ castledanalytics.identify(
 )
 ```
 
-- **user-id** is the unique id you use internally to identify a user. Prefereable to not any PII as email, phone no, etc as user-id.
+- **user-id** is a unique id used within your organisation to identify a user. Preferable to not use any PII such as email, phone no, etc as user-id.
 - **traits** is a flat-map of user attributes.

@@ -15,7 +15,7 @@ sidebarTitle: "Getting Started"
 The Castled JS SDK enables you to send user attributes and events from your website to Castled. This data can serve as triggers for campaigns or workflows, or be synchronized with your data warehouse for advanced customer segmentation.
 The following steps will guide you through the process of integrating SDK with your web application.
 
-## SDK Installation
+## SDK Initialization
 
 You can use one of the following approaches to add SDK to your website
 
@@ -64,15 +64,14 @@ To load the events SDK synchronously, you can refer to the minified or non-minif
       })(method);
       }
       castledanalytics.load(APP_ID);
-
-         </script>
-
-      {" "}
+      </script>
       <script src="https://cdn.castled.io/js/latest/events.min.js"></script>
       ```
 
   </Tab>
 </Tabs>
+
+-- `APP-ID` is a unique id associated with your Castled workspace. It can be found in the Castled dashboard at **Settings > Api Keys**.
 
 ### Install using npm package manager
 
@@ -85,8 +84,6 @@ npm install castled-js-sdk --save
 ```
 
 **Note that this NPM module is only meant to be used for a browser installation**.
-
-## SDK initialization
 
 <Note>
   Since the module exports the [**related APIs**](#exported-apis) on an

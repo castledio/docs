@@ -1,29 +1,26 @@
-<Info>
-**Prerequisites**
+---
+title: "User Events"
+---
 
-- [Castled SDK is installed and initialised](./getting-started)
+<Note>
+  **Prerequisites** <br />
+  Tracking needs to be enabled during SDK initialization for this feature to work.
+  Set `CastledConfigs.enableTracking` to `true` to start tracking.
+</Note>
 
-</Info>
+`CastledNotifications.logEvent` can be used to log user events within your app. Properties associated with the events is passed to the method as a flatmap.
 
-## User Events
+```tsx
+// User event without properties
+CastledNotifications.logEvent("upgraded_to_pro")
 
-The `track` call lets you record the customer events, i.e. the actions that they perform, along with any associated properties. The events collected can be used a trigger for campaigns/workflows and also synced to your data warehouse.
-
-A sample `track` call is shown below:
-
-```javascript
-castledanalytics.track(
-  "Added to Cart",
-  {
-    value: 30,
-    currency: "USD",
-    item: "product A",
-  },
-  () => {
-    console.log("in track call")
-  }
-)
+// User event with properties
+CastledNotifications.logEvent("cart_checked_out", {
+  value: 1042.56,
+  isPrime: true,
+  deliveryOn: "09-30-2023",
+})
 ```
 
-- **event-name** is a string to identify the user event
-- **properties** is a flat-map of event properties
+These events can be used as the **trigger events** for your push, inapp and inbox campaigns or workflows.
+Also they can be redirected to your data warehouse, which can be used for analytics or creating user segments for future campaigns.
