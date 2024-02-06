@@ -1,0 +1,29 @@
+<Info>
+**Prerequisites**
+
+- [Castled SDK is installed and initialised](./getting-started)
+
+</Info>
+
+## User Events
+
+The `track` call lets you record the customer events, i.e. the actions that they perform, along with any associated properties. The events collected can be used a trigger for campaigns/workflows and also synced to your data warehouse.
+
+A sample `track` call is shown below:
+
+```javascript
+castledanalytics.track(
+  "Added to Cart",
+  {
+    value: 30,
+    currency: "USD",
+    item: "product A",
+  },
+  () => {
+    console.log("in track call")
+  }
+)
+```
+
+- **event-name** is a string to identify the user event
+- **properties** is a flat-map of event properties
