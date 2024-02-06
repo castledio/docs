@@ -357,6 +357,13 @@
                       ]
                     }
                   ]
+                },
+                {
+                  "group": "User/Event Tracking",
+                  "pages": [
+                    "developer-resources/sdk-integration/ios/user-attributes",
+                    "developer-resources/sdk-integration/ios/user-events"
+                  ]
                 }
               ]
             },

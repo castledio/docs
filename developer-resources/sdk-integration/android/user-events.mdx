@@ -5,7 +5,7 @@ title: "User Events"
 <Note>
   **Prerequisites** <br />
   Tracking needs to be enabled during SDK initialization for this feature to work.
-  Set `CastledConfigs.isTrackingEnabled` to `true` to enable tracking.
+  Set `CastledConfigs.enableTracking` to `true` to enable tracking.
 </Note>
 
 You can monitor any user actions occurring within your app utilizing the `CastledNotifications.logCustomEvent` method provided by the Castled SDK.
@@ -42,7 +42,3 @@ like `number_of_items` and `value_of_items`, allowing you to capture more detail
 
 All the user events logged will eventually land in the user events tables in your configured data warehouse, which can be used for any segmentation in future.
 Also these events can be used as the **trigger events** for your push, inapp and inbox campaigns or workflows.
-
-<Note>
- Try out [here](/developer-resources/sdk-integration/api/track-an-event)
- </Note>

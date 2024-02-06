@@ -8,8 +8,8 @@ title: "User Attributes"
   Set `CastledConfigs.enableTracking` to `true` to start tracking.
 </Note>
 
-Castled SDK provides methods that lets you create user profiles within your data warehouse. Attributes of the user can also be updated
-using these methods. These attributes can be one of the predefined attributes or any custom attributes of your choosing.
+Castled SDK provides methods that lets you create or update user profiles within your data warehouse.
+User profile attributes can be one of the predefined attributes or any custom attribute of your choosing.
 
 Following are the list of predefined user attributes avaliable for use when updating user profiles
 
@@ -23,32 +23,29 @@ Following are the list of predefined user attributes avaliable for use when upda
     8. **City**
     9. **Country**
 
-### Updating User Attributes
+`CastledNotifications.setUserAttributes` method can be used to update user profile attributes.
 
-`CastledNotifications.setUserAttributes` method can be used to update user profile attributes. Custom attribute values can be of type `number`, `boolean`, `string` or `date`.
+> Custom attribute values can be of type `number`, `boolean`, `string` or `date`.
 
-    ```tsx
-    CastledUserAttributes userAttributes = new CastledUserAttributes();
-    // Predefined attributes
-    userAttributes.setFirstName("John");
-    userAttributes.setLastName("Doe");
-    userAttributes. setCity("Sanfrancisco");
-    userAttributes.setCountry("US");
-    userAttributes.setEmail("jdoe@email.com");
-    userAttributes.setDOB("02-01-1995");
-    userAttributes.setGender("M");
-    userAttributes.setPhone("+13156227533");
-    // Custom Attributes
-    userAttributes.setCustomAttribute("prime_member", true);
-    userAttributes.setCustomAttribute("occupation", "artist");
+```kotlin
+CastledUserAttributes userAttributes = new CastledUserAttributes();
+// Predefined attributes
+userAttributes.setFirstName("John");
+userAttributes.setLastName("Doe");
+userAttributes. setCity("Sanfrancisco");
+userAttributes.setCountry("US");
+userAttributes.setEmail("jdoe@email.com");
+userAttributes.setDOB("02-01-1995");
+userAttributes.setGender("M");
+userAttributes.setPhone("+13156227533");
+// Custom Attributes
+userAttributes.setCustomAttribute("prime_member", true);
+userAttributes.setCustomAttribute("occupation", "artist");
 
-    CastledNotifications.setUserAttributes(userAttributes)
-    ```
-
-All the user profiles created will eventually land in the user table in your configured data warehouse.
+CastledNotifications.setUserAttributes(userAttributes)
+```
 
 <Warning>
-  Before updating user attributes make sure to update the user-id using
-  `CastledNotifications.setUserId`, so that SDK knows the user whose properties
-  are being updated.
+  Before updating user attributes make sure to set the user-id using
+  `CastledNotifications.setUserId`.
 </Warning>

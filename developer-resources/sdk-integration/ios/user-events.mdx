@@ -1,0 +1,31 @@
+---
+title: "User Events"
+---
+
+<Note>
+  **Prerequisites** <br />
+  Tracking needs to be enabled during SDK initialization for this feature to work.
+  Set `CastledConfigs.enableTracking` to `true` to enable tracking.
+</Note>
+
+`logCustomEvent` method can be used to log user events. Any params associated with the events is passed to the method as a flatmap.
+
+    <CodeGroup>
+
+        ```swift swift
+        Castled.sharedInstance.logCustomAppEvent(eventName: "Test Event", params: ["Int": 100,
+                                                      "Date": Date(),
+                                                      "Bool": false,
+                                                      "Name": "Antony"])
+        ```
+
+        ```objc
+        [[Castled sharedInstance] logCustomAppEvent:@"Test Event" params:@{@"Int": @100,
+                                          @"Date": [NSDate date],
+                                          @"Name": @"Antony"}];
+        ```
+
+    </CodeGroup>
+
+These events can be used as the **trigger events** for your push, inapp and inbox campaigns or workflows. Also can be used to create user segments for your future campaigns.
+
