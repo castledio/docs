@@ -13,16 +13,13 @@ title: "User Events"
     <CodeGroup>
 
         ```swift swift
-        Castled.sharedInstance.logCustomAppEvent(eventName: "Test Event", params: ["Int": 100,
-                                                      "Date": Date(),
-                                                      "Bool": false,
-                                                      "Name": "Antony"])
+        Castled.sharedInstance.logCustomAppEvent("Test Event", params: ["Int": 100, "DOB": "12-16-2000", "Name": "Antony"])
         ```
 
         ```objc
         [[Castled sharedInstance] logCustomAppEvent:@"Test Event" params:@{@"Int": @100,
-                                          @"Date": [NSDate date],
-                                          @"Name": @"Antony"}];
+                                                                       @"DOB": @"12-16-2000",
+                                                                       @"Name": @"Antony"}];
         ```
 
     </CodeGroup>
