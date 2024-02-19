@@ -243,7 +243,8 @@
               "group": "Email Providers",
               "pages": [
                 "settings/channel-configs/email-provider/email-overview",
-                "settings/channel-configs/email-provider/sendgrid"
+                "settings/channel-configs/email-provider/sendgrid",
+                "settings/channel-configs/email-provider/webhook"
               ]
             },
             {
