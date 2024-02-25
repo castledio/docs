@@ -3,6 +3,7 @@ title: "Email Webhook"
 ---
 
 ## Overview
+
 This guide outlines the steps to set up a custom email connection via webhook in Castled. By configuring a webhook connection, Castled will make a REST API call to the provided URL with the email payload, enabling seamless integration with your email system.
 
 ## Implement Castled Webhook API
@@ -11,24 +12,33 @@ Castled will send a POST request to the configured webhook URL with the followin
 
 ```json
 {
+    "sourceContext" : {
+        "engagementId" : 14,
+        "engagementType" : "CAMPAIGN", // values can be "CAMPAIGN" or "WORKFLOW"
+        "emailId" : 6673,
+        "tag" : "new offers",
+        "category" : "promotions"
+    }
     "requests": [
         {
+            "userId": "user-18262",
             "to": "arun@castled.io",
             "subject": "Email Subject",
-            "preHeader": "Email preheader",
             "content": "<!DOCTYPE html><html lang=\"en\"><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"><title>Sample Email</title><style>/* Reset CSS */body, html {margin: 0;padding: 0;font-family: Arial, sans-serif;line-height: 1.6;color: #333;}img {max-width: 100%;height: auto;}/* Container styles */.container {max-width: 600px;margin: 0 auto;padding: 20px;background-color: #f9f9f9;}/* Header styles */.header {text-align: center;margin-bottom: 20px;}.header h1 {color: #333;}/* Content styles */.content {margin-bottom: 20px;}/* Footer styles */.footer {text-align: center;color: #666;font-size: 14px;}</style></head><body><div class=\"container\"><div class=\"header\"><h1>Sample Email Template</h1><img src=\"https://via.placeholder.com/150\" alt=\"Sample Image\"></div><div class=\"content\"><p>Hello,</p><p>This is a sample email template. You can customize it according to your needs.</p><p>Regards,<br>Your Name</p></div><div class=\"footer\"><p>Copyright © 2024 Your Company. All rights reserved.</p></div></div></body></html>"
         },
         {
+            "userId": "user-92874",
             "to": "abhilash@castled.io",
             "subject": "Email Subject",
-            "preHeader": "Email preheader",
             "content": "<!DOCTYPE html><html lang=\"en\"><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"><title>Sample Email</title><style>/* Reset CSS */body, html {margin: 0;padding: 0;font-family: Arial, sans-serif;line-height: 1.6;color: #333;}img {max-width: 100%;height: auto;}/* Container styles */.container {max-width: 600px;margin: 0 auto;padding: 20px;background-color: #f9f9f9;}/* Header styles */.header {text-align: center;margin-bottom: 20px;}.header h1 {color: #333;}/* Content styles */.content {margin-bottom: 20px;}/* Footer styles */.footer {text-align: center;color: #666;font-size: 14px;}</style></head><body><div class=\"container\"><div class=\"header\"><h1>Sample Email Template</h1><img src=\"https://via.placeholder.com/150\" alt=\"Sample Image\"></div><div class=\"content\"><p>Hello,</p><p>This is a sample email template. You can customize it according to your needs.</p><p>Regards,<br>Your Name</p></div><div class=\"footer\"><p>Copyright © 2024 Your Company. All rights reserved.</p></div></div></body></html>"
         }
-    ]
+    ],
+    "test" : false
 }
 ```
 
 The batch size of the API will be determined by the batch size configured in the connection. The maximum allowed batch size is 100.
+`sourceContext` will have additional information about the campaign/workflow being run, it can be `null` if sending in test mode.
 
 ## Setup webhook connection.
 
@@ -46,24 +56,66 @@ After configuring these details, Castled will start sending email payloads to th
 
 ![](/images/email-webhook/webhook_config.png)
 
-## Enable Custom Tracking(Optional) 
+## Enable Custom Tracking(Optional)
 
 ### Step 1: Add Custom Tracking Domain
 
-For precise email tracking, Castled enhances the original email HTML with predefined hooks linked to Castled servers. However, using a separate click domain may marginally affect delivery rates. 
+For precise email tracking, Castled enhances the original email HTML with predefined hooks linked to Castled servers. However, using a separate click domain may marginally affect delivery rates.
 
 To overcome this, Castled offers the flexibility to set up a custom tracking domain, enabling requests to be routed through your domain to Castled Servers. Define a tracking subdomain (ideally a subdomain of the sender domain) and create a CNAME record pointing to Castled's tracking domain, `esp.castleddata.co`.
-
 
 ![](/images/email-webhook/configure_cname.png)
 
 ### Step 2: Enable Custom Tracking
 
-In the webhook connection settings, enable custom tracking and enter the tracking domain. 
+In the webhook connection settings, enable custom tracking and enter the tracking domain.
 
 ![](/images/email-webhook/webhook_config_advanced.png)
-
 
 ## Secure Link Tracking
 
 If you enable custom tracking, the URL embedded in the email will be HTTP, which is generally adequate. However, if you prefer to use HTTPS urls instead, you'll need to set up a secure tracking domain and configure it to proxy the requests to the Castled server and enable the `Secure Link Tracking` option in the connection.
+
+## Email Events Reporting Webhook
+
+In addition to the events (`opened`, `clicked`) that are tracked by Castled using **Custom Tracking**, you could also report events related to email campaigns or
+workflows using the following webhook.
+
+```curl
+POST https://api.castled.io/backend/v1/email-webhook/webhook
+Api-Key: <Api-key-generated-from-dashboard>
+```
+
+Request payload is a json array. Maximum batch size is 1000. Please find sample request below.
+
+```json
+[
+    {
+        "userId": "user-98245",
+        "event" : "unsubscribed"
+        "sourceContext" : {
+            "engagementId" : 14,
+            "engagementType" : "CAMPAIGN"
+            "emailId" : 6673
+            "category" : "promotions" // category applicable to `unsubscribe` events only
+        }
+    },
+    {
+        "userId": "user-78245",
+        "event" : "bounced"
+        "sourceContext" : {
+            "engagementId" : 89,
+            "engagementType" : "WORKFLOW"
+            "emailId" : 7866
+        }
+    }
+]
+```
+
+Following are the supported event types:
+
+- `unsubscribed`
+- `bounced`
+- `failed`
+- `skipped`
+- `complained`
