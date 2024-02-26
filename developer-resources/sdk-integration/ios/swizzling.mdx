@@ -190,7 +190,7 @@ For handling background notification fetch calls, use the didReceiveRemoteNotifi
 /// This method is called when a remote notification is received and the app is running in the background.
 /// It is crucial to inform the Castled SDK about the notification for proper processing.
 func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-    Castled.sharedInstance.didReceiveRemoteNotification(inApplication: application, withInfo: userInfo, fetchCompletionHandler: { result in
+        Castled.sharedInstance.didReceiveRemoteNotification(inApplication: application, withInfo: userInfo, fetchCompletionHandler: { result in
             completionHandler(result)
         })
 }
