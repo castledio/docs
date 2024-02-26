@@ -94,7 +94,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate , UNUserNotificationCenter
     }
 
     NSLog(@"didRegisterForRemoteNotificationsWithDeviceToken: %@", deviceTokenString);
-    [[Castled sharedInstance] setPushToken:deviceTokenString];
+    [[Castled sharedInstance] setPushToken:deviceTokenString :CastledPushTokenTypeApns];
 
 }
 

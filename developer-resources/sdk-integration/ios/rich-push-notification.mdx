@@ -27,23 +27,7 @@ When a new push notification arrives, the system first invokes your notification
 5. Choose the appropriate settings for your extension and click "Finish".
 6. Xcode will generate the necessary files for the Notification Service Extension.
 
-**Step 2: Configuring the Info.plist File**
-
-1. Open the Info.plist file of your Notification Service Extension target.
-2. Add the following key-value pair:
-
-| Key                          | Value                                            |
-| --------------------------   | ------------------------------------------------ |
-| NSExtensionPrincipalClass    | $(PRODUCT_MODULE_NAME).NotificationService       |
-| NSExtensionPointIdentifier   | com.apple.usernotifications.service              |
-
-<Info>
-Mention the name of the Notification Service class created in NSExtensionPrincipalClass
-</Info>
-
-![](/images/NSE-6.png)
-
-**Step 3: Importing the CastledNotificationService Framework**
+**Step 2: Importing the CastledNotificationService Framework**
 
 Import the CastledNotificationService framework by adding the below entry in the Podfile
 
@@ -54,7 +38,7 @@ target 'YourNotificationServiceExtension' do
 end
 ```
 
-**Step 4: Implementing the Notification Service Extension**
+**Step 3: Implementing the Notification Service Extension**
 
 In your Notification Service Extension code file, inherit from the **CastledNotificationServiceExtension** class provided by the CastledNotificationService framework.
 
