@@ -1,0 +1,68 @@
+---
+title: "Firebase Cloud Messaging Setup"
+sidebarTitle: "FCM Setup"
+---
+
+<Info>
+
+**Prerequisites**
+
+- Make sure you have added Firebase to your Android/iOS project. Follow
+  [Firebase doc](https://firebase.google.com/docs/android/setup) for more
+  details. Within the doc the recommended approach is to follow the steps in
+  [option 1](https://firebase.google.com/docs/android/setup#console)
+
+</Info>
+
+## Uploading Firebase Private Key in Castled
+
+To send push messages using FCM to your app, you'll need to generate a private key for your Firebase project.
+This key is used to authorize your back-end server to interact with Firebase on behalf of your app. Here’s how you can generate the private key:
+
+1. **Go to the Firebase Console**
+
+   Open your web browser and navigate to the [Firebase Console](https://console.firebase.google.com/).
+   Log in if required, using your Google account credentials.
+
+2. **Select Your Project**
+
+   In the Firebase console, select the project for which you want to send messages.
+
+3. **Open the Project Settings**
+
+   Click on the gear icon (⚙️) next to the 'Project Overview' in the left-hand menu to open the 'Project settings'.
+   ![Firebase Project Settings](/images/push/android/fcm_proj_settings.png)
+
+4. **Service Accounts Tab**
+
+   In the 'Project settings' screen, navigate to the 'Service accounts' tab. This page provides details for various service accounts associated with your Firebase project.
+
+5. **Enable FCM V1 API**
+
+   ![Firebase V1 API](/images/push/android/fcm_v1_enabled.png)
+
+6. **Generate New Private Key**
+
+   Scroll down to the **Firebase Admin SDK** section.
+   Here, you will find a Node.js configuration snippet. Right below the code snippet, there should be a button labeled ‘Generate new private key’. Click this button.
+   A dialog box will appear warning you to keep your private key confidential. Confirm the download.
+   ![Firebase V1 API](/images/push/android/fcm_private_key_download.png)
+
+7. **Download and Secure the Private Key:**
+
+   After confirming, the private key will be downloaded to your computer as a JSON file. This file contains your project ID, private key ID, and your private key.
+   Store this file securely. It is important not to share this file or expose it publicly, as it grants access to your Firebase project.
+
+8. **Upload the Private Key in Castled Dashboard:**
+
+   Navigate to **Settings > Mobile Push** in [Castled](https://app.castled.io) dashboard. Select the platform tab (iOS/Android).
+   Click on **Firebase Cloud Messaging** and then upload the private key file.
+   ![Firebase Key Upload](/images/push/android/fcm_key_upload.png)
+
+9. If you have already integrated Castled SDK with your app, you can now start sending push notifications!
+
+<Note>
+  If you are using Firebase for sending push notification to both iOS and
+  Android apps and if both are part of same project, you can use the same
+  private key for both the apps.
+</Note>

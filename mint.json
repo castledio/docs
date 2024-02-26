@@ -299,7 +299,7 @@
                       "group": "Push",
                       "pages": [
                         "developer-resources/sdk-integration/android/push-notifications",
-                        "developer-resources/sdk-integration/android/fcm-setup",
+                        "developer-resources/sdk-integration/android/fcm-private-key-setup",
                         "developer-resources/sdk-integration/android/mipush-setup"
                       ]
                     },
@@ -338,6 +338,7 @@
                       "group": "Push",
                       "pages": [
                         "developer-resources/sdk-integration/ios/push-notifications",
+                        "developer-resources/sdk-integration/ios/fcm-push-notifications",
                         "developer-resources/sdk-integration/ios/rich-push-notification",
                         "developer-resources/sdk-integration/ios/swizzling",
                         "developer-resources/sdk-integration/ios/configuring-p8",
