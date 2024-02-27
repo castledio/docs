@@ -72,7 +72,8 @@ By adopting this protocol, you can tap into the callback provided when a user se
     ```swift swift
     @objc public protocol CastledInboxViewControllerDelegate {
         // Called when a Card is clicked by the user
-       @objc optional func didSelectedInboxWith(_ action: CastledClickActionType, _ kvPairs: [AnyHashable: Any]?, _ inboxItem: CastledInboxItem)
+        @objc optional func didSelectedInboxWith(_ buttonAction: CastledButtonAction, inboxItem: CastledInboxItem)
+
     }
     ```
 
