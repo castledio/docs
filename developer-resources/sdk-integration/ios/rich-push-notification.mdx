@@ -54,9 +54,6 @@ import UserNotifications
 import CastledNotificationService
 
 class NotificationService: CastledNotificationServiceExtension {
-    
-    var contentHandler: ((UNNotificationContent) -> Void)?
-    var bestAttemptContent: UNMutableNotificationContent?
 
     override func didReceive(_ request: UNNotificationRequest, withContentHandler contentHandler: @escaping (UNNotificationContent) -> Void) {
         appGroupId = "<your_app_group_id>"

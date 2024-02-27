@@ -29,14 +29,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate , UNUserNotificationCenter
         //Mandatory : enableInApp needs to be mandatorily set to true for in app support.
         config.enableInApp = true
 
-        //Optional : Required to enable background task to monitor the app is active
-        //Default value is false.
-        config.permittedBGIdentifier = "com.castled.backgroundtask"
-
-        //Optional : Frequency at which the heart beat check happens.
-        //default is 15 minutes if permittedBGIdentifier is configured.
-        config.inAppFetchIntervalSec = <value in seconds>
-        
         Castled.configure(registerIn: application, 
             launchOptions: launchOptions, 
             instanceId: "mytestapikey", 
