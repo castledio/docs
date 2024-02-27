@@ -87,8 +87,9 @@ By adopting this protocol, you can tap into the callback provided when a user se
         class MyViewController: CastledInboxViewControllerDelegate {
         ...
             // Implement the callback method
-            func didSelectedInboxWith(_ action: CastledClickActionType, _ kvPairs: [AnyHashable: Any]?, _ inboxItem: CastledInboxItem) {
-                switch action {
+            func didSelectedInboxWith(_ buttonAction: CastledButtonAction, inboxItem: CastledInboxItem) {
+                print("didSelectedInboxWith title '\(buttonAction.buttonTitle ?? "")' uri '\(buttonAction.actionUri)'kvPairs \(buttonAction.keyVals) inboxItem\(inboxItem)")
+                switch buttonAction.actionType {
                     case .deepLink:
                         break
                     case .navigateToScreen:
@@ -121,27 +122,34 @@ By adopting this protocol, you can tap into the callback provided when a user se
 
         @implementation ViewController
 
-        (void)didSelectedInboxWith:(CastledClickActionType)action :(NSDictionary * _Nullable)kvPairs :(CastledInboxItem * _Nonnull)inboxItem {
-            NSLog(@"didSelectedInboxWith ----kvPairs  %@ item %@",kvPairs,inboxItem);
-            switch (action) {
+        - (void)didSelectedInboxWith:(CastledButtonAction *)buttonAction inboxItem:(CastledInboxItem *)inboxItem{
+    
+            NSLog(@"didSelectedInboxWith ----button title '%@' uri '%@' kvPairs  %@ item %@",buttonAction.buttonTitle,buttonAction.actionUri,buttonAction.keyVals,inboxItem);
+            switch (buttonAction.actionType) {
                 case CastledClickActionTypeDeepLink:
+
                     break;
                 case CastledClickActionTypeNavigateToScreen:
+
                     break;
                 case CastledClickActionTypeRichLanding:
+
                     break;
                 case CastledClickActionTypeRequestForPush:
+
                     break;
                 case CastledClickActionTypeDismiss:
+
                     break;
                 case CastledClickActionTypeCustom:
+
                     break;
                 default:
                     break;
             }
         }
-
-          (void)presentViewController {
+        
+     - (void)presentViewController {
              // Set the delegate to the method invoked for fetching the App inbox view controller
             UIViewController *inboxViewController = [[Castled sharedInstance] getInboxViewControllerWith:style andDelegate:self];
             [self.navigationController presentViewController:inboxViewController animated:YES completion:nil];

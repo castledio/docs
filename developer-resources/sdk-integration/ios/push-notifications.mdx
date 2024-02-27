@@ -230,7 +230,7 @@ This delegate method is invoked when a user clicks on a notification that was di
 // Implement the CastledNotificationDelegate methods
 extension AppDelegate: CastledNotificationDelegate {
 
-       func notificationClicked(withNotificationType type: CastledNotificationType, buttonAction: CastledButtonAction, userInfo: [AnyHashable: Any]) {
+    func notificationClicked(withNotificationType type: CastledNotificationType, buttonAction: CastledButtonAction, userInfo: [AnyHashable: Any]) {
         /*
          CastledNotificationType
             0 .push
@@ -292,7 +292,7 @@ extension AppDelegate: CastledNotificationDelegate {
           buttonAction.keyVals ?: @{},
           buttonAction.inboxCopyEnabled ? @"YES" : @"NO",
           (long)buttonAction.actionType);
-    
+
         switch (buttonAction.actionType) {
             case CastledClickActionTypeDeepLink:
                 {
