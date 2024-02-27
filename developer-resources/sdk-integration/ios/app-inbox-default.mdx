@@ -89,7 +89,7 @@ By adopting this protocol, you can tap into the callback provided when a user se
         ...
             // Implement the callback method
             func didSelectedInboxWith(_ buttonAction: CastledButtonAction, inboxItem: CastledInboxItem) {
-                print("didSelectedInboxWith title '\(buttonAction.buttonTitle ?? "")' uri '\(buttonAction.actionUri)'kvPairs \(buttonAction.keyVals) inboxItem\(inboxItem)")
+                print("didSelectedInboxWith title '\(buttonAction.buttonTitle ?? "")' uri '\(buttonAction.actionUri ?? "")'kvPairs \(buttonAction.keyVals) inboxItem\(inboxItem)")
                 switch buttonAction.actionType {
                     case .deepLink:
                         break
