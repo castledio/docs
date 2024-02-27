@@ -212,6 +212,9 @@ This delegate method is invoked when a user clicks on a notification that was di
 
 **type** : A CastledNotificationType indicating the type of notification. The values include 'push', 'inapp', 'inbox'.
 
+
+**CastledButtonAction** : An optional type providing additional information associated with the notification, such as a URL to open or title to display,click action type etc...
+
 **action** : A CastledClickActionType representing the action taken by the user. The values include:
 - deepLink
 - navigateToScreen
@@ -220,8 +223,6 @@ This delegate method is invoked when a user clicks on a notification that was di
 - dismiss
 - custom
 
-**kvPairs** : An optional dictionary containing key-value pairs providing additional information associated with the notification, such as a URL to open or an ID of content to display.
-
 **userInfo** : A dictionary containing the original notification payload. This includes the custom data that was sent with the notification for the application to use.
 
 <CodeGroup>
@@ -229,55 +230,43 @@ This delegate method is invoked when a user clicks on a notification that was di
 // Implement the CastledNotificationDelegate methods
 extension AppDelegate: CastledNotificationDelegate {
 
-    func notificationClicked(withNotificationType type: CastledNotificationType, 
-                             action: CastledClickActionType, 
-                             kvPairs: [AnyHashable: Any]?, 
-                             userInfo: [AnyHashable: Any]) {
-        print("Notification type: \(type.rawValue), Action: \(action.rawValue)")
-        
-        switch action {
+       func notificationClicked(withNotificationType type: CastledNotificationType, buttonAction: CastledButtonAction, userInfo: [AnyHashable: Any]) {
+        /*
+         CastledNotificationType
+            0 .push
+            1 .inapp
+         */
+        print("CastledNotificationType: \(type.rawValue)\nbuttonTitle: \(buttonAction.buttonTitle ?? "")\nactionUri:\(buttonAction.actionUri ?? "")\nkeyVals: \(buttonAction.keyVals)\ninboxCopyEnabled: \(buttonAction.inboxCopyEnabled)\nButtonActionType: \(buttonAction.actionType)")
+
+        switch buttonAction.actionType {
             case .deepLink:
-                if let details = kvPairs, 
-                   let value = details["clickActionUrl"] as? String, 
-                   let url = URL(string: value) {
-                    handleDeepLink(url: url)
+                if let urlString = buttonAction.actionUri, let url = URL(string: urlString) {
+                    //handleDeepLink(url: url)
                 }
-                
+
             case .navigateToScreen:
-                if let details = kvPairs, 
-                   let screenName = details["clickActionUrl"] as? String {
-                    handleNavigateToScreen(screenName: screenName)
+                if let screenName = buttonAction.actionUri {
+                   // handleNavigateToScreen(screenName: screenName)
                 }
-                
             case .richLanding:
-                // TODO: Handle rich landing action
+                // TODO:
+
                 break
-                
             case .requestForPush:
-                // TODO: Handle request for push action
+                // TODO:
+
                 break
-                
             case .dismiss:
-                // TODO: Handle dismiss action
+                // TODO:
+
                 break
-                
             case .custom:
-                // TODO: Handle custom action
+                // TODO:
+
                 break
-                
             default:
                 break
         }
-    }
-
-    // MARK: - Helper Methods
-    
-    private func handleDeepLink(url: URL) {
-        // Handle deep link URL
-    }
-    
-    private func handleNavigateToScreen(screenName: String) {
-        // Navigate to specific screen
     }
     
     // TODO: Implement other helper methods for richLanding, requestForPush, dismiss, and custom actions
@@ -290,56 +279,59 @@ extension AppDelegate: CastledNotificationDelegate {
 
 @implementation AppDelegate
 
-- (void)notificationClickedWithNotificationType:(CastledNotificationType)type
-                                         action:(CastledClickActionType)action
-                                        kvPairs:(NSDictionary<id, id> * _Nullable)kvPairs
-                                       userInfo:(NSDictionary<id, id> *)userInfo {
-    NSLog(@"Notification type: %ld, Action: %ld", (long)type, (long)action);
+- (void)notificationClickedWithNotificationType:(CastledNotificationType)type buttonAction:(CastledButtonAction *)buttonAction userInfo:(NSDictionary *)userInfo{
+        /*
+         CastledNotificationType
+            0 .push
+            1 .inapp
+         */
+        NSLog(@"CastledNotificationType: %ld\nbuttonTitle: %@\nactionUri:%@\nkeyVals: %@\ninboxCopyEnabled: %@\nButtonActionType: %ld",
+          (long)type,
+          buttonAction.buttonTitle ?: @"",
+          buttonAction.actionUri ?: @"",
+          buttonAction.keyVals ?: @{},
+          buttonAction.inboxCopyEnabled ? @"YES" : @"NO",
+          (long)buttonAction.actionType);
     
-    switch (action) {
-        case CastledClickActionTypeDeepLink:
-            if (kvPairs) {
-                NSString *value = kvPairs[@"clickActionUrl"];
-                NSURL *url = [NSURL URLWithString:value];
-                if (url) {
-                    [self handleDeepLinkWithURL:url];
+        switch (buttonAction.actionType) {
+            case CastledClickActionTypeDeepLink:
+                {
+                    NSString *value = buttonAction.actionUri;
+                    NSURL *url = [NSURL URLWithString:value];
+                    if (url) {
+                       // [self handleDeepLinkWithURL:url];
+                    }
                 }
-            }
-            break;
-        case CastledClickActionTypeNavigateToScreen:
-            if (kvPairs) {
-                NSString *screenName = kvPairs[@"clickActionUrl"];
-                [self handleNavigateToScreenWithScreenName:screenName];
-            }
-            break;
-        case CastledClickActionTypeRichLanding:
-            // TODO: Handle rich landing action
-            break;
-        case CastledClickActionTypeRequestForPush:
-            // TODO: Handle request for push action
-            break;
-        case CastledClickActionTypeDismiss:
-            // TODO: Handle dismiss action
-            break;
-        case CastledClickActionTypeCustom:
-            // TODO: Handle custom action
-            break;
-        default:
-            break;
+                break;
+                
+            case CastledClickActionTypeNavigateToScreen:
+                    {
+                        NSString *screenName = buttonAction.actionUri;
+                        //[self handleNavigateToScreenWithScreenName:screenName];
+                    }
+                    break;
+
+            case CastledClickActionTypeRichLanding:
+                    // TODO:
+                    break;
+
+            case CastledClickActionTypeRequestForPush:
+                    // TODO:
+                    break;
+
+            case CastledClickActionTypeDismiss:
+                    // TODO:
+                    break;
+
+            case CastledClickActionTypeCustom:
+                    // TODO:
+                    break;
+
+            default:
+                    break;
     }
+    
 }
-
-// MARK: - Helper Methods
-
-- (void)handleDeepLinkWithURL:(NSURL *)url {
-    // Handle deep link URL
-}
-
-- (void)handleNavigateToScreenWithScreenName:(NSString *)screenName {
-    // Navigate to specific screen
-}
-
-// TODO: Implement other helper methods for richLanding, requestForPush, dismiss, and custom actions
 
 @end
 ```
