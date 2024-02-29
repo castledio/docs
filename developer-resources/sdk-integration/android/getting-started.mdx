@@ -166,6 +166,20 @@ Find sample server code snippets to generate **HMAC** for the `user-id`.
 
     </CodeGroup>
 
+
+    #### FAQ
+
+    <AccordionGroup>
+    <Accordion title="How do I rotate the Api Key?">
+        At your server side you can keep the `Api Key` as some config that can be
+        easily changed with minimal or no code change. So when you want to rotate
+        the key, create a new key from Castled dashboard, update the new key at your
+        server side. Ideally you shouldn't disable old token immediately as new user
+        token is updated only when `setUserId()` is called. You should allow some grace
+        period before disabling the old `Api Key` so that all users gets the updated user token.
+    </Accordion>
+    </AccordionGroup>
+
 ### User Logout
 
 To remove the user association with a particular app instance. Typically invoked as part of the user sign-out flow within the app. Once invoked, the app won't be able to
