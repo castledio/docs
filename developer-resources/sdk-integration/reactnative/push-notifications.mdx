@@ -299,47 +299,47 @@ CastledNotifications.initialize(configs)
 
                 // Handling Device Token Registration
                 -(void) application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken{
-                NSMutableString *deviceTokenString =[NSMutableString string];
-                if (@available(iOS 13.0, *)) {
-                        deviceTokenString = [NSMutableString string];
-                        const unsigned char *bytes = (const unsigned char *)[deviceToken bytes];
-                        NSInteger count = deviceToken.length;
-                        for (int i = 0; i < count; i++) {
-                            [deviceTokenString appendFormat:@"%02x", bytes[i]&0x000000FF];
-                        }
-                    } else {
-                        NSString *deviceToken1 =  [[[[deviceToken description]
-                                                stringByReplacingOccurrencesOfString:@"<" withString:@""]
-                                                stringByReplacingOccurrencesOfString:@">" withString:@""]
-                                            stringByReplacingOccurrencesOfString:@" " withString:@""];
-                        deviceTokenString = [[NSMutableString alloc] initWithString:deviceToken1];
-                    }
-                NSLog(@"didRegisterForRemoteNotificationsWithDeviceToken: %@", deviceTokenString);
-                [[CastledReactBridge sharedInstance] setPushToken:deviceTokenString];
+                        NSMutableString *deviceTokenString =[NSMutableString string];
+                        if (@available(iOS 13.0, *)) {
+                                deviceTokenString = [NSMutableString string];
+                                const unsigned char *bytes = (const unsigned char *)[deviceToken bytes];
+                                NSInteger count = deviceToken.length;
+                                for (int i = 0; i < count; i++) {
+                                    [deviceTokenString appendFormat:@"%02x", bytes[i]&0x000000FF];
+                                }
+                            } else {
+                                NSString *deviceToken1 =  [[[[deviceToken description]
+                                                        stringByReplacingOccurrencesOfString:@"<" withString:@""]
+                                                        stringByReplacingOccurrencesOfString:@">" withString:@""]
+                                                    stringByReplacingOccurrencesOfString:@" " withString:@""];
+                                deviceTokenString = [[NSMutableString alloc] initWithString:deviceToken1];
+                            }
+                        NSLog(@"didRegisterForRemoteNotificationsWithDeviceToken: %@", deviceTokenString);
+                        [[CastledReactBridge sharedInstance] setPushToken:deviceTokenString];
                 }
 
                 // Handling Registration Failure
                 -(void) application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error{
-                NSLog(@"failed to register for remote notifications: %@ %@", self.description, error.localizedDescription);
+                        NSLog(@"failed to register for remote notifications: %@ %@", self.description, error.localizedDescription);
                 }
 
                 // Handling Notification Responses
                 -(void) userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)(void))completionHandler{
-                [[CastledReactBridge sharedInstance] userNotificationCenter:center didReceiveNotificationResponse:response];
-                completionHandler();
+                        [[CastledReactBridge sharedInstance] userNotificationCenter:center didReceiveNotificationResponse:response];
+                        completionHandler();
                 }
 
                 // Handling Foreground Notification Presentation
                 -(void) userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions))completionHandler{
-                [[CastledReactBridge sharedInstance] userNotificationCenter:center willPresentNotification:notification];
-                completionHandler(UNAuthorizationOptionAlert | UNAuthorizationOptionBadge | UNAuthorizationOptionSound);
+                        [[CastledReactBridge sharedInstance] userNotificationCenter:center willPresentNotification:notification];
+                        completionHandler(UNAuthorizationOptionAlert | UNAuthorizationOptionBadge | UNAuthorizationOptionSound);
                 }
 
                 // Handling Background Notifications
                 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler{
-                [[CastledReactBridge sharedInstance] didReceiveRemoteNotificationInApplication:application withInfo:userInfo fetchCompletionHandler:^(UIBackgroundFetchResult) {
-                    completionHandler(UIBackgroundFetchResultNewData);
-                }];
+                        [[CastledReactBridge sharedInstance]   didReceiveRemoteNotificationInApplication:application withInfo:userInfo       fetchCompletionHandler:^(UIBackgroundFetchResult result) {
+                            completionHandler(result);
+                        }];
                 }
 
             ```
