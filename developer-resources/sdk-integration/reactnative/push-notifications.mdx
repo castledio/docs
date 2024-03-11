@@ -395,3 +395,66 @@ CastledNotifications.initialize(configs)
     </Tab>
 
 </Tabs>
+
+## Push Notification Events Listener
+
+App can listen to push notification events by registering a listener. This is useful when you want to override the default click actions implemented by the SDK with
+your own custom implementations.
+
+Currently the following push events as supported:
+
+    - Notification Received
+    - Notification Clicked
+    - Notification Dimissed
+
+Please find the sample code snippet below
+
+```tsx
+// Push received listener
+const pushReceivedListener = CastledNotifications.addListener(
+  CastledEvents.PUSH_NOTIFICATION_RECEIVED,
+  (notification: CastledPushNotification) => {
+    console.log("Push notification received:", notification)
+  }
+)
+
+// Click action listener
+const pushClickedListener = CastledNotifications.addListener(
+  CastledEvents.PUSH_NOTIFICATION_CLICKED,
+  (event: CastledPushNotificationClickEvent) => {
+    console.log(
+      "Push notification clicked: notification object ",
+      event.notification
+    )
+    console.log("Push notification clicked: clickAction", event.clickAction)
+  }
+)
+
+// Push dismissed listener
+const pushDismissedListener = CastledNotifications.addListener(
+  CastledEvents.PUSH_NOTIFICATION_DISMISSED,
+  (notification: CastledPushNotification) => {
+    console.log("Push notification dismissed:", notification)
+  }
+)
+
+// Unsubscribing the listeners
+pushReceivedListener.remove()
+pushClickedListener.remove()
+pushDismissedListener.remove()
+```
+
+<Note>
+  If the App is handling the push notification click actions itself, please
+  disable the default url handling by the SDK by setting `skipUrlHandling` to
+  `true` in the SDK configs during initialization.
+</Note>
+
+## Requesting Push Notification Permission
+
+Following SDK method can be used by the app to fetch user permission for showing push notifications. User will be shown the native
+notification permission dialog based on the mobile platform he is on.
+
+```tsx
+CastledNotifications.requestPushPermission()
+```
