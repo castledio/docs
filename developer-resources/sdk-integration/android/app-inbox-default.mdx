@@ -45,6 +45,9 @@ Acitivity appearance can be customized using `styleConfig`. More details below.
         styleConfig.navigationBarTitleColor = "#ffffff"
         styleConfig.navigationBarTitle = "Castled Inbox"
         styleConfig.hideNavigationBar = true
+        styleConfig.hideBackButton = false                     // Set to true if back button needs to be hidden
+        styleConfig.backButtonResourceId = myCustomButtonResId // Required only if you want to override default back button
+
 
         // Categories tab styling
         styleConfig.showCategoriesTab = true
@@ -66,7 +69,8 @@ Acitivity appearance can be customized using `styleConfig`. More details below.
         styleConfig.setNavigationBarTitleColor("#FFFFFF");
         styleConfig.setNavigationBarTitle("Castled Inbox");
         styleConfig.setHideNavigationBar(false);
-        CastledNotifications.showAppInbox(context, styleConfig);
+        styleConfig.setHideBackButton(false);                     // Set to true if back button needs to be hidden
+        styleConfig.setBackButtonResourceId(myCustomButtonResId); // Required only if you want to override default back button
 
         // Categories tab styling
         styleConfig.setShowCategoriesTab(true);
@@ -75,6 +79,9 @@ Acitivity appearance can be customized using `styleConfig`. More details below.
         styleConfig.setTabBarDefaultTextColor("#ADEFD1");
         styleConfig.setTabBarSelectedTextColor("#00539C");
         styleConfig.setTabBarIndicatorBackgroundColor("#FEE715");
+
+        CastledNotifications.showAppInbox(context, styleConfig);
+
       ```
     </CodeGroup>
 
