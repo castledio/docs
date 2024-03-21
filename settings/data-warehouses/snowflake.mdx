@@ -87,6 +87,8 @@ GRANT USAGE ON FUTURE FUNCTIONS IN SCHEMA "<your_database>"."<your_schema>" TO R
 
 To set up a new connector for Snowflake, it is essential to gather the following details. Note that all fields are **Case Sensitive** in Snowflake.
 
+![](/images/snowflake_new.png)
+
 - **Name** Assign a unique name to identify the configured warehouse.
 - **Account Name**:  The account name of your configured warehouse. For the classic Snowflake interface, this is the initial part of your Snowflake URL, e.g., **accountname** from https://accountname.snowflakecomputing.com. For the newer Snowflake interface, the account name is derived by combining segments from the URL, for example account name would be **xrhiaft-oi86934** for https://app.snowflake.com/xrhiaft/oi86934.
 - **Warehouse Name**: Specify the compute warehouse to be used. Default compute warehouse is COMPUTE_WH.
@@ -95,4 +97,4 @@ To set up a new connector for Snowflake, it is essential to gather the following
 - **Database User**: Username for database access.
 - **Database Password**: Password for database access.
 
-![](/images/snowflake_new.png)
+
