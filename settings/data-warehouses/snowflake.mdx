@@ -1,35 +1,19 @@
 ---
 title: "Snowflake"
 description:
-  "Snowflake is one of the most popular public cloud data warehouse which works
-  on all major cloud providers including Amazon Web Services , Google Cloud
-  Platform and Microsoft Azure Cloud"
+  "Snowflake is a leading public cloud data warehouse, compatible with all major cloud providers, including Amazon Web Services (AWS), Google Cloud Platform (GCP), and Microsoft Azure Cloud. "
 ---
 
-Castled enables you to leverage the customer 360 data in your Snowflake to
-engage your customers across different channels like Email, SMS, Push and In-app
-notifications.
+Castled empowers you to utilize your Snowflake's comprehensive customer data (Customer 360) to enhance engagement across various channels, including Email, SMS, Push Notifications, and In-app Notifications. This integration allows for a more targeted and effective communication strategy with your customers.
 
 ### Permission Details
 
-As a prerequisite access needs to be given to Castled for configuring Snowflake
-as a source.Snowflake permissions are complex and there are many ways to
-configure access for Castled. The script below is the minimum access
-configuration required and follows Snowflake's best practices for creating
-read-only roles in a role hierarchy.
+Snowflake's permission model is intricate, offering multiple configurations for access control. The script provided outlines the essential permissions for Castled to operate effectively, adhering to Snowflake's recommended practices for establishing a read-only role within a role hierarchy.
 
-The script below captures the minimal permissions required by CASTLED to use the
-data available in the Snowflake warehouse. Please refer Snowflake best practices
-for creating the required roles.
-
-Scripts mentioned below covers the following
-
-1. Creating a dedicated role **CASTLED_ROLE**.
-2. Creating a dedicated user **CASTLED**.
-3. Giving **READ ONLY** access to the user **CASTLED** to access all the current
-   as well as future tables and views of the required schemas in your database.
-4. Creating a book keeping schema **CASTLED** with in your database and giving
-   full access to that schema.
+1. Create a dedicated role **CASTLED_ROLE**.
+2. Create a dedicated user **CASTLED**.
+3. Give **READ ONLY** access to **CASTLED** user to enable access to all the existing as well as future tables, views and functions of the required schemas in your database.
+4. Create a book keeping schema **CASTLED** with in your database and grant complete access to the **CASTLED** user.
 
 ```
 -----------------------------------ROLE CREATION STARTS---------------------------------------------------------
@@ -101,16 +85,14 @@ GRANT USAGE ON FUTURE FUNCTIONS IN SCHEMA "<your_database>"."<your_schema>" TO R
 
 ### Connector Details
 
-For configuring a new connector for Snowflake the following fields needs to be
-captured
+To set up a new connector for Snowflake, it is essential to gather the following details. Note that all fields are **Case Sensitive** in Snowflake.
 
-- **Name** A name to uniquely qualify the warehouse source created
-- **Account Name**: Name of the warehouse
-- **Warehouse Name**: Name of the warehouse
-- **Database Name**: Database name.
-- **Schema Name**: Schema name to be used.If the schema is mentioned here it can
-  be avoided in the query
-- **Database User**: Database username
-- **Database Password**: Database password
+- **Name** Assign a unique name to identify the configured warehouse.
+- **Account Name**:  The account name of your configured warehouse. For the classic Snowflake interface, this is the initial part of your Snowflake URL, e.g., **accountname** from https://accountname.snowflakecomputing.com. For the newer Snowflake interface, the account name is derived by combining segments from the URL, for example account name would be **xrhiaft-oi86934** for https://app.snowflake.com/xrhiaft/oi86934.
+- **Warehouse Name**: Specify the compute warehouse to be used. Default compute warehouse is COMPUTE_WH.
+- **Database Name**: Indicate the Snowflake database where your data is stored.
+- **Schema Name**:  Mention the specific Snowflake schema within the database that houses your data.
+- **Database User**: Username for database access.
+- **Database Password**: Password for database access.
 
-![](/images/snowflake.png)
+![](/images/snowflake_new.png)
