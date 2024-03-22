@@ -347,38 +347,37 @@ CastledNotifications.initialize(configs)
                 #import <castled-react-native-sdk/CastledReactBridge.h>
 
                 extension AppDelegate: UNUserNotificationCenterDelegate {
+                  // Handling Device Token Registration
+                  func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+                    let deviceTokenString = deviceToken.map { String(format: "%02.2hhx", $0) }.joined()
+                    CastledReactBridge.sharedInstance().setPushToken(deviceTokenString)
+                    print("APNs token \(deviceTokenString) \(self.description)")
+                  }
 
-                    // Handling Device Token Registration
-                    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-                        let deviceTokenString = deviceToken.map { String(format: "%02.2hhx", $0) }.joined()
-                        CastledReactBridge.sharedInstance().setPushToken(deviceTokenString)
-                        print("APNs token \(deviceTokenString) \(self.description)")
-                    }
+                  // Handling Registration Failure
+                  func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+                    print("Failed to register for remote notifications \(error.localizedDescription)")
+                  }
 
-                    // Handling Registration Failure
-                    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
-                        print("Failed to register for remote notifications \(error.localizedDescription)")
-                    }
+                  // Handling Notification Responses
+                  func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+                    // Handle the click events
+                    CastledReactBridge.sharedInstance().userNotificationCenter(center, didReceive: response)
+                    completionHandler()
+                  }
 
-                    // Handling Notification Responses
-                    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
-                        // Handle the click events
-                        CastledReactBridge.sharedInstance().userNotificationCenter(center, didReceive: response)
-                        completionHandler()
-                    }
+                  // Handling Foreground Notification Presentation
+                  func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+                    CastledReactBridge.sharedInstance().userNotificationCenter(center, willPresent: notification)
+                    completionHandler([.alert, .badge, .sound])
+                  }
 
-                    // Handling Foreground Notification Presentation
-                    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-                        CastledReactBridge.sharedInstance().userNotificationCenter(center, willPresent: notification)
-                        completionHandler([.alert, .badge, .sound])
-                    }
-
-                    // Handling Background Notifications
-                    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-                        CastledReactBridge.sharedInstance().didReceiveRemoteNotification(in: application, withInfo: userInfo, fetchCompletionHandler: { result in
-                                completionHandler(result)
-                        })
-                    }
+                  // Handling Background Notifications
+                  func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+                    CastledReactBridge.sharedInstance().didReceiveRemoteNotification(in: application, withInfo: userInfo, fetchCompletionHandler: { result in
+                      completionHandler(result)
+                    })
+                  }
                 }
 
             ```
