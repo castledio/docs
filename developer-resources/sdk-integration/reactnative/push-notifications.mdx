@@ -154,6 +154,36 @@ CastledNotifications.initialize(configs)
         tailored to the needs of their application and its users.
 
         <CodeGroup>
+
+        ```objc objc
+            #import "CastledReactBridge.h"
+
+            - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+            self.moduleName = @"TestApp";
+
+            // You can add your custom initial props in the dictionary below.
+            // They will be passed down to the ViewController used by React Native.
+            self.initialProps = @{};
+            [[CastledReactBridge sharedInstance] setNotificationCategoriesWithItems:[self getNotificationCategories]];
+            return [super application:application didFinishLaunchingWithOptions:launchOptions];
+        }
+
+        - (NSSet<UNNotificationCategory *> *)getNotificationCategories {
+            // Create the custom actions
+            UNNotificationAction *action1 = [UNNotificationAction actionWithIdentifier:@"ACCEPT" title:@"Accept" options:UNNotificationActionOptionForeground];
+            UNNotificationAction *action2 = [UNNotificationAction actionWithIdentifier:@"DECLINE" title:@"Decline" options:0];
+            // Create the category with the custom actions
+            UNNotificationCategory *customCategory1 = [UNNotificationCategory categoryWithIdentifier:@"ACCEPT_DECLINE" actions:@[action1, action2] intentIdentifiers:@[] options:0];
+
+            UNNotificationAction *action3 = [UNNotificationAction actionWithIdentifier:@"YES" title:@"Yes" options:UNNotificationActionOptionForeground];
+            UNNotificationAction *action4 = [UNNotificationAction actionWithIdentifier:@"NO" title:@"No" options:0];
+            // Create the category with the custom actions
+            UNNotificationCategory *customCategory2 = [UNNotificationCategory categoryWithIdentifier:@"YES_NO" actions:@[action3, action4] intentIdentifiers:@[] options:0];
+            NSSet<UNNotificationCategory *> *categoriesSet = [NSSet setWithObjects:customCategory1, customCategory2, nil];
+            return categoriesSet;
+        }
+
+        ```
         ```swift swift
         // Import any of the below in Bridging Header depending on whether the castled-react-native-sdk is provided as a static library or a dynamic library:
         // If provided as a static library:
@@ -187,55 +217,11 @@ CastledNotifications.initialize(configs)
         }
 
         ```
-
-        ```objc objc
-            #import "CastledReactBridge.h"
-
-            - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-            self.moduleName = @"TestApp";
-
-            // You can add your custom initial props in the dictionary below.
-            // They will be passed down to the ViewController used by React Native.
-            self.initialProps = @{};
-            [[CastledReactBridge sharedInstance] setNotificationCategoriesWithItems:[self getNotificationCategories]];
-            return [super application:application didFinishLaunchingWithOptions:launchOptions];
-        }
-
-        - (NSSet<UNNotificationCategory *> *)getNotificationCategories {
-            // Create the custom actions
-            UNNotificationAction *action1 = [UNNotificationAction actionWithIdentifier:@"ACCEPT" title:@"Accept" options:UNNotificationActionOptionForeground];
-            UNNotificationAction *action2 = [UNNotificationAction actionWithIdentifier:@"DECLINE" title:@"Decline" options:0];
-            // Create the category with the custom actions
-            UNNotificationCategory *customCategory1 = [UNNotificationCategory categoryWithIdentifier:@"ACCEPT_DECLINE" actions:@[action1, action2] intentIdentifiers:@[] options:0];
-
-            UNNotificationAction *action3 = [UNNotificationAction actionWithIdentifier:@"YES" title:@"Yes" options:UNNotificationActionOptionForeground];
-            UNNotificationAction *action4 = [UNNotificationAction actionWithIdentifier:@"NO" title:@"No" options:0];
-            // Create the category with the custom actions
-            UNNotificationCategory *customCategory2 = [UNNotificationCategory categoryWithIdentifier:@"YES_NO" actions:@[action3, action4] intentIdentifiers:@[] options:0];
-            NSSet<UNNotificationCategory *> *categoriesSet = [NSSet setWithObjects:customCategory1, customCategory2, nil];
-            return categoriesSet;
-        }
-
-        ```
         </CodeGroup>
 
         #### Step 4: Setting Launch Options(Optional)
 
         <CodeGroup>
-
-        ```swift swift
-        func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-            self.moduleName = "Module Name”
-
-            // You can add your custom initial props in the dictionary below.
-            // They will be passed down to the ViewController used by React Native.
-            self.initialProps = [:]
-            CastledReactBridge.sharedInstance().setLaunchOptions(launchOptions)
-            return super.application(application, didFinishLaunchingWithOptions: launchOptions)
-        }
-
-        ```
-
         ```objc objc
         - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
             self.moduleName = @"TestApp";
@@ -245,6 +231,18 @@ CastledNotifications.initialize(configs)
             self.initialProps = @{};
             [[CastledReactBridge sharedInstance] setLaunchOptions:launchOptions];
             return [super application:application didFinishLaunchingWithOptions:launchOptions];
+        }
+
+        ```
+        ```swift swift
+        func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+            self.moduleName = "Module Name”
+
+            // You can add your custom initial props in the dictionary below.
+            // They will be passed down to the ViewController used by React Native.
+            self.initialProps = [:]
+            CastledReactBridge.sharedInstance().setLaunchOptions(launchOptions)
+            return super.application(application, didFinishLaunchingWithOptions: launchOptions)
         }
 
         ```
