@@ -156,12 +156,11 @@ CastledNotifications.initialize(configs)
         <CodeGroup>
         ```swift swift
         // Import any of the below in Bridging Header depending on whether the castled-react-native-sdk is provided as a static library or a dynamic library:
-
         // If provided as a static library:
         #import <castled-react-native-sdk/CastledReactBridge.h>
-
         // If provided as a dynamic library:
         #import "CastledReactBridge.h"
+        
         func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
             self.moduleName = "Module Name”
 
@@ -353,13 +352,10 @@ CastledNotifications.initialize(configs)
             ```
             ```swift swift
                 // Import any of the below in Bridging Header depending on whether the castled-react-native-sdk is provided as a static library or a dynamic library:
-
                 // If provided as a static library:
                 #import <castled-react-native-sdk/CastledReactBridge.h>
-
                 // If provided as a dynamic library:
                 #import "CastledReactBridge.h"
-
 
                 extension AppDelegate: UNUserNotificationCenterDelegate {
                   // Handling Device Token Registration
