@@ -101,10 +101,6 @@ paths:
       responses:
         "204":
           description: Campaign stopped successfully
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/CamapignStatusResponse"
 
 components:
   schemas:
@@ -153,7 +149,7 @@ components:
 
         message:
           type: object
-          description: Name of the event being tracked.
+          description: Campaign message details.
           required:
             - type
             - iosEnabled
