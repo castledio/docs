@@ -149,7 +149,7 @@ components:
               enum: ["START_NOW", "START_AT"]
             startTs:
               type: number
-              description: Campaign start timestamp. Applicable only if type is START_AT
+              description: Campaign start time as unix timestamp. Applicable only if type is START_AT
 
         message:
           type: object
