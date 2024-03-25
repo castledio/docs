@@ -12,17 +12,17 @@ info:
   #   email: support@example.com
 
 servers:
-  - url: https://app.castled.io/backend
+  - url: https://api.castled.io/backend
     # Description about the server
     description: The primary production server for Castled.io events API
 
 paths:
   /external/v1/collections/events:
     post:
-      summary: Track an event
+      summary: Track event
       description: Send event data to the Castled.io service for tracking.
       operationId: trackEvent
-      tags: 
+      tags:
         - events
       # Additional operation details
       # externalDocs:
@@ -34,9 +34,9 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Event'
+              $ref: "#/components/schemas/Event"
       responses:
-        '200':
+        "200":
           description: Event successfully tracked
           content:
             application/json:
@@ -66,6 +66,8 @@ components:
     Event:
       description: Schema representing the event data. # Description for the schema
       type: object
+      required:
+        - userId
       properties:
         type:
           type: string

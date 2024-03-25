@@ -451,6 +451,18 @@
       ]
     },
     {
+      "group": "Product Events",
+      "pages": ["api-docs/events/track-event"]
+    },
+    {
+      "group": "Campaigns",
+      "pages": [
+        "api-docs/campaigns/create-push-campaign",
+        "api-docs/campaigns/get-campaign-status",
+        "api-docs/campaigns/stop-campaign"
+      ]
+    },
+    {
       "group": "Appendix",
       "pages": ["appendix/connecting", "appendix/ios-auth"]
     }
@@ -461,5 +473,8 @@
     "youtube": "https://www.youtube.com/channel/UCpsIoohRnxIH87g5QGFg6vw",
     "Medium": "https://medium.com/castled"
   },
-  "openapi": ["/api-docs/product-event.yml"]
+  "openapi": [
+    "/api-docs/product-event.yml",
+    "/api-docs/create-push-notifcation-campaign.yml"
+  ]
 }
