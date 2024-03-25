@@ -52,7 +52,7 @@ paths:
             type: string
   /v1/campaigns/{uuid}/status:
     get:
-      summary: Get campaign status
+      summary: Get Campaign Status
       description: Gets the current status of the campaign
       operationId: getCampaignStatus
       tags:
@@ -80,7 +80,7 @@ paths:
 
   /v1/campaigns/{uuid}/stop:
     put:
-      summary: Stop campaign
+      summary: Stop Campaign
       description: Stops the campaign, if campaign is currently runnning it will be interrupted. Once stopped, campaign cannot be resumed or restarted.
       operationId: stopCampaign
       tags:
@@ -176,8 +176,8 @@ components:
               description: Map of ISO 639 language code to corresponding title text in that language. Text supports personalization.
               example:
                 {
-                  "en": "Hey {{ first_name | 'there' }}!, Hello from Castled!",
-                  "hi": " हेलो {{ first_name | 'there' }}!, कैसल्ड की ओर से नमस्ते!",
+                  "en": "Hey {{ first_name | 'there' }}",
+                  "hi": " हेलो {{ first_name | 'there' }}",
                 }
             subtitle:
               type: object
@@ -185,6 +185,8 @@ components:
             body:
               type: object
               description: Map of ISO 639 language code to corresponding body text in that language. Text supports personalization.
+              example:
+                { "en": "Hello from Castled!", "hi": "कैसल्ड की ओर से नमस्ते!" }
             collapseId:
               type: string
               description: A newer message with same collapseId will replace the older message if it is yet to be delivered to the device
@@ -259,9 +261,9 @@ components:
                   "SCORE_MIN",
                 ]
               description: A relevance score is a float value between 0 and 1 that developers can assign to each notification to indicate its importance relative to other notifications from the same app. The iOS system uses this score to determine the ordering of notifications within the Notification Summary. iOS only
-            allowAppRefreshInBg:
-              type: string
-              description: Can be used to trigger background updates to your app before the user launches it. iOS only
+            contentAvailable:
+              type: boolean
+              description: Setting contentAvailable to true in a push notification payload indicates that the notification should be delivered to the device immediately, even if the app is in the background or not running. This allows the app to wake up in the background and perform tasks such as fetching new content or updating data without necessarily displaying a visible notification to the user. iOS only
             actionCategory:
               type: object
               description: Notification long tap actions. iOS only
