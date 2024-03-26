@@ -161,7 +161,7 @@ components:
               type: string
               description: Campaign type
               enum: ["MOBILE_PUSH"]
-            iOSEnabled:
+            iosEnabled:
               type: boolean
               description: Should send notification to iOS device
             androidEnabled:
