@@ -196,7 +196,7 @@ components:
             androidActionUrl:
               type: string
               description: Url associated with the action for Android device
-            iOSActionUrl:
+            iosActionUrl:
               type: string
               description: Url associated with the action for iOS device
             keyVals:
