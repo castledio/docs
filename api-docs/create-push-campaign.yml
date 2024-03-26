@@ -133,7 +133,7 @@ components:
               example: select * from users
             primaryKey:
               type: string
-              description: Primary key field of the user segment table
+              description: Primary key field of the user segment table. This is the same field whose values are used as the user-id in the SDK
               example: user_id
         schedule:
           type: object
