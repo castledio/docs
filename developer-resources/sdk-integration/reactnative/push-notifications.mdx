@@ -190,7 +190,7 @@ CastledNotifications.initialize(configs)
         #import <castled-react-native-sdk/CastledReactBridge.h>
         // If provided as a dynamic library:
         #import "CastledReactBridge.h"
-        
+
         func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
             self.moduleName = "Module Name”
 
@@ -422,8 +422,7 @@ import {
   type CastledClickAction,
   type CastledPushNotification,
   type CastledPushNotificationClickEvent,
-} from 'castled-react-native-sdk';
-
+} from "castled-react-native-sdk"
 
 // Push received listener
 const pushReceivedListener = CastledNotifications.addListener(
@@ -472,4 +471,14 @@ notification permission dialog based on the mobile platform he is on.
 
 ```tsx
 CastledNotifications.requestPushPermission()
+  .then((isGranted) => {
+    if (isGranted) {
+      console.log("Push notification permission granted")
+    } else {
+      console.log("Push notification permission not granted")
+    }
+  })
+  .catch((error) => {
+    console.log("Request failed, error: " + error.message)
+  })
 ```
