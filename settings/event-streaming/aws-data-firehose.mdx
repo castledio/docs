@@ -26,8 +26,10 @@ Create a destination table at your warehouse for push events. You can use the fo
 ```sql snowflake
   CREATE TABLE <your-destination-table-name> (
     USER_ID VARCHAR(256),
-    MESSAGE VARCHAR(512),
+    MESSAGE_NAME VARCHAR(512),
     EVENT_TYPE VARCHAR(64),
+    ENGAGEMENT_ID INT,
+    ENGAGEMENT_TYPE VARCHAR(64),
     ACTION_LABEL VARCHAR(256),
     ACTION_URL VARCHAR(256),
     FAILURE_MESSAGE VARCHAR(512),
