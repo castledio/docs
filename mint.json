@@ -257,6 +257,10 @@
           ]
         },
         {
+          "group": "Event Streaming",
+          "pages": ["settings/event-streaming/aws-data-firehose"]
+        },
+        {
           "group": "Physical Address",
           "pages": [
             "settings/physical-address/create-address",
@@ -461,6 +465,10 @@
         "api-docs/campaigns/get-campaign-status",
         "api-docs/campaigns/stop-campaign"
       ]
+    },
+    {
+      "group": "Push Notification",
+      "pages": ["api-docs/push/send-push-notification"]
     },
     {
       "group": "Appendix",

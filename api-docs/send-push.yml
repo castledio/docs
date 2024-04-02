@@ -1,0 +1,258 @@
+openapi: 3.0.0
+
+info:
+  title: Castled Push Notification Send API
+  description: API to send push notification
+  version: 1.0.0
+  # Additional details about the API can be added here
+  # termsOfService: "https://www.example.com/terms/"
+  # contact:
+  #   name: API Support
+  #   url: "https://www.example.com/support"
+  #   email: support@example.com
+
+servers:
+  - url: https://api.castled.io/backend/external
+    # Description about the server
+    description: The primary production server for Castled.io API
+
+paths:
+  /v1/push:
+    post:
+      summary: Send Push Notification
+      description: Send push notification to a list of users
+      operationId: sendPushNotification
+      tags:
+        - push
+      # Additional operation details
+      # externalDocs:
+      #   description: Find more info here
+      #   url: "https://example.com/moreinfo"
+      requestBody:
+        required: true
+        description: Push notification send data. # Description for the request body
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PushSendRequest"
+      responses:
+        "204":
+          description: Push send request enqueued successfully
+
+      parameters:
+        - name: Api-Key
+          in: header
+          required: true
+          description: Private key to access the API.
+          schema:
+            type: string
+
+components:
+  schemas:
+    PushSendRequest:
+      description: Schema representing push notification send request data.
+      type: object
+      required:
+        - message
+        - userIds
+      properties:
+        userIds:
+          type: array
+          items:
+            type: string
+          description: List of users to send the push notification to # Description for individual property
+          minItems: 1
+          uniqueItems: true
+          example: ["user-8921892", "user-1622767"]
+
+        message:
+          type: object
+          description: Push notification message details.
+          required:
+            - type
+            - iosEnabled
+            - androidEnabled
+            - title
+            - body
+          properties:
+            type:
+              type: string
+              description: Campaign type
+              enum: ["MOBILE_PUSH"]
+            iosEnabled:
+              type: boolean
+              description: Should send notification to iOS device
+            androidEnabled:
+              type: boolean
+              description: Should send notification to Android device
+            title:
+              type: object
+              description: Map of ISO 639 language code to corresponding title text in that language. Text supports personalization.
+              example: { "en": "Hey there!", "hi": "सुनो!" }
+            subtitle:
+              type: object
+              description: Map of ISO 639 language code to corresponding subtitle text in that language
+            body:
+              type: object
+              description: Map of ISO 639 language code to corresponding body text in that language. Text supports personalization.
+              example:
+                { "en": "Hello from Castled!", "hi": "कैसल्ड की ओर से नमस्ते!" }
+            collapseId:
+              type: string
+              description: A newer message with same collapseId will replace the older message if it is yet to be delivered to the device
+            ttl:
+              type: number
+              description: Time-to-live specifies how long the server cache the message for retry before it could be delivered to the mobile device
+            action:
+              type: string
+              enum: ["DEFAULT", "DEEP_LINKING", "RICH_LANDING"]
+              description: Defines the action when notification is tapped
+            androidActionUrl:
+              type: string
+              description: Url associated with the action for Android device
+            iosActionUrl:
+              type: string
+              description: Url associated with the action for iOS device
+            keyVals:
+              type: object
+              description: A flatmap for passing any additional arguments to the tap action
+              additionalProperties:
+                type: string
+
+            bigImageUrl:
+              type: string
+              description: Url of the image to be displayed. Android only
+            largeIconUrl:
+              type: string
+              description: Url of the large icon. Android only
+            smallIconResourceId:
+              type: string
+              description: Resource id of the small icon. Android only
+            androidChannel:
+              type: string
+              description: Channel on which the notification is sent. Android only
+            priority:
+              type: string
+              enum: ["NORMAL", "HIGH"]
+              description: Normal priority messages are delivered immediately when the device is not sleeping. FCM attempts to deliver high priority messages immediately, allowing FCM to wake a sleeping device when necessary. Android only
+
+            androidActionButtons:
+              type: array
+              description: Array of notification action buttons
+              items:
+                anyOf:
+                  - $ref: "#/components/schemas/AndroidActionButton"
+
+            soundFileName:
+              type: string
+              description: custom sound for your notification. iOS only
+            richMediaUrl:
+              type: string
+              description: Rich media url. iOS only
+            mediaType:
+              type: string
+              enum: ["IMAGE", "AUDIO", "VIDEO"]
+              description: Rich media type. iOS only
+            interruptionLevel:
+              type: string
+              enum: ["PASSIVE", "ACTIVE", "TIME_SENSITIVE", "CRITICAL"]
+              description: Defines the priority and presentation style of the notification based on the content's urgency and relevance. iOS only
+            badgeCount:
+              type: number
+              description: Increment notification badge by this number. iOS only
+            relevanceScore:
+              type: string
+              enum:
+                [
+                  "SCORE_MAX",
+                  "SCORE_0_75",
+                  "SCORE_0_50",
+                  "SCORE_0_25",
+                  "SCORE_MIN",
+                ]
+              description: A relevance score is a float value between 0 and 1 that developers can assign to each notification to indicate its importance relative to other notifications from the same app. The iOS system uses this score to determine the ordering of notifications within the Notification Summary. iOS only
+            contentAvailable:
+              type: boolean
+              description: Setting contentAvailable to true in a push notification payload indicates that the notification should be delivered to the device immediately, even if the app is in the background or not running. This allows the app to wake up in the background and perform tasks such as fetching new content or updating data without necessarily displaying a visible notification to the user. iOS only
+            actionCategory:
+              type: object
+              description: Notification long tap actions. iOS only
+              properties:
+                type:
+                  type: string
+                  description: type of action category
+                  enum: ["PREDEFINED_CATEGORY", "CUSTOM_CATEGORY"]
+                name:
+                  type: string
+                  description: notification category name
+                actionComponents:
+                  type: array
+                  description: Array of notification action buttons
+                  items:
+                    anyOf:
+                      - $ref: "#/components/schemas/IOSActionButton"
+
+        customFields:
+          type: object
+          description: A flatmap for custom data that can be used for personalization
+          additionalProperties:
+            type: string
+
+    IOSActionButton:
+      type: object
+      description: Action button definition for the notification
+      properties:
+        actionId:
+          type: string
+          description: Action Id
+        url:
+          type: string
+          description: Url to be opened on button tap
+        clickAction:
+          type: string
+          description: Action to be performed on button tap
+          enum: ["DEEP_LINKING", "RICH_LANDING", "DISMISS_NOTIFICATION"]
+        keyVals:
+          type: object
+          description: A flatmap for passing any additional arguments to the tap action
+          additionalProperties:
+            type: string
+        useWebview:
+          type: boolean
+          description: Use webview for opening url
+
+    AndroidActionButton:
+      type: object
+      description: Action button definition for the notification
+      properties:
+        label:
+          type: string
+          description: Button label
+        url:
+          type: string
+          description: Url to be opened on button tap
+        clickAction:
+          type: string
+          description: Action to be performed on button tap
+          enum: ["DEEP_LINKING", "RICH_LANDING", "DISMISS_NOTIFICATION"]
+        keyVals:
+          type: object
+          description: A flatmap for passing any additional arguments to the tap action
+          additionalProperties:
+            type: string
+
+    CamapignCreateResponse:
+      type: object
+      description: A standard response for successful campaign creation. # Description for the response schema
+      properties:
+        uuid:
+          type: string
+          description: UUID of the created campaign
+
+    CamapignStatusResponse:
+      type: object
+      description: A standard response for successful campaign creation. # Description for the response schema
+      properties:
+        status:
+          type: string
+          description: Possible values are `SCHEDULED`, `RUNNNING`, `COMPLETED`, `FAILED`, `RETRYING`, `STOPPED`

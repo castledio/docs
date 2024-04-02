@@ -1,0 +1,44 @@
+---
+title: "AWS Data Firehose"
+---
+
+Default behaviour in Castled is to write the engagement events back to your data warehouse periodically in batches.
+You can optionally stream engagement events back to your warehouse using a data streaming service provider such as AWS Data Firehose.
+
+## Configuring AWS Data Firehose
+
+Navigate to **Settings > Streams**. Select **Stream Config** tab
+
+Please provide the **AWS Access Key Id** and **AWS Access Key Secret** of the **IAM** user who has the priveleges to write to the stream.
+
+![Stream configuration](/images/streams/stream-config.png)
+
+## Channel Event Stream Selection
+
+Once the AWS Data Firehose config is successfully setup, navigate to the **Channel Event Streams** tab. You can enable streaming for the messaging channels that are relevant for you and assign
+a stream from the dropdown (this is a list of already available streams in your Firehose account). Make sure you have already created the stream within your AWS Firehose console and assigned the destination table in your warehouse to the stream.
+All the engagement events for that messaging channel will eventually lands on this table. Schema of the destination table depends on the channel. Please see below for details.
+
+#### Push Notification Stream
+
+Create a destination table at your warehouse for push events. You can use the following query to create the table.
+
+```sql snowflake
+  CREATE TABLE <your-destination-table-name> (
+    USER_ID VARCHAR(256),
+    MESSAGE VARCHAR(512),
+    EVENT_TYPE VARCHAR(64),
+    ACTION_LABEL VARCHAR(256),
+    ACTION_URL VARCHAR(256),
+    FAILURE_MESSAGE VARCHAR(512),
+    AT TIMESTAMP_TZ
+);
+```
+
+When creating the stream within AWS Data Firehose console, select this table as the downstream table.
+
+![Firehose database configuration](/images/streams/firehose-db-config.png)
+
+Enable push notification event streaming and select the stream to write the push events to and finally save the changes.
+
+![Stream configuration](/images/streams/push-stream-config.png)
