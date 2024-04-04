@@ -195,9 +195,8 @@ CastledNotifications.initialize(configs)
         ```
         ```swift swift
         // Import any of the below in Bridging Header depending on whether the castled-react-native-sdk is provided as a static library or a dynamic library:
-        // If provided as a static library:
         #import <castled-react-native-sdk/CastledReactBridge.h>
-        // If provided as a dynamic library:
+                    OR
         #import "CastledReactBridge.h"
 
         func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
