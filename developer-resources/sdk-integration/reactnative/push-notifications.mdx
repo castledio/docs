@@ -94,21 +94,7 @@ CastledNotifications.initialize(configs)
             // They will be passed down to the ViewController used by React Native.
             self.initialProps = @{};
             
-            // Step 3: Register for push notifications by requesting authorization from the user.
-            [self registerForPush];
-            
             return [super application:application didFinishLaunchingWithOptions:launchOptions];
-        }
-
-        - (void)registerForPush {
-            UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
-            [center requestAuthorizationWithOptions:(UNAuthorizationOptionSound | UNAuthorizationOptionAlert | UNAuthorizationOptionBadge) completionHandler:^(BOOL granted, NSError * _Nullable error){
-                if( !error ){
-                dispatch_async(dispatch_get_main_queue(), ^(void) {
-                    [[UIApplication sharedApplication] registerForRemoteNotifications];
-                });
-                }
-            }];
         }
 
         ```
@@ -125,21 +111,8 @@ CastledNotifications.initialize(configs)
                 // You can add your custom initial props in the dictionary below.
                 // They will be passed down to the ViewController used by React Native.
                 self.initialProps = [:]
-
-                // Step 3: Register for push notifications by requesting authorization from the user.
-                self.registerForPush()
                 
                 return super.application(application, didFinishLaunchingWithOptions: launchOptions)
-            }
-
-            func registerForPush() {
-                UNUserNotificationCenter.current().requestAuthorization(options: [.sound, .badge, .alert], completionHandler: { granted, _ in
-                    if granted {
-                        DispatchQueue.main.async {
-                            UIApplication.shared.registerForRemoteNotifications()
-                        }
-                    }
-                })
             }
         }
 
