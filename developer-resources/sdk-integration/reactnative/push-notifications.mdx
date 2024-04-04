@@ -95,7 +95,7 @@ CastledNotifications.initialize(configs)
             // They will be passed down to the ViewController used by React Native.
             self.initialProps = @{};
             
-            // Step 3: Register for push notifications by requesting authorization from the user and handling the completion handler
+            // Step 3: Register for push notifications by requesting authorization from the user.
             [self registerForPush];
             
             return [super application:application didFinishLaunchingWithOptions:launchOptions];
@@ -127,7 +127,7 @@ CastledNotifications.initialize(configs)
                 // They will be passed down to the ViewController used by React Native.
                 self.initialProps = [:]
 
-                // Step 3: Register for push notifications by requesting authorization from the user and handling the completion handler
+                // Step 3: Register for push notifications by requesting authorization from the user.
                 self.registerForPush()
                 
                 return super.application(application, didFinishLaunchingWithOptions: launchOptions)
