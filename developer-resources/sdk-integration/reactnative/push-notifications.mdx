@@ -137,7 +137,10 @@ CastledNotifications.initialize(configs)
         <CodeGroup>
 
         ```objc objc
+        // Import any of the below depending on whether the castled-react-native-sdk is provided as a static library or a dynamic library:
         #import "CastledReactBridge.h"
+                // OR
+        #import <castled-react-native-sdk/CastledReactBridge.h>
 
         - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
             self.moduleName = @"TestApp";
@@ -167,9 +170,10 @@ CastledNotifications.initialize(configs)
         ```
         ```swift swift
         // Import any of the below in Bridging Header depending on whether the castled-react-native-sdk is provided as a static library or a dynamic library:
-        #import <castled-react-native-sdk/CastledReactBridge.h>
-                    OR
         #import "CastledReactBridge.h"
+                // OR
+        #import <castled-react-native-sdk/CastledReactBridge.h>
+
 
         func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
             self.moduleName = "Module Name”
