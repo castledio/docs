@@ -76,7 +76,8 @@ CastledNotifications.initialize(configs)
         #import "AppDelegate.h"
         #import "CastledReactBridge.h"
         #import <UserNotifications/UserNotifications.h>
-
+       
+        // Step 1: Declare AppDelegate conforming to UIApplicationDelegate and UNUserNotificationCenterDelegate protocols to manage notifications.
         @interface AppDelegate ()<UIApplicationDelegate,UNUserNotificationCenterDelegate>
         {
         }
@@ -87,12 +88,16 @@ CastledNotifications.initialize(configs)
         - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
             self.moduleName = @"Module Name";
 
+            // Step 2: Assign AppDelegate as the delegate for UNUserNotificationCenter to handle notification events
             [UNUserNotificationCenter currentNotificationCenter].delegate = self;
 
             // You can add your custom initial props in the dictionary below.
             // They will be passed down to the ViewController used by React Native.
             self.initialProps = @{};
+            
+            // Step 3: Register for push notifications by requesting authorization from the user and handling the completion handler
             [self registerForPush];
+            
             return [super application:application didFinishLaunchingWithOptions:launchOptions];
         }
 
@@ -109,18 +114,22 @@ CastledNotifications.initialize(configs)
 
         ```
         ```swift swift
+        // Step 1: Declare AppDelegate conforming to UIApplicationDelegate and UNUserNotificationCenterDelegate protocols to manage notifications.
         class AppDelegate: UIResponder, UIApplicationDelegate , UNUserNotificationCenterDelegate {
 
             func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
                 self.moduleName = "Module Name”
 
+                // Step 2: Assign AppDelegate as the delegate for UNUserNotificationCenter to handle notification events
                 UNUserNotificationCenter.current().delegate = self
 
                 // You can add your custom initial props in the dictionary below.
                 // They will be passed down to the ViewController used by React Native.
                 self.initialProps = [:]
 
+                // Step 3: Register for push notifications by requesting authorization from the user and handling the completion handler
                 self.registerForPush()
+                
                 return super.application(application, didFinishLaunchingWithOptions: launchOptions)
             }
 
