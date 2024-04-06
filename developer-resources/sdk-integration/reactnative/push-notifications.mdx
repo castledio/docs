@@ -216,7 +216,9 @@ CastledNotifications.initialize(configs)
             different notification scenarios.
 
             #### Manual Handling of Push Notifications
-
+            
+            Initializing Castled React SDK and Setting Delegates
+            
             <CodeGroup>
             ```objc objc
                 #import "AppDelegate.h"
@@ -273,12 +275,13 @@ CastledNotifications.initialize(configs)
             ```
             </CodeGroup>
             <br/>
-            
             <Note>
                 If your **Swift** project doesn't have a bridging header yet, you need to create one. To acheive this,
                 Create a new **Objective-C** file in your Swift project. Xcode will prompt you to create a bridging header.
                 Accept and let Xcode create it.
             </Note>
+            
+            Handling Push Notifications Delegates (Copy Below Delegate Methods to AppDelegate)
             
             <CodeGroup>
             ```objc objc
