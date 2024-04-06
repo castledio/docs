@@ -244,9 +244,45 @@ CastledNotifications.initialize(configs)
                     
                     return [super application:application didFinishLaunchingWithOptions:launchOptions];
                 }
+
+            ```
+            ```swift swift
+                // 1: Import any of the below in Bridging Header depending on whether the castled-react-native-sdk is provided as a static library or a dynamic library:
+                #import "CastledReactBridge.h"
+                            // OR
+                #import <castled-react-native-sdk/CastledReactBridge.h>
+                
+               
+                // 2: Declare AppDelegate conforming to UIApplicationDelegate and UNUserNotificationCenterDelegate protocols to manage notifications.
+                class AppDelegate: UIResponder, UIApplicationDelegate , UNUserNotificationCenterDelegate {
+
+                    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+                        self.moduleName = "Module Name”
+
+                        // 3: Assign AppDelegate as the delegate for UNUserNotificationCenter to handle notification events
+                        UNUserNotificationCenter.current().delegate = self
+
+                        // You can add your custom initial props in the dictionary below.
+                        // They will be passed down to the ViewController used by React Native.
+                        self.initialProps = [:]
+                        
+                        return super.application(application, didFinishLaunchingWithOptions: launchOptions)
+                    }
+                }
+
+            ```
+            </CodeGroup>
+            <br/>
             
-             
-               // Handling Device Token Registration
+            <Note>
+                If your **Swift** project doesn't have a bridging header yet, you need to create one. To acheive this,
+                Create a new **Objective-C** file in your Swift project. Xcode will prompt you to create a bridging header.
+                Accept and let Xcode create it.
+            </Note>
+            
+            <CodeGroup>
+            ```objc objc
+                 // Handling Device Token Registration
                 -(void) application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken{
                         NSMutableString *deviceTokenString =[NSMutableString string];
                         if (@available(iOS 13.0, *)) {
@@ -293,31 +329,7 @@ CastledNotifications.initialize(configs)
 
             ```
             ```swift swift
-                // 1: Import any of the below in Bridging Header depending on whether the castled-react-native-sdk is provided as a static library or a dynamic library:
-                #import "CastledReactBridge.h"
-                            // OR
-                #import <castled-react-native-sdk/CastledReactBridge.h>
-                
-               
-                // 2: Declare AppDelegate conforming to UIApplicationDelegate and UNUserNotificationCenterDelegate protocols to manage notifications.
-                class AppDelegate: UIResponder, UIApplicationDelegate , UNUserNotificationCenterDelegate {
-
-                    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-                        self.moduleName = "Module Name”
-
-                        // 3: Assign AppDelegate as the delegate for UNUserNotificationCenter to handle notification events
-                        UNUserNotificationCenter.current().delegate = self
-
-                        // You can add your custom initial props in the dictionary below.
-                        // They will be passed down to the ViewController used by React Native.
-                        self.initialProps = [:]
-                        
-                        return super.application(application, didFinishLaunchingWithOptions: launchOptions)
-                    }
-                }
-
-
-                extension AppDelegate: UNUserNotificationCenterDelegate {
+               extension AppDelegate: UNUserNotificationCenterDelegate {
                   // Handling Device Token Registration
                   func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
                     let deviceTokenString = deviceToken.map { String(format: "%02.2hhx", $0) }.joined()
@@ -354,12 +366,6 @@ CastledNotifications.initialize(configs)
             ```
             </CodeGroup>
             <br/>
-
-            <Note>
-                If your **Swift** project doesn't have a bridging header yet, you need to create one. To acheive this,
-                Create a new **Objective-C** file in your Swift project. Xcode will prompt you to create a bridging header.
-                Accept and let Xcode create it.
-            </Note>
 
     </Tab>
 
