@@ -62,64 +62,8 @@ CastledNotifications.initialize(configs)
     <Tab title="iOS">
       #### Step 1: Configure App Target for iOS Push
       Follow these [instructions](/developer-resources/sdk-integration/ios/push-notifications#configuring-app-target-for-push-notification) for app target setup.
-
-      #### Step 2: Registering Push Notification
-      In iOS 10 and above, to handle push notifications, you need to implement the following method from UIApplicationDelegate protocol and
-      add the three steps mentioned in the code snippet below for registering push notification.
-
-      **application(_:didFinishLaunchingWithOptions:)**
-
-      This method is called when the app finishes launching. You can use this method to register for remote notifications and configure the notification settings.
-
-      <CodeGroup>
-        ```objc objc
-        #import "AppDelegate.h"
-        #import <UserNotifications/UserNotifications.h>
-       
-        // Step 1: Declare AppDelegate conforming to UIApplicationDelegate and UNUserNotificationCenterDelegate protocols to manage notifications.
-        @interface AppDelegate ()<UIApplicationDelegate,UNUserNotificationCenterDelegate>
-        {
-        }
-        @end
-
-        @implementation AppDelegate
-
-        - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-            self.moduleName = @"Module Name";
-
-            // Step 2: Assign AppDelegate as the delegate for UNUserNotificationCenter to handle notification events
-            [UNUserNotificationCenter currentNotificationCenter].delegate = self;
-
-            // You can add your custom initial props in the dictionary below.
-            // They will be passed down to the ViewController used by React Native.
-            self.initialProps = @{};
-            
-            return [super application:application didFinishLaunchingWithOptions:launchOptions];
-        }
-
-        ```
-        ```swift swift
-        // Step 1: Declare AppDelegate conforming to UIApplicationDelegate and UNUserNotificationCenterDelegate protocols to manage notifications.
-        class AppDelegate: UIResponder, UIApplicationDelegate , UNUserNotificationCenterDelegate {
-
-            func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-                self.moduleName = "Module Name”
-
-                // Step 2: Assign AppDelegate as the delegate for UNUserNotificationCenter to handle notification events
-                UNUserNotificationCenter.current().delegate = self
-
-                // You can add your custom initial props in the dictionary below.
-                // They will be passed down to the ViewController used by React Native.
-                self.initialProps = [:]
-                
-                return super.application(application, didFinishLaunchingWithOptions: launchOptions)
-            }
-        }
-
-        ```
-      </CodeGroup>
-
-        #### Step 3: Configuring Notification Categories and Actions (Optional)
+      
+      #### Step 2: Configuring Notification Categories and Actions (Optional)
 
         Apps are required to enable support for actionable notifications. During app launch, it is necessary to register one or more notification categories that define the types of notifications your app sends.
         Each category is associated with specific actions that users can take when receiving a notification of that type.
@@ -203,7 +147,7 @@ CastledNotifications.initialize(configs)
         ```
         </CodeGroup>
 
-        #### Step 4: Setting Launch Options(Optional)
+        #### Step 3: Setting Launch Options(Optional)
 
         <CodeGroup>
         ```objc objc
@@ -232,7 +176,7 @@ CastledNotifications.initialize(configs)
         ```
         </CodeGroup>
 
-         #### Step 5: Support for Rich Push Notification(Optional)
+         #### Step 4: Support for Rich Push Notification(Optional)
 
          Follow the [instructions](https://docs.castled.io/developer-resources/sdk-integration/ios/rich-push-notification) here
          for setting up rich push notifications.
@@ -250,7 +194,7 @@ CastledNotifications.initialize(configs)
          end
          ```
 
-         #### Step 6: AppDelegate Swizzling in Castled SDK
+         #### Step 5: AppDelegate Swizzling in Castled SDK
 
         Castled SDK is designed to simplify push notification handling. By default, swizzling is enabled, which means the SDK automatically handles the registration of device tokens,
         the presentation of notifications, and the response to user interactions with those notifications.
@@ -276,17 +220,33 @@ CastledNotifications.initialize(configs)
             <CodeGroup>
             ```objc objc
                 #import "AppDelegate.h"
+                // 1: Import the Castled React SDK
                 #import "CastledReactBridge.h"
                 #import <UserNotifications/UserNotifications.h>
-                @interface AppDelegate ()<UNUserNotificationCenterDelegate>
+                
+                // 2: Declare AppDelegate conforming to UIApplicationDelegate and UNUserNotificationCenterDelegate protocols to manage notifications.
+                @interface AppDelegate ()<UIApplicationDelegate,UNUserNotificationCenterDelegate>
                 {
                 }
                 @end
 
                 @implementation AppDelegate
 
+                - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+                    self.moduleName = @"Module Name";
 
-                // Handling Device Token Registration
+                    // 3: Assign AppDelegate as the delegate for UNUserNotificationCenter to handle notification events
+                    [UNUserNotificationCenter currentNotificationCenter].delegate = self;
+
+                    // You can add your custom initial props in the dictionary below.
+                    // They will be passed down to the ViewController used by React Native.
+                    self.initialProps = @{};
+                    
+                    return [super application:application didFinishLaunchingWithOptions:launchOptions];
+                }
+            
+             
+               // Handling Device Token Registration
                 -(void) application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken{
                         NSMutableString *deviceTokenString =[NSMutableString string];
                         if (@available(iOS 13.0, *)) {
@@ -333,10 +293,29 @@ CastledNotifications.initialize(configs)
 
             ```
             ```swift swift
-                // Import any of the below in Bridging Header depending on whether the castled-react-native-sdk is provided as a static library or a dynamic library:
+                // 1: Import any of the below in Bridging Header depending on whether the castled-react-native-sdk is provided as a static library or a dynamic library:
                 #import "CastledReactBridge.h"
                             // OR
                 #import <castled-react-native-sdk/CastledReactBridge.h>
+                
+               
+                // 2: Declare AppDelegate conforming to UIApplicationDelegate and UNUserNotificationCenterDelegate protocols to manage notifications.
+                class AppDelegate: UIResponder, UIApplicationDelegate , UNUserNotificationCenterDelegate {
+
+                    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+                        self.moduleName = "Module Name”
+
+                        // 3: Assign AppDelegate as the delegate for UNUserNotificationCenter to handle notification events
+                        UNUserNotificationCenter.current().delegate = self
+
+                        // You can add your custom initial props in the dictionary below.
+                        // They will be passed down to the ViewController used by React Native.
+                        self.initialProps = [:]
+                        
+                        return super.application(application, didFinishLaunchingWithOptions: launchOptions)
+                    }
+                }
+
 
                 extension AppDelegate: UNUserNotificationCenterDelegate {
                   // Handling Device Token Registration
