@@ -256,7 +256,7 @@ CastledNotifications.initialize(configs)
                 
                
                 // 2: Declare AppDelegate conforming to UIApplicationDelegate and UNUserNotificationCenterDelegate protocols to manage notifications.
-                class AppDelegate: UIResponder, UIApplicationDelegate , UNUserNotificationCenterDelegate {
+                class AppDelegate: UIResponder, UIApplicationDelegate {
 
                     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
                         self.moduleName = "Module Name”
@@ -274,7 +274,6 @@ CastledNotifications.initialize(configs)
 
             ```
             </CodeGroup>
-            <br/>
             <Note>
                 If your **Swift** project doesn't have a bridging header yet, you need to create one. To acheive this,
                 Create a new **Objective-C** file in your Swift project. Xcode will prompt you to create a bridging header.
@@ -374,6 +373,25 @@ CastledNotifications.initialize(configs)
 
 </Tabs>
 
+## Requesting Push Notification Permission
+
+Following SDK method can be used by the app to fetch user permission for showing push notifications. User will be shown the native
+notification permission dialog based on the mobile platform he is on.
+
+```tsx
+CastledNotifications.requestPushPermission()
+  .then((isGranted) => {
+    if (isGranted) {
+      console.log("Push notification permission granted")
+    } else {
+      console.log("Push notification permission not granted")
+    }
+  })
+  .catch((error) => {
+    console.log("Request failed, error: " + error.message)
+  })
+```
+
 ## Push Notification Events Listener
 
 App can listen to push notification events by registering a listener. This is useful when you want to override the default click actions implemented by the SDK with
@@ -435,21 +453,3 @@ pushDismissedListener.remove()
   `true` in the SDK configs during initialization.
 </Note>
 
-## Requesting Push Notification Permission
-
-Following SDK method can be used by the app to fetch user permission for showing push notifications. User will be shown the native
-notification permission dialog based on the mobile platform he is on.
-
-```tsx
-CastledNotifications.requestPushPermission()
-  .then((isGranted) => {
-    if (isGranted) {
-      console.log("Push notification permission granted")
-    } else {
-      console.log("Push notification permission not granted")
-    }
-  })
-  .catch((error) => {
-    console.log("Request failed, error: " + error.message)
-  })
-```
