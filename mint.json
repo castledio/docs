@@ -244,7 +244,8 @@
               "pages": [
                 "settings/channel-configs/email-provider/email-overview",
                 "settings/channel-configs/email-provider/sendgrid",
-                "settings/channel-configs/email-provider/webhook"
+                "settings/channel-configs/email-provider/webhook",
+                "settings/channel-configs/email-provider/amazon-ses"
               ]
             },
             {

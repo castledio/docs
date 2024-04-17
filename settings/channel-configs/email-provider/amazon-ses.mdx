@@ -1,0 +1,76 @@
+---
+title: "Amazon SES"
+---
+
+Amazon Simple Email Service (SES) is a cloud-based email service that provides cost-effective, flexible and scalable way for businesses of all sizes to keep in contact with their customers through email.
+
+## Configuring AWS SES
+
+    You can skip this step if you already have your AWS SES setup
+
+    1. Sign Up for AWS: If you haven’t already, create an AWS account.
+
+    2. Verify Email Addresses or Domains: Before sending emails, verify your email addresses or domains through the SES console.
+
+    3. Request Production Access: Initially, your SES account is in a sandbox environment. Request production access to remove restrictions and enable full email sending capabilities.
+
+    For detailed guidance, you should refer to the official [AWS SES documentation](https://docs.aws.amazon.com/ses/latest/dg/Welcome.html).
+
+## Configuring AWS SES credentials in Castled dashboard
+
+Following steps outline how to configure SES in Castled dashboard.
+
+    1. Select `Settings` > `Email` > `Custom SMTP` as the provider type
+
+       ![Custom SMTP Provider](/images/custom-smtp/custom_smtp_provider.png)
+
+    2. Please find below a sample SMTP config when using Amazon SES
+
+       ![Custom SMTP Form](/images/custom-smtp/custom_smtp_form.png)
+
+       **SMTP Host** and **SMTP Port** info can be found in **SMTP Settings** within your AWS console.
+
+       ![AWS SMTP Settings](/images/custom-smtp/aws_smtp_settings.png)
+
+       Check **Enable Authentication**
+
+       Use the **Username** and **Password** of the AWS user with email send permissions. If the user doesn't exist create a new
+       user using **Create SMTP credentials** option below.
+
+       ![AWS SMTP Credentials](/images/custom-smtp/smtp_credentials.png)
+
+       Complete sender details as well and save the form.
+
+       **Enable Custom Tracking** is used when you want to use your own domain for tracking.
+
+## Setting up SNS for email events
+
+SNS allows you to receive notifications for SES events such as email deliveries, bounces, and complaints.
+Castled user these notifications to provide detailed insights and real-time alerts on your email sending activities and also
+efficiently adjusting email sending practices based on bounce or complaint notifications.
+
+Setting up Amazon SNS for SES events involves a few key steps:
+
+    1. Create an SNS Topic Subscription:
+       - Go to the Amazon SNS dashboard.
+       - Choose **Create topic** and define the topic name and display name.
+       - Create a **Subscription** and configure the Castled webhook `https://api.castled.io/backend/v1/email-webhook/sns` to receive SNS events as below.
+         **Enable raw message delivery** should be unchecked.
+
+         ![AWS SNS Subscription](/images/custom-smtp/create_sns_subscription.png)
+
+       - Once subscription is setup, Castled automatically completes the subscription confirmation with AWS SNS. If the **Status** is `Pending` after 30 mins, try **Request confirmation** again.
+
+         ![AWS Subscription Confirmation](/images/custom-smtp/subscription_confirmation.png)
+
+    2. Set up SES Notifications:
+       - Navigate to the Amazon SES console.
+       - Select **Email Addresses** or **Domains**, depending on where you’ve verified your sending identity.
+       - Choose the identity for which you want to set notifications.
+       - Under **Notifications**, select **Edit Configuration**.
+       - For each type of notification (Bounces, Complaints, Deliveries), select the SNS topic you created.
+         Make sure to check **Include original email headers**
+
+         ![AWS SES Notification](/images/custom-smtp/create_ses_notification.png)
+
+         SNS is now setup to notify the Castled webhook whenever a new SES event is reported.
