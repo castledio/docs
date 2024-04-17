@@ -1,0 +1,19 @@
+---
+title: "Email Unsubscribe Handling"
+---
+
+Handling unsubscribe requests in email marketing is critical for several reasons:
+
+1.  Legal Compliance: Laws such as CAN-SPAM, GDPR, and CASL require that recipients be able to easily opt out of receiving emails. Failure to comply can result in hefty fines.
+2.  Reputation Management: Ignoring unsubscribe requests can lead to high spam complaints, which harm your sender reputation with ISPs and email service providers. This can lead to your emails being blocked or sent to the spam folder.
+3.  Customer Trust: Respecting unsubscribe requests improves customer trust and satisfaction. It shows that you value their preferences and consent, which can enhance their perception of your brand.
+4.  Resource Efficiency: Removing uninterested parties from your email lists helps in focusing your marketing efforts on more engaged segments, improving overall campaign effectiveness and efficiency.
+
+Once the user opts out from email campaigns, Castled ensures that no future email campaigns are send to the user. Castled provides the following approaches for managing unsubscribe requests.
+
+## Unsubscribe tags
+
+A special tag `{{SystemAttribute['unsubscribe_url']|default('CAS_SKIP')}}` is placed within the message content when building the email. At the time of sending, this tag get replaced with the actual unsubscribe url.
+User will be able to click this link and update their subscription preference on getting the email. Typically the tag is added as a **link target** as shown in the text editor email builder below.
+
+![Email Unsub Text Editor](/images/email/email_unsub_tag.png)

@@ -132,6 +132,7 @@
                     "engagement/email/email-wf-step-create"
                   ]
                 },
+                "engagement/email/email-unsubscribe",
                 "engagement/email/email-stats"
               ]
             },
