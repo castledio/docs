@@ -20,3 +20,129 @@ format the tools understand.
 ### What information do we share?
 
 We do not share the information with anyone.
+
+
+
+Hey Abhilash, here is link 1 https://www.youtube.com/watch?v=917-i0k9-Tk and link 2 for you https://www.figma.com/file/s8KwysFSHN0QRpacYEfdHq/Castled-Website?type=design&node-id=1-40&mode=design
+
+
+
+004705016451|   05-Apr-2022|  Remittance ID*[0047SXR00000723]*REALISE,PART TRAN FOR GST,PART TRAN FOR GST                         |                 |            0.00|     15016486.40|     15016486.40|             CONNAUGHT PLACE
+
+
+
+UPDATE campaign_email_details SET email_stats = '{"processed": 1235420, "dropped": 0, "delivered": 1235420, "deferred": 0, "bounce": 10, "blocked": 0, "open": 753606, "uniqueOpen": 752537, "clicked": 88563, "uniqueClicked": 86479, "spamreport": 0, "unsubscribe": 13}' WHERE id = 949;
+
+UPDATE campaigns set campaign_stats = '{"aggregatedStats":{"entered":1235420,"skipped":0,"throttled":0,"failed":0,"completed":1235420}}' where id = 2542;
+
+UPDATE campaigns set goal_conversion_stats = '{"variantStats":{"949":{"secondaryGoalsConversionStatsMap":{"button click":{"conversionEventsByImpression":635,"conversionEventsByClick":24,"totalConversions":46,"conversionsByImpression":46,"conversionByClick":2}},"primaryGoalConversionStats":{"conversionEventsByImpression":35534,"conversionEventsByClick":29834,"totalConversions":32564,"conversionsByImpression":32564,"conversionByClick":26314}}}}' where id = 2542;
+
+
+
+{"conversionGoals":[{"goalName":"Checkout - Completed","eventId":"116928","eventName":"order status update","eventFilter":{"type":"GROUP","joinType":"AND"},"primaryGoal":true}],"goalAttributionTime":{"value":1,"type":"DAYS"}}
+
+
+
+
+Total Conversions
+	- Total conversion events - can ideally add up conversion by click + conversion by events 
+	- Total unique conversions - add an user only once - either for click or for impression....so its not actually unique conversions + unique c
+
+
+
+Email
+----
+Sent - Denominator for both View-through conversion and Click-through conversion
+Delivered
+Unique Opened - Numerator for View-through conversion 
+Unique Clicked  - Numerator for Click-through conversion
+Unique Conversions - View through or Click through
+
+
+Total Converted - All conversion events being counted for view through or click through - Total Converted can be higher than Sent/Delivered
+----------
+Failed
+Bounced
+Marked as Spam
+Unsubscribed 
+
+Open Rate = Unique Opened / Sent * 100
+Click through rate = Unique Clicked / Delivered * 100 - If delivered is not tracked may be should use Sent as Delivered
+CTOR = Unique Clickes / Unique Opened * 100
+CVR for view through conversion = Unique Conversion by View / Total Sent * 100
+CVR for click through conversion = Unique Conversion by Click / Total Sent * 100
+
+
+Push
+----
+
+Sent - total sent (Segment size - (failed + skipped)
+Impressions - total messages delivered or received at the client devices
+Clicks - Total/Unique - as clicking twice is not possible in push per campaign
+Dismissals - total/Unique - as dismissing twice is not possible in push per campaingn
+Unique Conversions - View through or Click through
+----------
+Failed
+	- App Uninstalled
+	- Congig issue
+	- DND Queue drop
+	- Engagement Window - DND window set, but Queing Window not set - will ideally wont be resend after the DND Window is over 
+	- Frequency caping Queue drop 
+	- Personlisation error
+	- Device not registered 
+	- Timezone elapsed
+	- Channel not available
+
+
+Queued
+	- DND Queue
+	- FC Queue
+	- Waiting for User Timezone 
+
+Unique Converted - View through or Click through
+Total Converted - All conversion events being counted for view through or click through - Total Converted can be higher than Sent/Delivered
+
+
+Impression Rate - Impressions/Sent * 100
+CTR - Clicks/Impressions * 100
+CVR for view through conversion = Unique Conversion by View / Sent * 100
+CVR for click through conversion = Unique Conversion by Click / Sent * 100
+
+
+-------------------------------
+
+In App
+-----
+Sent
+Viewed
+Clicks
+Closes
+Unique Conversions - View through or Click through
+
+
+Failed
+
+Impression Rate - Viewed/Sent * 100
+CTR - Clicks/Viewed * 100
+CVR for view through conversion = Unique Conversion by View / Sent * 100
+CVR for click through conversion = Unique Conversion by Click / Sent * 100
+
+
+---------------------
+
+App Inbox
+---------
+
+Sent
+Viewed
+Clicks
+
+Failed
+
+Impression Rate - Viewed/Sent * 100
+CTR - Clicks/Viewed * 100
+CVR for view through conversion = Unique Conversion by View / Sent * 100
+CVR for click through conversion = Unique Conversion by Click / Sent * 100
+
+
+
