@@ -182,6 +182,7 @@
               "group": "WhatsApp",
               "pages": [
                 "engagement/whatsapp/whatsapp-overview",
+                "engagement/whatsapp/whatsapp-prerequisite",
                 {
                   "group": "Message Creation",
                   "pages": [
@@ -247,6 +248,19 @@
                 "settings/channel-configs/email-provider/sendgrid",
                 "settings/channel-configs/email-provider/webhook",
                 "settings/channel-configs/email-provider/amazon-ses"
+              ]
+            },
+            {
+              "group": "WhatsApp Providers",
+              "pages": [
+                "settings/channel-configs/whatsapp-provider/whatsapp-overview",
+                "settings/channel-configs/whatsapp-provider/whatsapp-prerequisite",
+                "settings/channel-configs/whatsapp-provider/twilio",
+                "settings/channel-configs/whatsapp-provider/gupshup",
+                "settings/channel-configs/whatsapp-provider/karix",
+                "settings/channel-configs/whatsapp-provider/msg91",
+                "settings/channel-configs/whatsapp-provider/valuefirst",
+                "settings/channel-configs/whatsapp-provider/textlocal"
               ]
             },
             {
