@@ -8,9 +8,15 @@ WhatsApp templates enable businesses to send pre-approved messages to customers,
 
 Castled requires the storage of all approved templates in our system to facilitate previews while creating a WhatsApp campaign.
 
+## Preferred Approach - Auto Fetch
+
 For all BSPs that provide an API for fetching approved templates, Castled automatically retrieves all approved templates and stores them for use within the platform. Additionally, there is a cron job running periodically to check for any new templates added or deleted. This ensures the Castled system is updated accordingly, thereby eliminating the need for marketers to manually replicate the templates in Castled.
 
-This section covers the manual process of replicating the templates within Castled.io for Business Service Providers (BSPs) that do not offer an API for automatic template synchronization
+## Fallback Approach - Manual Replication
+
+For Business Service Providers (BSPs) that do not offer an API for automatic template synchronization, the templates needs to be manually replicated in Castled.
+
+This section covers the manual process of replicating the templates within Castled.
 
 ## Preparing for template creation
 
@@ -28,3 +34,16 @@ Before you begin creating your template in Castled, make sure you have the follo
 
 2. Click the `Create Template` button to start defining your new template.
 ![Create Template](/images/wa-template/wa-template-2.png)
+
+### Basic Template Details
+
+**Template Name:** Assign a descriptive name to your template. This name should help you easily identify the template's purpose and content at a glance.
+
+**Provider Config:** Select the BSP configuration you're using from a dropdown list of previously configured service providers.
+
+**External Template ID:** Enter the exact template ID as provided by your BSP. This ID links your Castled.io template with the corresponding approved version on the BSP's system.
+
+**Message Language:** Indicate the primary language used in your message content to ensure clear communication with recipients.
+
+![Basic template details](/images/wa-template/wa-template-3.png)
+
