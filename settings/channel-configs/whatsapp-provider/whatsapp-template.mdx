@@ -4,22 +4,33 @@ title: "WhatsApp Template"
 
 ## Introduction
 
-WhatsApp templates enable businesses to send pre-approved messages to customers, ensuring consistency and compliance with WhatsApp's policies. This guide details the process of setting up these templates within Castled.io for Business Service Providers (BSPs) that do not automatically sync approved templates through an API.
+WhatsApp templates enable businesses to send pre-approved messages to customers, ensuring consistency and compliance with WhatsApp's policies.
 
-## Preparing for Template Creation
+Castled requires the storage of all approved templates in our system to facilitate previews while creating a WhatsApp campaign.
 
-Before you begin crafting your template, make sure you have the following:
-1. Meta Approval: A WhatsApp template already approved by Meta through your BSP.
-2. External Template ID: The unique identifier provided by your BSP for the approved template.
+For all BSPs that provide an API for fetching approved templates, Castled automatically retrieves all approved templates and stores them for use within the platform. Additionally, there is a cron job running periodically to check for any new templates added or deleted. This ensures the Castled system is updated accordingly, thereby eliminating the need for marketers to manually replicate the templates in Castled.
 
-## Creating a Template in Castled
+This section covers the manual process of replicating the templates within Castled.io for Business Service Providers (BSPs) that do not offer an API for automatic template synchronization
+
+## Preparing for template creation
+
+Before you begin creating your template in Castled, make sure you have the following:
+1. **Meta Approval:** A WhatsApp template already approved by Meta through your BSP.
+2. **External Template ID:** The unique identifier provided by your BSP for the approved template.
+
+## Replicating an approved template in Castled
 
 ### Accessing the Template Creation Section
-Log In: Enter your credentials on the Castled.io login page to access your account.
-Navigation: Locate and click on the 'WhatsApp Templates' or similar section within your dashboard.
-Initiation: Click the 'Create Template' button to start defining your new template.
+
+1. Select `Settings` > `WhatsApp` > `Templates` to go to the WhatsApp template creation screen
+![Navigation Flow](/images/wa-template/wa-template-1.png)
+
+2. Click the 'Create Template' button to start defining your new template.
+![Create Template](/images/wa-template/wa-template-2.png)
 
 ### Providing Template Details
+
+![Basic template details](/images/wa-template/wa-template-3.png)
 
 **Template Name:** Assign a descriptive name to your template. This name should help you easily identify the template's purpose and content at a glance.
 
@@ -31,11 +42,16 @@ Initiation: Click the 'Create Template' button to start defining your new templa
 
 ### Constructing the Template
 
-**Mandatory Body Section**
+**Body Section**
 
-1. Message Text: This is the core of your message where you engage with the recipient. Clearly articulate your intent and make sure to:
-Maintain clarity and brevity.
-Insert placeholders for variable content, such as {{1}}, where the numbers signify the order in which variable information will be inserted. For instance, {{1}} could be the recipient’s name, while {{2}} could be an appointment date.
+This is the core of your message where you engage with the recipient and is mandatory.
+
+Clearly articulate your intent and make sure to:
+    1. Maintain clarity and brevity.
+
+    2. Insert placeholders for variable content, such as {{1}}, where the numbers signify the order in which variable information will be inserted. For instance, {{1}} could be the recipient’s name, while {{2}} could be an appointment date.
+
+![Body Section](/images/wa-templa   te/wa-template-4.png)
 
 **Optional Components**
 
@@ -45,31 +61,46 @@ Check the 'Header' option to include a header in your template. The header is th
 
 Select the type of header:
 
-**Text:** For a simple textual message, like a greeting or subject line.
+    **Text:** For a simple textual message, like a greeting or subject line.
 
-**Media:** To make the message more engaging, you can opt for an image, video, or document. Ensure the media complies with WhatsApp's formatting requirements and size limitations.
+    ![Text Header Section](/images/wa-template/wa-template-5.png)
 
-1. Image: Upload a relevant image. You might need to provide a link or media ID that refers to an image previously uploaded to the BSP’s media library.
+    **Media:** To make the message more engaging, you can opt for an image, video, or document. Ensure the media complies with WhatsApp's formatting requirements and size limitations.
 
-2. Video: Similarly, for videos, provide the appropriate link or ID.
+        1. **Image:** Upload a relevant image. You might need to provide a link or media ID that refers to an image previously uploaded to the BSP’s media library.
 
-3. Document: If the document header is relevant to your message, ensure it is a supported file type and include the necessary reference.
+        2. **Video:** Similarly, for videos, provide the appropriate link or ID.
 
-4. Location: Sending a location can be particularly useful for event invites or directions to a business.
+        3. **Document:** If the document header is relevant to your message, ensure it is a supported file type and include the necessary reference.
 
-**Footer:**
+        4. **Location:** Sending a location can be particularly useful for event invites or directions to a business.
+    
+    ![Media Header Section](/images/wa-template/wa-template-6.png)
+
+**2. Footer:**
 
 The footer is not as prominently displayed as the header but is essential for additional information or disclaimers.
+
 If a footer is appropriate for your template, check the option and input the text. This might include a company tagline, disclaimer, or instructions like "Reply STOP to unsubscribe."
 
-**Buttons:**
+![Footer section](/images/wa-template/wa-template-7.png)
+
+**3. Buttons:**
 
 Buttons are a powerful way to drive interaction and action from your message recipients. If your message strategy includes calls-to-action, you can add up to two buttons per message.
+
 Decide on the type of button:
 
-1. **Call to Action: This button type is used when you want the recipient to take a specific action, such as visiting a website or calling a number.
-    a. Website Redirection: Include a URL to direct customers to your webpage for more information, to make a purchase, or any other online activity.
-    b. Call Phone Number: Use this option if you want to encourage calls to a specific number, making it easy for customers to reach out with a single tap.
+    1. **Call to Action:** This button type is used when you want the recipient to take a specific action, such as visiting a website or calling a number.
 
-2. Quick Reply: Use this for common or expected responses to streamline communication.
-For each button, specify the text that will appear on it. This text should be direct and action-oriented, like "Learn More" or "Call Now".
+        a. **Website Redirection:** Include a URL to direct customers to your webpage for more information, to make a purchase, or any other online activity.
+
+        b. **Call Phone Number:** Use this option if you want to encourage calls to a specific number, making it easy for customers to reach out with a single tap.
+    
+    ![CTA Buttons](/images/wa-template/wa-template-8.png)
+
+    2. **Quick Reply:** Use this for common or expected responses to streamline communication.
+
+    For each button, specify the text that will appear on it. This text should be direct and action-oriented, like "Learn More" or "Call Now".
+
+    ![Quick Reply Buttons](/images/wa-template/wa-template-9.png)

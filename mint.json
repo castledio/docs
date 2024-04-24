@@ -183,6 +183,7 @@
               "pages": [
                 "engagement/whatsapp/whatsapp-overview",
                 "engagement/whatsapp/whatsapp-prerequisite",
+                "engagement/whatsapp/whatsapp-template",
                 {
                   "group": "Message Creation",
                   "pages": [
