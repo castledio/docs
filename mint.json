@@ -88,7 +88,8 @@
             "engagement/segmentation/create-segment",
             "engagement/segmentation/visual-builder",
             "engagement/segmentation/sql-builder",
-            "engagement/segmentation/segment-filter"
+            "engagement/segmentation/segment-filter",
+            "engagement/segmentation/firebase-event-tables"
           ]
         },
         {
