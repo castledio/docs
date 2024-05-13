@@ -465,6 +465,13 @@
                     "developer-resources/sdk-integration/js/user-attributes",
                     "developer-resources/sdk-integration/js/user-events"
                   ]
+                },
+                {
+                  "group": "Integrations",
+                  "pages": [
+                    "developer-resources/sdk-integration/js/integrations/integrate-with-nextjs",
+                    "developer-resources/sdk-integration/js/integrations/integrate-with-react"
+                  ]
                 }
               ]
             }

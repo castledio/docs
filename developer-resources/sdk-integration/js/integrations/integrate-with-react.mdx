@@ -1,0 +1,91 @@
+---
+title: "Integrating JavaScript SDK with React App"
+sidebarTitle: "React Integration"
+---
+
+Follow the steps below to integrate **Castled JS SDK** with your **React** app.
+
+## Install the SDK
+
+To install the SDK via npm, run the following command:
+
+```bash
+npm install castled-js-sdk --save
+```
+
+## Integration with the project
+
+1. Create the following file in the `src` directory within your React project
+
+   ```ts useCastledAnalytics.ts
+   import { useEffect, useState } from "react"
+   import * as castledanalytics from "castled-js-sdk"
+
+   const useCastledAnalytics = (): any => {
+     const [analytics, setAnalytics] = useState<any>()
+
+     useEffect(() => {
+       if (!analytics) {
+         castledanalytics.load("<APP-ID>", "<SERVER-URL>")
+         castledanalytics.ready(() => {
+           setAnalytics(castledanalytics)
+           console.log("Castled analytics initialization complete")
+         })
+       }
+     }, [analytics])
+
+     return analytics
+   }
+
+   export default useCastledAnalytics
+   ```
+
+   - `APP-ID` is a unique id associated with your Castled workspace. It can be found in the Castled dashboard at **Settings > Api Keys**.
+   - `SERVER-URL` is the cluster url where the events are initially send to. `https://api.castled.io` is the default value of this url.
+
+2. Sample code snippet below shows how you would use the `useCastledAnalytics` method created in previous step for tracking user events.
+
+   ```tsx
+   import { useEffect } from "react"
+   import useCastledAnalytics from "./useCastledAnalytics"
+
+   const EventTrackingDemo = () => {
+     const analytics = useCastledAnalytics()
+
+     const identify = () => {
+       // Track user traits
+       analytics?.identify(
+         "user-12345", // unique user-id
+         {
+           // user traits
+           fname: "hello",
+           lname: "user",
+           age: 34,
+           email: "name@domain.com",
+         }
+       )
+     }
+
+     const track = () => {
+       // Track user events and event properties
+       analytics?.track("Added to Cart", {
+         value: 30,
+         currency: "USD",
+         item: "product A",
+       })
+     }
+
+     return (
+       <div style={{ padding: "20px" }}>
+         <h1>Event Tracking Demo</h1>
+         <button onClick={identify}>Identify Me</button>
+         <button onClick={track}>Add to Cart</button>
+       </div>
+     )
+   }
+   ```
+
+3. Once you integrate the SDK and add the code snippets to enable tracking, you will be able to verify the tracking api calls in your browser by inspecting network calls.
+   For e.g. following image shows an instance of `identify` call.
+
+   ![Identify call](/images/sdk/js/identify_call.png)
