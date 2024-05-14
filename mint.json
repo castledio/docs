@@ -481,7 +481,7 @@
     },
     {
       "group": "Product Events",
-      "pages": ["api-docs/events/track-event"]
+      "pages": ["api-docs/users/identify-user", "api-docs/events/track-event"]
     },
     {
       "group": "Campaigns",

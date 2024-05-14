@@ -1,8 +1,8 @@
 openapi: 3.0.0
 
 info:
-  title: Castled.io Events API
-  description: An API to track events for Castled.
+  title: Castled.io User Identify API
+  description: An API to identify users for Castled.
   version: 1.0.0
   # Additional details about the API can be added here
   # termsOfService: "https://www.example.com/terms/"
@@ -17,27 +17,27 @@ servers:
     description: The primary production server for Castled.io events API
 
 paths:
-  /external/v1/collections/events:
+  /external/v1/collections/users:
     post:
-      summary: Track event
-      description: Send event data to the Castled.io service for tracking.
-      operationId: trackEvent
+      summary: Identify user
+      description: Send user data to the Castled.
+      operationId: trackUser
       tags:
-        - events
+        - users
       # Additional operation details
       # externalDocs:
       #   description: Find more info here
       #   url: "https://example.com/moreinfo"
       requestBody:
         required: true
-        description: Event data to be tracked. # Description for the request body
+        description: User data to be tracked. # Description for the request body
         content:
           application/json:
             schema:
               $ref: "#/components/schemas/Event"
       responses:
         "204":
-          description: Event successfully tracked
+          description: User successfully tracked
       parameters:
         - name: Api-Key
           in: header
@@ -49,26 +49,18 @@ paths:
 components:
   schemas:
     Event:
-      description: Schema representing the event data. # Description for the schema
+      description: Schema representing the user data. # Description for the schema
       type: object
       required:
         - userId
+        - properties
       properties:
         userId:
           type: string
-          description: Email ID of the user triggering the event.
-          example: email@domain.com
-        event:
-          type: string
-          description: Name of the event being tracked.
-          example: Added to cart
-        properties:
+          description: Unique id of the user
+          example: 1a56624a-1223bc-127283d
+        traits:
           type: object
-          description: Flatmap for tracking additional properties related to the event.
+          description: Flatmap for tracking traits associated with the user.
           additionalProperties:
             type: string
-        timestamp:
-          type: string
-          format: date-time
-          description: Time when the event took place. Optional, if not specified, event gets the current timestamp.
-          example: "2012-12-02T00:30:08.276Z"
