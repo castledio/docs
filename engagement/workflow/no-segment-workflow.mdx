@@ -1,0 +1,71 @@
+---
+title: "Creating Workflow without Segment"
+sidebarTitle: "Workflow without Segment"
+---
+
+Usually, when you create a workflow, you specify a segment of users for whom the workflow should be applicable.
+However, in the case of event-triggered workflows, selecting a segment is optional.
+A typical use case is designing a user onboarding workflow, where the new user is not part of any existing segments.
+
+Please find below a quick overview of creating workflow without a segment
+
+## 1. Trigger Event Selection
+
+Select `Event Triggered` as the workflow type. Select the event to trigger the workflow from the event dropdown. Dropdown is populated first time an event of a specific type is logged.
+Optionally you can further restrict the trigger by adding conditions based on event properties using the `Add Condition` button.
+
+![Event Selection](/images/workflow/no-segment/no-seg-event.png)
+
+## 2. Segment Selection
+
+Skip the segment selection by clicking `Proceed without Segment` and proceed to the next step. Rest of the steps are similar to any other workflow
+
+![No Seg Selection](/images/workflow/no-segment/no-segment-selection.png)
+
+## 3. Adding Workflow Steps and Personalization
+
+Once you are in the workflow canvas, you can add any required step. Messaging content can be personalized using event parameters.
+
+![Personalization](/images/workflow/no-segment/sms-personalization.png)
+
+## Reserved Fields in Trigger Event
+
+Since the user is not part of any segment yet, all fields required for personalization are expected to be in the `properties` object within the trigger event.
+
+The following fields within the `properties` map are reserved:
+
+- email: Mandatory to assign the user's email to this field when the workflow has a step to send an email. Otherwise, the email step will be skipped for the user.
+- phone: Mandatory to assign the user's phone number to this field when the workflow has a step to send an SMS or WhatsApp message.
+
+```json trigger event sample paylod
+{
+  "userId": "u-923499829",
+  "event": "new_user",
+  "properties": {
+    "email": "jon.doe@acme.io",
+    "phone": "+17789038990",
+    "referralId": "re-8788RT",
+    "fname": "john",
+    "lname": "doe"
+  }
+}
+```
+
+## FAQ
+
+<AccordionGroup>
+  <Accordion title="What happens if trigger event gets reported for the same user more than once">
+    When the trigger event is reported for a user for the first time, the user
+    enters the workflow. Any subsequent trigger events reported for the user are
+    ignored if the user is already active in the workflow. If the trigger event
+    is reported for a user who has already exited the workflow, the default
+    behavior is to not re-enter the workflow. However, this is configurable.
+    Contact support for more details.
+  </Accordion>
+
+<Accordion title="How long does it take to start the workflow for a user once trigger event is reported">
+  Workflow starts instantaneously for the user typically with sub-seconds
+  latency.
+</Accordion>
+
+</AccordionGroup>

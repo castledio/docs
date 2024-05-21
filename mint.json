@@ -100,7 +100,8 @@
           "group": "Workflow",
           "pages": [
             "engagement/workflow/workflow-overview",
-            "engagement/workflow/create-workflow"
+            "engagement/workflow/create-workflow",
+            "engagement/workflow/no-segment-workflow"
           ]
         },
         {
