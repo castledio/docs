@@ -189,20 +189,27 @@ For handling background notification fetch calls, use the didReceiveRemoteNotifi
 
 /// This method is called when a remote notification is received and the app is running in the background.
 /// It is crucial to inform the Castled SDK about the notification for proper processing.
-func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-    Castled.sharedInstance.didReceiveRemoteNotification(inApplication: application, withInfo: userInfo, fetchCompletionHandler: { result in
-        completionHandler(result)
-    })
-}
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        
+        Castled.sharedInstance.didReceiveRemoteNotification(userInfo)
+
+        // Implement your logic here...
+
+        completionHandler(.noData)
+    }
 ```
 
 ```objc objc
 /// This method is called when a remote notification is received while the app is in the background.
 /// Notify the Castled SDK of the notification for it to handle it appropriately.
 -(void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
-    [[Castled sharedInstance] didReceiveRemoteNotificationInApplication:application withInfo:userInfo fetchCompletionHandler:^(UIBackgroundFetchResult result) {
-        completionHandler(result);
-    }];
+   
+    [[Castled sharedInstance] didReceiveRemoteNotification:userInfo];
+    
+    // Implement your logic here...
+    
+    completionHandler(UIBackgroundFetchResultNoData);
+     
 }
 ```
 </CodeGroup>
