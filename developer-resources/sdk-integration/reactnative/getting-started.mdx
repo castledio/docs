@@ -93,8 +93,9 @@ To use the SDK, add the library to your project
             ```pod
             target 'YourTargetName' do
               config = use_native_modules!
+             
+              #  Other pods
               pod 'SDWebImage', '~> 5.11', :modular_headers => true
-
             end
             ```
             Save the Podfile and run `pod install` again.
