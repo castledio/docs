@@ -26,17 +26,17 @@ pod 'CastledInbox'
 Save the **Podfile** and run the following command in the terminal to install the SDK:
 
 ```bash
-pod init
+pod install
 ```
 
 ## Displaying App Inbox content
 
-To facilitate the effortless display of App Inbox content, the SDK provides a default view controller: `AppInboxViewController`.
+To facilitate the effortless display of App Inbox content, the SDK provides a default view controller: `CastledInboxViewController`.
 This controller is designed to showcase inbox cards and can be integrated within your app in two primary ways:
 
 ### Using Navigation Controller
 
-Embed `AppInboxViewController` within your existing navigation flow for a consistent user experience.
+Embed `CastledInboxViewController` within your existing navigation flow for a consistent user experience.
 
     <CodeGroup>
 
@@ -50,7 +50,7 @@ Embed `AppInboxViewController` within your existing navigation flow for a consis
 
       ```objc objc
       - (void)pushViewController {
-          UIViewController *inboxViewController = [[Castled sharedInstance] getInboxViewControllerWithUIConfigs:nil andDelegate:self];
+          UIViewController *inboxViewController = [[CastledInbox sharedInstance] getInboxViewControllerWithUIConfigs:nil andDelegate:self];
           [self.navigationController pushViewController:inboxViewController animated:YES];
       }
       ```
@@ -72,7 +72,7 @@ Present the App Inbox cards in a modal view, suitable for focused interactions.
 
       ```objc objc
         (void)presentViewController {
-            UIViewController *inboxViewController = [[Castled sharedInstance] getInboxViewControllerWithUIConfigs:nil andDelegate:self];
+            UIViewController *inboxViewController = [[CastledInbox sharedInstance] getInboxViewControllerWithUIConfigs:nil andDelegate:self];
             [self presentViewController:inboxViewController animated:YES completion:nil];
         }
       ```
@@ -215,7 +215,7 @@ By adopting this protocol, you can tap into the callback provided when a user se
         style.tabBarSelectedBackgroundColor = [UIColor lightGrayColor];
         style.tabBarIndicatorBackgroundColor = [UIColor redColor];
 
-        UIViewController *inboxViewController = [[Castled sharedInstance] getInboxViewControllerWith:style andDelegate:self];
+        UIViewController *inboxViewController = [[CastledInbox sharedInstance] getInboxViewControllerWith:style andDelegate:self];
         [self.navigationController pushViewController:inboxViewController animated:YES];
     }
 
@@ -239,7 +239,7 @@ The SDK offers multiple methods to obtain the count of unread messages, suitable
     ```
 
     ```objc objc
-    [[Castled sharedInstance] observeUnreadCountChangesWithListener:^(NSInteger unreadCount) {
+    [[CastledInbox sharedInstance] observeUnreadCountChangesWithListener:^(NSInteger unreadCount) {
         NSLog(@"Inbox unread count is %ld", (long)unreadCount);
     }];
 
@@ -257,7 +257,7 @@ The SDK offers multiple methods to obtain the count of unread messages, suitable
     ```
 
     ```objc objc
-    [[Castled sharedInstance] getInboxUnreadCount];
+    [[CastledInbox sharedInstance] getInboxUnreadCount];
     ```
 
     </CodeGroup>
@@ -273,7 +273,7 @@ Use the method below to dismiss the App Inbox programmatically.
     ```
 
     ```objc objc
-    [[Castled sharedInstance] dismissInboxViewController];
+    [[CastledInbox sharedInstance] dismissInboxViewController];
     ```
 
     </CodeGroup>
