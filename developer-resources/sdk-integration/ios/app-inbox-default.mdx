@@ -15,6 +15,20 @@ This is the quickest way to add **App Inbox** functionality to your iOS app. In 
 center view controller provided by the SDK for displaying inbox messages and managing them. You can also customize the appearance of the notification center
 view controller to match your app theme.
 
+## Pod Install
+
+Starting from Castled iOS version `4.0.0`, AppInbox functionality is separated as a new module `CastledInbox`. Add the module pod as dependency in the app pod file.
+
+```bash
+pod 'CastledInbox'
+```
+
+Save the **Podfile** and run the following command in the terminal to install the SDK:
+
+```bash
+pod init
+```
+
 ## Displaying App Inbox content
 
 To facilitate the effortless display of App Inbox content, the SDK provides a default view controller: `AppInboxViewController`.
@@ -28,7 +42,7 @@ Embed `AppInboxViewController` within your existing navigation flow for a consis
 
       ```swift swift
       func pushViewController() {
-          let inboxViewController = Castled.sharedInstance.getInboxViewController(withUIConfigs: nil, andDelegate: self)
+          let inboxViewController = CastledInbox.sharedInstance.getInboxViewController(withUIConfigs: nil, andDelegate: self)
           self.navigationController?.pushViewController(inboxViewController, animated: true)
       }
       ```
@@ -51,7 +65,7 @@ Present the App Inbox cards in a modal view, suitable for focused interactions.
 
       ```swift swift
         func presentViewController() {
-            let inboxViewController = Castled.sharedInstance.getInboxViewController(withUIConfigs: nil, andDelegate: self)
+            let inboxViewController = CastledInbox.sharedInstance.getInboxViewController(withUIConfigs: nil, andDelegate: self)
             self.present(inboxViewController, animated: true, completion: nil)
         }
       ```
@@ -107,7 +121,7 @@ By adopting this protocol, you can tap into the callback provided when a user se
                         break
                 }
             }
-            
+
         }
     ```
 
@@ -118,7 +132,7 @@ By adopting this protocol, you can tap into the callback provided when a user se
         @implementation ViewController
 
         - (void)didSelectedInboxWith:(CastledButtonAction *)buttonAction inboxItem:(CastledInboxItem *)inboxItem{
-    
+
             NSLog(@"didSelectedInboxWith ----button title '%@' uri '%@' kvPairs  %@ item %@",buttonAction.buttonTitle,buttonAction.actionUri,buttonAction.keyVals,inboxItem);
             switch (buttonAction.actionType) {
                 case CastledClickActionTypeDeepLink:
@@ -143,7 +157,7 @@ By adopting this protocol, you can tap into the callback provided when a user se
                     break;
             }
         }
-        
+
 
     ```
 
@@ -174,7 +188,7 @@ By adopting this protocol, you can tap into the callback provided when a user se
         style.tabBarSelectedBackgroundColor = .lightGray
         style.tabBarIndicatorBackgroundColor = .red
 
-        let inboxViewController = Castled.sharedInstance.getInboxViewController(with: style, andDelegate: self)
+        let inboxViewController = CastledInbox.sharedInstance.getInboxViewController(with: style, andDelegate: self)
         navigationController?.pushViewController(inboxViewController!, animated: true)
     }
 
@@ -218,7 +232,7 @@ The SDK offers multiple methods to obtain the count of unread messages, suitable
     <CodeGroup>
 
     ```swift swift
-    Castled.sharedInstance.observeUnreadCountChanges(listener: { unreadCount in
+    CastledInbox.sharedInstance.observeUnreadCountChanges(listener: { unreadCount in
         print("Inbox unread count is \(unreadCount)")
     })
 
@@ -239,7 +253,7 @@ The SDK offers multiple methods to obtain the count of unread messages, suitable
 
 
     ```swift swift
-    Castled.sharedInstance.getInboxUnreadCount()
+    CastledInbox.sharedInstance.getInboxUnreadCount()
     ```
 
     ```objc objc
@@ -255,7 +269,7 @@ Use the method below to dismiss the App Inbox programmatically.
     <CodeGroup>
 
     ```swift swift
-    Castled.sharedInstance.dismissInboxViewController()
+    CastledInbox.sharedInstance.dismissInboxViewController()
     ```
 
     ```objc objc
