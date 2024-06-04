@@ -41,6 +41,8 @@ Embed `CastledInboxViewController` within your existing navigation flow for a co
     <CodeGroup>
 
       ```swift swift
+      import CastledInbox
+
       func pushViewController() {
           let inboxViewController = CastledInbox.sharedInstance.getInboxViewController(withUIConfigs: nil, andDelegate: self)
           self.navigationController?.pushViewController(inboxViewController, animated: true)
@@ -49,6 +51,8 @@ Embed `CastledInboxViewController` within your existing navigation flow for a co
 
 
       ```objc objc
+      #import <CastledInbox-Swift.h>
+
       - (void)pushViewController {
           UIViewController *inboxViewController = [[CastledInbox sharedInstance] getInboxViewControllerWithUIConfigs:nil andDelegate:self];
           [self.navigationController pushViewController:inboxViewController animated:YES];
