@@ -32,7 +32,7 @@ If your iOS app is using Firebase for sending push notifications you can follow 
                         userInfo: dataDict
                     )
                     if let token = fcmToken {
-                        Castled.sharedInstance.setPushToken(token, .fcm)
+                       Castled.sharedInstance.setPushToken(token, type: .fcm)
                     }
                 }
                 // [END refresh_token]
@@ -46,7 +46,7 @@ If your iOS app is using Firebase for sending push notifications you can follow 
                 NSDictionary *dataDict = [NSDictionary dictionaryWithObject:fcmToken forKey:@"token"];
                 [[NSNotificationCenter defaultCenter] postNotificationName:
                 @"FCMToken" object:nil userInfo:dataDict];
-                [[Castled sharedInstance] setPushToken:fcmToken :CastledPushTokenTypeFcm];
+                [[Castled sharedInstance] setPushToken:fcmToken type:CastledPushTokenTypeFcm];
                 // TODO: If necessary send token to application server.
                 // Note: This callback is fired at each app startup and whenever a new token is generated.
             }
@@ -62,7 +62,7 @@ If your iOS app is using Firebase for sending push notifications you can follow 
                     print("Error fetching FCM registration token: \(error)")
                 } else if let token = token {
                     print("FCM registration token: \(token)")
-                    Castled.sharedInstance.setPushToken(token, .fcm)
+                    Castled.sharedInstance.setPushToken(token, type: .fcm)
                 }
             }
 
@@ -74,7 +74,7 @@ If your iOS app is using Firebase for sending push notifications you can follow 
                     NSLog(@"Error getting FCM registration token: %@", error);
                 } else {
                     NSLog(@"FCM registration token: %@", token);
-                    [[Castled sharedInstance] setPushToken:token :CastledPushTokenTypeFcm];
+                    [[Castled sharedInstance] setPushToken:token type:CastledPushTokenTypeFcm];
                 }
                 }];
 
