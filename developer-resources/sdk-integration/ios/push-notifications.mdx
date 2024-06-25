@@ -450,39 +450,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate , UNUserNotificationCenter
 
 ```
 </CodeGroup>
-
-### Setting Launch Options 
-
-<CodeGroup>
-```swift swift
-@main
-class AppDelegate: UIResponder, UIApplicationDelegate , UNUserNotificationCenterDelegate {
-    var window: UIWindow?
-    
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-
-        ...
-
-        Castled.sharedInstance.setLaunchOptions(launchOptions)
-        ...
-        return true
-    }
-}
-```
-
-```objc objc
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-
-    ...
-
-    [[Castled sharedInstance] setLaunchOptions:launchOptions];
-
-    ...
-    return YES;
-}
-
-```
-</CodeGroup>
 <br />
 
 <Note>
