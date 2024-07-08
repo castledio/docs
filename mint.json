@@ -217,10 +217,14 @@
       ]
     },
     {
-      "group": "Analytics/Reports",
+      "group": "Analytics",
       "pages": [
         "analytics/campaigns/campaign-reports",
-        "analytics/workflows/workflow-reports"
+        "analytics/workflows/workflow-reports",
+        {
+          "group": "Dashboard",
+          "pages": ["analytics/dashboard/app-dashboard"]
+        }
       ]
     },
     {
