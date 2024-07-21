@@ -79,6 +79,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate , UNUserNotificationCenter
         //1. Configure config
         let config = CastledConfigs.initialize(appId: "<App ID>")
         config.enablePush  = true
+        config.appGroupId = "<your_app_group_id>"
 
         //2. Call Castled.initialize method
         Castled.initialize(withConfig: config, andDelegate: self)
@@ -123,7 +124,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate , UNUserNotificationCenter
     //1. Configure config
     CastledConfigs *config = [CastledConfigs initializeWithAppId:@"<App ID>"];
     config.enablePush = TRUE;
-  
+    config.appGroupId = @"<your_app_group_id>";
+
     //2. Call Castled.initialize method
    [Castled initializeWithConfig:config andDelegate:self];
 
