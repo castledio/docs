@@ -16,7 +16,7 @@ Refer [here](/developer-resources/sdk-integration/ios/configuring-p8) for more i
 
 ### Configuring App Target for Push Notification
 
-To enable push notifications for your iOS app, you need to configure the app's target settings in Xcode. This involves activating the push notifications capability, enabling remote notifications, and adding an App Group ID.
+To enable push notifications for your iOS app, you need to configure the app's target settings in Xcode. This involves enabling the push notifications capability, enabling remote notifications, and adding an App Group ID.
 
 Follow the steps below to set up these features in the Signing & Capabilities tab of your app target:
 
@@ -24,9 +24,11 @@ Follow the steps below to set up these features in the Signing & Capabilities ta
 
 To receive push notifications, you must explicitly enable this capability.To enable push notification :
 
-1. Still on the Signing & Capabilities tab, click the "+" button to add a new capability.
-2. Search for "Push Notifications" and add it.
-3. Ensure that the Push Notifications capability is checked.
+1. Open your project in Xcode and select the app target.
+2. Go to the Signing & Capabilities tab.
+3. Click on the "+" button to add a new capability.
+4. Search for "Push Notifications" and add it.
+5. Ensure that the Push Notifications capability is checked.
 
 ![](/images/push/ios/dark/main_app_enable_push1.png)
 
@@ -52,14 +54,11 @@ It is advised to enabling Remote Notifications for efficient **Uninstall trackin
 App Groups facilitate the sharing of data between multiple apps developed by the same organization and their extensions. While this is not required specifically for push notifications, it is relevant if you have any notification-related extensions for rich notifications or need to manage a shared container of data.
 
 To add an App Group:
-
-1. Open your project in Xcode and select the app target.
-2. Go to the Signing & Capabilities tab.
-3. Click on the "+" button to add a new capability.
-4. Type "App Groups" in the search bar and select it from the list.
-5. Under the App Groups section, click the "+" to create a new group.
-6. Enter the App Group ID using the format **group.your_bundle_id.castled**.
-7. Make sure the App Group ID is checked to enable it.
+1. Still on the Signing & Capabilities tab, click the "+" button to add a new capability.
+2. Type "App Groups" in the search bar and select it from the list.
+3. Under the App Groups section, click the "+" to create a new group.
+4. Enter the App Group ID using the format **group.your_bundle_id.castled**.
+5. Make sure the App Group ID is checked to enable it.
 
 <Note>
 To ensure proper integration, we recommend setting up a separate App Group ID specifically for Castled.The format should be **group.your_bundle_id.castled**. Make sure to enable this same App Group ID for all targets where Castled is utilized.
