@@ -155,39 +155,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate , UNUserNotificationCenter
 ```
 </CodeGroup>
 
-**Adding App Group ID to config**
-
-Make sure the App group ID configured in the Signed & Capabilities tab of the app's target is added to the config as mentioned below.
-
-<CodeGroup>
-```swift swift
-func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-    ...
-    let config = CastledConfigs.initialize(appId: "<App ID>")   
-    ...
-    config.appGroupId = "group.com.castled.CastledPushDemo.Castled"
-    ...
-    Castled.initialize(withConfig: config, andDelegate: self)
-    ...
-    return true
-}
-```
-
-```objc objc
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    ...
-    CastledConfigs config = [CastledConfigs initializeWithInstanceId:@"<App Id>"];
-    ...
-    config.appGroupId = @"group.com.castled.CastledPushDemo.Castled";
-    ...
-
-    [Castled initializeWithConfig:config andDelegate:self];
-    ...
-    return YES;
-}
-```
-</CodeGroup>
-
 ### Requesting User Permission for Push Notifications
 
 Obtaining user authorization is a crucial requirement for sending push notifications to an iOS application. When your app requests authorization for the first time, the system presents a prompt to the user, giving them the choice to grant or deny the request. The user's response is then recorded by the system for future reference.
