@@ -20,7 +20,7 @@ To enable push notifications for your iOS app, you need to configure the app's t
 
 Follow the steps below to set up these features in the Signing & Capabilities tab of your app target:
 
-*1. Enabling Push Notifications Capability**
+**1. Enabling Push Notifications Capability**
 
 To receive push notifications, you must explicitly enable this capability.To enable push notification :
 
@@ -30,25 +30,7 @@ To receive push notifications, you must explicitly enable this capability.To ena
 
 ![](/images/ios-app-target.png)
 
-**2. Adding an App Group ID**
-
-App Groups facilitate the sharing of data between multiple apps developed by the same organization and their extensions. This is not required for push notifications per se but is relevant if you have a **Notification Content Extension** for rich notifications or need to manage a shared container of data.
-
-To add an App Group:
-
-1. Open your project in Xcode and select the app target.
-2. Go to the Signing & Capabilities tab.
-3. Click on the "+" button to add a new capability.
-4. Type "App Groups" in the search bar and select it from the list.
-5. Under the App Groups section, click the "+" to create a new group.
-6. Enter the App Group ID using the format **group.your_bundle_id.castled**.
-7. Make sure the App Group ID is checked to enable it.
-
-<Note>
-The name of your app group should be **group.your_bundle_id.castled**.
-</Note>
-
-**3. Enabling Remote Notifications**
+**2. Enabling Remote Notifications**
 
 Remote notifications are essential for receiving notifications from a server.This will allow your app to be awakened in the background to receive notifications.
 
@@ -61,6 +43,26 @@ To enable Remote notifications :
 <Note>
 It is advised to enabling Remote Notifications for efficient **Uninstall tracking** and **Delivery Status tracking** even in cases where app is in the background, not running or inactive.
 </Note>
+
+**3. Adding an App Group ID**
+
+App Groups facilitate the sharing of data between multiple apps developed by the same organization and their extensions. While this is not required specifically for push notifications, it is relevant if you have any notification-related extensions for rich notifications or need to manage a shared container of data.
+
+To add an App Group:
+
+1. Open your project in Xcode and select the app target.
+2. Go to the Signing & Capabilities tab.
+3. Click on the "+" button to add a new capability.
+4. Type "App Groups" in the search bar and select it from the list.
+5. Under the App Groups section, click the "+" to create a new group.
+6. Enter the App Group ID using the format **group.your_bundle_id.castled**.
+7. Make sure the App Group ID is checked to enable it.
+
+<Note>
+App Groups facilitate the sharing of data between multiple apps developed by the same organization and their extensions. While this is not required specifically for push notifications, it is relevant if you have any notification-related extensions for rich notifications or need to manage a shared container of data.
+</Note>
+
+
 
 
 
