@@ -28,7 +28,6 @@ To receive push notifications, you must explicitly enable this capability.To ena
 2. Go to the Signing & Capabilities tab.
 3. Click on the "+ Capability" button to add a new capability.
 4. Search for "Push Notifications" and add it.
-5. Ensure that the Push Notifications capability is checked.
 
 ![](/images/push/ios/dark/main_app_enable_push1.png)
 
@@ -157,7 +156,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate , UNUserNotificationCenter
 </CodeGroup>
 
 <Note>
-Make sure the appGroupId mentioned above is the same as the App Group ID configured in the Signing & Capabilities tab of the targets. The App Group ID should be enabled for all targets where Castled is utilized, especially if you are using extensions.
+Make sure the ***appGroupId*** mentioned above is the same as the App Group ID configured in the Signing & Capabilities tab of the targets. The App Group ID should be enabled for all targets where Castled is utilized, especially if you are using extensions.
+
+If you haven’t enabled App Groups, there is no need to set ***appGroupId***.
 </Note>
 
 ### Requesting User Permission for Push Notifications
