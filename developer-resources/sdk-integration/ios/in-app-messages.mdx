@@ -21,19 +21,19 @@ deliver targeted promotions, provide user guidance, or engage with users within 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate , UNUserNotificationCenterDelegate {
     var window: UIWindow?
-    
+
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        
+
         let config = CastledConfigs.sharedInstance
 
         //Mandatory : enableInApp needs to be mandatorily set to true for in app support.
         config.enableInApp = true
 
-        Castled.configure(registerIn: application, 
-            launchOptions: launchOptions, 
-            instanceId: "mytestapikey", 
+        Castled.configure(registerIn: application,
+            launchOptions: launchOptions,
+            instanceId: "mytestapikey",
             delegate: self)
-        
+
         return true
     }
 }
@@ -42,10 +42,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate , UNUserNotificationCenter
 2. User Registration
 
 Once the user registration is complete, the app should invoke the registerUser API in Castled SDK to register the user and the device token with the backend service.App developer to make sure the below API is called at the appropriate time in the sequence of events.
+
 ```swift
 Castled.registerUser(userId: '<userId>', apnsToken: '<device-token>')
 ```
-
 
 ## Triggering In-App SDK events
 
@@ -61,7 +61,7 @@ Castled.logCustomAppEvent(context : UIViewController,eventName : String ,params 
 
 - eventName : name of the custom event.
 - params : event parameters as a key value pair
-- showLog : a flag to enable showing the log of the event 
+- showLog : a flag to enable showing the log of the event
 
 For e.g. If your shopping app wants to display an in-app message when value of items in cart greater than a certain number, app would log
 a custom event as follows whenever user adds an item to cart.
@@ -79,3 +79,65 @@ Castled.logCustomAppEvent(
 ```
 
 SDK will then make sure of displaying the eligible in-app to user if there is one.
+
+## Skipping InApps in Activity
+
+This is useful when you want to skip showing InApps when user is on specific screens within your app. For e.g. Splash screens, Checkout screen, etc.
+
+You can add a list of view controllers you want to exclude from InApp notifications by adding a key in the plist `CastledExcludedInAppViews`.
+
+![InApp exclude plist](/images/inapp/inapp_exclude_plist.png)
+
+## Managing InApp Rendering
+
+You can use the following methods to override the default InApp behaviour.
+
+### Pausing InApp
+
+<CodeGroup>
+
+    ```swift swift
+    Castled.sharedInstance.pauseInApp()
+    ```
+
+    ```objc objc
+    [[Castled sharedInstance] pauseInApp];
+    ```
+
+</CodeGroup>
+
+Any new InApps which are ready for display are not shown to users and added to a waiting queue. This can be used to not interrupt users when they are
+performing any critical activity within your app.
+
+### Resuming InApp
+
+<CodeGroup>
+  
+  ```swift swift 
+  Castled.sharedInstance.resumeInApp() 
+  ``` 
+  
+  ```objc objc 
+  [[Castled sharedInstance] resumeInApp]; 
+  ```
+
+</CodeGroup>
+
+InApp display behaviour goes back to normal. If there are any InApps which are previously paused, they get displayed.
+
+### Stopping InApps
+
+<CodeGroup>
+  
+  ```swift swift 
+  Castled.sharedInstance.stopInApp() 
+  ``` 
+  
+  ```objc objc 
+  [[Castled sharedInstance] stopInApp]; 
+  ```
+
+</CodeGroup>
+
+This method stops all InApp messages from displaying until a `resumeInApp` is invoked. Unlike `pauseInApp`,
+`stopInApp` completely stops evaluating the trigger condition for displaying InApp and all InApp that would have been displayed otherwise would be ignored.

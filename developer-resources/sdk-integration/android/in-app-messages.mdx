@@ -60,9 +60,9 @@ CastledNotification.logCustomAppEvent(
 
 SDK will then make sure of displaying the eligible in-app to user if there is one.
 
-## Omitting InApps in Activity
+## Skipping InApps in Activity
 
-This is useful when you want to skip showing InApps when user is on specific screens within your app. For e.g. Splash screens, Checkout screen, etc.
+This is useful when you want to skip showing InApps when user is on specific screens within your app. For e.g. Splash screen, Checkout screen, etc.
 
 Add the list of Activities that you want to skip to `castled.xml` (`castled.xml` is added to the `res/values` folder of your app)
 
@@ -80,26 +80,26 @@ You can use the following methods to override the default InApp behaviour.
 
 ### Pausing InApp
 
+Any new InApps which are ready for display are not shown to users and added to a waiting queue. This can be used to not interrupt users when they are
+performing any critical activity within your app.
+
 ```java
     CastledNotifications.pauseInApp()
 ```
 
-Any new InApps which are ready for display are not shown to users and added to a waiting queue. This can be used to not interrupt users when they are
-performing any critical activity within your app.
-
 ### Resuming InApp
+
+InApp display behaviour goes back to normal. If there are any InApps which are previously paused, they get displayed.
 
 ```java
     CastledNotifications.resumeInApp()
 ```
 
-InApp display behaviour goes back to normal. If there are any InApps which are previously paused, they get displayed.
-
 ### Stopping InApps
+
+This method stops all InApp messages from displaying until a `CastledNotifications.resumeInApp()` is invoked. Unlike `pauseInApp`,
+`stopInApp` completely stops evaluating the trigger condition for displaying InApp and all InApp that would have been displayed otherwise would be ignored.
 
 ```java
     CastledNotifications.stopInApp()
 ```
-
-This method stops all InApp messages from displaying until a `CastledNotifications.resumeInApp()` is invoked. Unlike `pauseInApp`
-`stopInApp` completely stops evaluating the trigger condition for displaying InApp and all InApp that would have been displayed otherwise would be ignored.
