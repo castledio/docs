@@ -302,7 +302,7 @@ CastledNotifications.initialize(configs)
                                 deviceTokenString = [[NSMutableString alloc] initWithString:deviceToken1];
                             }
                         NSLog(@"didRegisterForRemoteNotificationsWithDeviceToken: %@", deviceTokenString);
-                        [[CastledReactBridge sharedInstance] setPushToken:deviceTokenString];
+                        [[CastledReactBridge sharedInstance] setPushToken:deviceTokenString type: apns];
                 }
 
                 // Handling Registration Failure
@@ -338,7 +338,7 @@ CastledNotifications.initialize(configs)
                   // Handling Device Token Registration
                   func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
                     let deviceTokenString = deviceToken.map { String(format: "%02.2hhx", $0) }.joined()
-                    CastledReactBridge.sharedInstance().setPushToken(deviceTokenString)
+                    CastledReactBridge.sharedInstance().setPushToken(deviceTokenString, type: apns)
                     print("APNs token \(deviceTokenString) \(self.description)")
                   }
 
@@ -374,6 +374,11 @@ CastledNotifications.initialize(configs)
             ```
             </CodeGroup>
             <br/>
+            <Note>
+  If the App is handling the push notification click actions itself, please
+  disable the default url handling by the SDK by setting `skipUrlHandling` to
+  `true` in the SDK configs during initialization.
+</Note>
 
     </Tab>
 
