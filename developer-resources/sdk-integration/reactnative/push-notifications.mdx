@@ -24,6 +24,7 @@ const configs = new CastledConfigs()
 configs.appId = "<app-id>"
 configs.location = CastledLocation.US
 configs.enablePush = true
+configs.appgroupId = '<your_ios_appgroup_id>';
 
 // Initialize SDK
 CastledNotifications.initialize(configs)
@@ -62,6 +63,13 @@ CastledNotifications.initialize(configs)
     <Tab title="iOS">
       #### Step 1: Configure App Target for iOS Push
       Follow these [instructions](/developer-resources/sdk-integration/ios/push-notifications#configuring-app-target-for-push-notification) for app target setup.
+      
+      <Note>
+    Ensure the **appgroupId** mentioned above matches the one enabled in the App Groups section of the Signing & Capabilities tab for all relevant targets in Xcode, including extensions. If App Groups are not enabled, there is no need to set an appgroupId.
+
+    We recommend configuring the [appgroupId](/developer-resources/sdk-integration/ios/push-notifications#3-adding-an-app-group-id) and using the [Notification Service Extension](/developer-resources/sdk-integration/ios/rich-push-notification) for enhanced tracking of notification impressions, accurate badge counts, and media support.
+
+    </Note>
       
       #### Step 2: Configuring Notification Categories and Actions (Optional)
 
@@ -147,36 +155,7 @@ CastledNotifications.initialize(configs)
         ```
         </CodeGroup>
 
-        #### Step 3: Setting Launch Options(Optional)
-
-        <CodeGroup>
-        ```objc objc
-        - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-            self.moduleName = @"TestApp";
-
-            // You can add your custom initial props in the dictionary below.
-            // They will be passed down to the ViewController used by React Native.
-            self.initialProps = @{};
-            [[CastledReactBridge sharedInstance] setLaunchOptions:launchOptions];
-            return [super application:application didFinishLaunchingWithOptions:launchOptions];
-        }
-
-        ```
-        ```swift swift
-        func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-            self.moduleName = "Module Name”
-
-            // You can add your custom initial props in the dictionary below.
-            // They will be passed down to the ViewController used by React Native.
-            self.initialProps = [:]
-            CastledReactBridge.sharedInstance().setLaunchOptions(launchOptions)
-            return super.application(application, didFinishLaunchingWithOptions: launchOptions)
-        }
-
-        ```
-        </CodeGroup>
-
-         #### Step 4: Support for Rich Push Notification(Optional)
+         #### Step 3: Support for Rich Push Notification
 
          Follow the [instructions](https://docs.castled.io/developer-resources/sdk-integration/ios/rich-push-notification) here
          for setting up rich push notifications.
@@ -193,8 +172,12 @@ CastledNotifications.initialize(configs)
             pod 'CastledNotificationContent'
          end
          ```
+    
+        <Note>
+        We recommend configuring the **appGroupId** and using the [Notification Service Extension](/developer-resources/sdk-integration/ios/rich-push-notification) for enhanced tracking of notification impressions, accurate badge counts, and media support.
 
-         #### **Step 5: AppDelegate Swizzling in Castled SDK**
+        </Note>
+         #### **Step 4: AppDelegate Swizzling in Castled SDK**
 
         Castled SDK is designed to simplify push notification handling. By default, swizzling is enabled, which means the SDK automatically handles the registration of device tokens,
         the presentation of notifications, and the response to user interactions with those notifications.
