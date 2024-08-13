@@ -98,16 +98,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate , UNUserNotificationCenter
     }
 
     func registerForPush() {
-
-        UNUserNotificationCenter.current().delegate = self
-
-        UNUserNotificationCenter.current().requestAuthorization(options: [.sound, .badge, .alert], completionHandler: {granted, error in
-            if granted {
-                DispatchQueue.main.async {
-                    UIApplication.shared.registerForRemoteNotifications()
-                }
-            }
-        })
+        Castled.sharedInstance.requestPushPermission(showSettingsAlert: false)
     }
 }
 ```
@@ -144,15 +135,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate , UNUserNotificationCenter
 }
 
 - (void)registerForPush {
-    UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
-    center.delegate = (id)self;
-    [center requestAuthorizationWithOptions:(UNAuthorizationOptionSound | UNAuthorizationOptionAlert | UNAuthorizationOptionBadge) completionHandler:^(BOOL granted, NSError * _Nullable error){
-        if( !error ){
-            dispatch_async(dispatch_get_main_queue(), ^(void) {
-                [[UIApplication sharedApplication] registerForRemoteNotifications];
-            });
-        }
-    }];
+    [[Castled sharedInstance] requestPushPermissionWithShowSettingsAlert:FALSE];
 }
 ```
 </CodeGroup>
