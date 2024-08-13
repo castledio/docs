@@ -158,9 +158,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate , UNUserNotificationCenter
 </CodeGroup>
 
 <Note>
-Make sure the **appGroupId** mentioned above is the same as the App Group ID configured in the Signing & Capabilities tab of the targets. The App Group ID should be enabled for all targets where Castled is utilized, especially if you are using extensions.
+Ensure the appGroupId mentioned above matches the App Group ID in the Signing & Capabilities tab for all relevant targets, including extensions. If you haven’t enabled App Groups, there is no need to set appGroupId.
 
-If you haven’t enabled App Groups, there is no need to set **appGroupId**.
+We recommend using the [**Notification Service Extension**](/developer-resources/sdk-integration/ios/rich-push-notification.mdx) for better tracking of notification impressions, accurate badge counts, and media support
 </Note>
 
 ### Requesting User Permission for Push Notifications
