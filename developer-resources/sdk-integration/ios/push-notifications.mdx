@@ -155,9 +155,9 @@ Obtaining user authorization is a crucial requirement for sending push notificat
 
 ### AppDelegate Swizzling in Castled SDK
 
-Castled SDK is designed to simplify push notification handling. By default, swizzling is **enabled**, which means the SDK automatically handles the registration of device tokens, the presentation of notifications, and the response to user interactions with those notifications. 
+Castled SDK is designed to simplify push notification handling. By default, swizzling is **enabled**, which means the SDK automatically handles the registration of device tokens, the presentation of notifications, and the response to user interactions with those notifications.
 
-For details on utilizing callback methods after swizzling, which enable developers to implement custom behaviors or logic following the Castled SDK's default notification lifecycle handling, refer to [this section](/developer-resources/sdk-integration/ios/swizzling#callback-methods-post-swizzling) 
+If you prefer to have more granular control over notification handling or need to comply with specific architectural requirements, disable swizzling by referring to the section below.
 
 ### Disabling AppDelegate Swizzling
 
