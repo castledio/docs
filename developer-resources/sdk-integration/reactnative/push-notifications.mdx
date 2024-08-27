@@ -302,7 +302,13 @@ CastledNotifications.initialize(configs)
                 // Handling Foreground Notification Presentation
                 -(void) userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions))completionHandler{
                         [[CastledReactBridge sharedInstance] userNotificationCenter:center willPresentNotification:notification];
-                        completionHandler(UNAuthorizationOptionAlert | UNAuthorizationOptionBadge | UNAuthorizationOptionSound);
+                        if (@available(iOS 14.0, *)) {
+                            // For iOS 14 and later
+                            completionHandler(UNNotificationPresentationOptionBanner | UNNotificationPresentationOptionList | UNNotificationPresentationOptionBadge | UNNotificationPresentationOptionSound);
+                        } else {
+                            // For iOS 13 and earlier
+                            completionHandler(UNNotificationPresentationOptionAlert | UNNotificationPresentationOptionBadge | UNNotificationPresentationOptionSound);
+                        }
                 }
 
                 // Handling Background Notifications
@@ -339,9 +345,15 @@ CastledNotifications.initialize(configs)
 
                   // Handling Foreground Notification Presentation
                   func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-                    CastledReactBridge.sharedInstance().userNotificationCenter(center, willPresent: notification)
-                    completionHandler([.alert, .badge, .sound])
-                  }
+                        CastledReactBridge.sharedInstance().userNotificationCenter(center, willPresent: notification)
+                    if #available(iOS 14.0, *) {
+                        // For iOS 14 and later
+                        completionHandler([.banner, .list, .badge, .sound])
+                    } else {
+                        // For iOS 13 and earlier
+                        completionHandler([.alert, .badge, .sound])
+                    }
+                 }
 
                   // Handling Background Notifications
                   func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {

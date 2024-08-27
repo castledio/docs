@@ -135,7 +135,13 @@ When the user interacts with the notification (e.g., tap on the notification), i
 /// The Castled SDK should be informed so that it can handle the notification accordingly.
 func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
     Castled.sharedInstance.userNotificationCenter(center, willPresent: notification)
-    completionHandler([.alert, .badge, .sound])
+    if #available(iOS 14.0, *) {
+        // For iOS 14 and later
+        completionHandler([.banner, .list, .badge, .sound])
+    } else {
+        // For iOS 13 and earlier
+        completionHandler([.alert, .badge, .sound])
+    }
 }
 ```
 
@@ -144,7 +150,13 @@ func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent noti
 /// Inform the Castled SDK so that it can handle the notification properly.
 -(void)userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions options))completionHandler {
     [[Castled sharedInstance] userNotificationCenter:center willPresent:notification];
-    completionHandler(UNNotificationPresentationOptionAlert | UNNotificationPresentationOptionBadge | UNNotificationPresentationOptionSound);
+    if (@available(iOS 14.0, *)) {
+        // For iOS 14 and later
+        completionHandler(UNNotificationPresentationOptionBanner | UNNotificationPresentationOptionList | UNNotificationPresentationOptionBadge | UNNotificationPresentationOptionSound);
+    } else {
+        // For iOS 13 and earlier
+        completionHandler(UNNotificationPresentationOptionAlert | UNNotificationPresentationOptionBadge | UNNotificationPresentationOptionSound);
+    }
 }
 ```
 
