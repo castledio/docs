@@ -59,9 +59,6 @@ To add an App Group:
 3. Under the App Groups section, click the "+" to create a new group.
 4. Enter the App Group ID using the format **group.your_bundle_id.castled**.
 5. Make sure the App Group ID is checked to enable it.
-<Note>
-Refer here to create App Groups in Xcode.
-</Note>
 
 <Note>
 To ensure proper integration, we recommend setting up a separate App Group ID specifically for Castled.The format should be **group.your_bundle_id.castled**. Make sure to enable this same App Group ID for all targets where Castled is utilized.
@@ -69,8 +66,11 @@ To ensure proper integration, we recommend setting up a separate App Group ID sp
 
 ![](/images/push/ios/dark/main_app_appgroup1.png)
 
+<Note>
+Refer [here](/developer-resources/sdk-integration/ios/creating-appgroups) to create App Groups in Xcode.
+</Note>
 
-### Registering Push Notification 
+### Registering Push Notification
 
 In iOS 10 and above, to handle push notifications, you need to implement the following method from **UIApplicationDelegate** protocol and add the three steps mentioned in the code snippet below for registering push notification.
 
